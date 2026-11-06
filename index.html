@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>𝚂𝚑𝚊𝚍𝚘𝚠 𝚟𝟷</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { background-color: #06090e; color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px 10px; }
+  .container { width: 100%; max-width: 420px; }
+
+  .card { background: #0c1017; border: 1px solid #1a2332; border-radius: 16px; padding: 30px 20px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.7); margin-bottom: 15px; position: relative; }
+  
+  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+  .site-logo { text-align: left; }
+  .site-logo h2 { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: 1px; }
+  .site-logo span { font-size: 11px; color: #00b0ff; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
+
+  .btn-top-admin { background: transparent; border: 1px solid #1a2332; border-radius: 20px; padding: 8px 16px; color: #00b0ff; font-size: 11px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
+  .btn-top-admin:hover { border-color: #00b0ff; }
+
+  .restricted-text { font-size: 10px; color: #6c7a89; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; line-height: 1.5; }
+
+  .input-group { position: relative; margin-bottom: 15px; }
+  .input-group input { width: 100%; padding: 14px 14px 14px 45px; background: #06090e; border: 1px solid #1a2332; border-radius: 10px; color: #fff; font-size: 13px; outline: none; transition: 0.2s; }
+  .input-group input:focus { border-color: #00b0ff; box-shadow: 0 0 10px rgba(0,176,255,0.2); }
+  .input-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+
+  .checkbox-group { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6c7a89; margin-bottom: 20px; text-align: left; cursor: pointer; }
+  .checkbox-group input { accent-color: #0088ff; cursor: pointer; width: 16px; height: 16px; }
+
+  .btn-login { width: 100%; padding: 14px; background: linear-gradient(90deg, #0088ff, #00c6ff); border: none; border-radius: 10px; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,136,255,0.3); }
+  .btn-login:hover { opacity: 0.9; }
+
+  .back-link { margin-top: 20px; font-size: 11px; color: #00b0ff; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; display: inline-block; }
+  .back-link:hover { text-decoration: underline; }
+
+  /* Client Dashboard UI */
+  .client-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 13px; }
+  .online-badge { color: #00e676; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+  .shield-box { width: 130px; height: 130px; border: 2px dashed #00e676; border-radius: 50%; margin: 20px auto; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(0,230,118,0.2); }
+  .active-text { color: #00e676; font-weight: 900; font-size: 18px; letter-spacing: 1px; margin-top: 5px; }
+  .key-box-ui { background: #06090e; border: 1px solid #1a2332; border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; text-align: center; }
+  .info-card { background: #06090e; border: 1px solid #1a2332; border-radius: 8px; padding: 10px; }
+  .info-title { font-size: 10px; color: #6c7a89; font-weight: bold; margin-bottom: 4px; }
+  .info-val { font-size: 12px; font-weight: bold; color: #fff; }
+
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .stat-box { background: #0c1017; border: 1px solid #1a2332; border-radius: 12px; padding: 15px; text-align: center; }
+  .stat-val { font-size: 22px; font-weight: 900; color: #fff; }
+  .stat-lbl { font-size: 11px; color: #6c7a89; font-weight: bold; margin-top: 4px; text-transform: uppercase; }
+
+  .sec-box { background: #0c1017; border: 1px solid #1a2332; border-radius: 12px; margin-bottom: 14px; overflow: hidden; text-align: left; }
+  .sec-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: #0e141f; }
+  .sec-title { font-size: 13px; font-weight: 800; color: #00b0ff; }
+  .sec-body { padding: 16px; display: none; border-top: 1px solid #1a2332; }
+  .sec-body.active { display: block; }
+  .res-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a2332; font-size: 13px; }
+  .res-code { font-weight: bold; color: #fff; }
+  .res-bal { color: #00e676; font-weight: bold; }
+  .btn-danger { background: #ff334b; border: none; padding: 6px 12px; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 1. Client Home & Login Screen -->
+  <div id="homePage" class="card">
+    <div class="top-bar">
+      <div class="site-logo">
+        <h2>𝚂𝚑𝚊𝚍𝚘𝚠 𝚟𝟷</h2>
+        <span>CLIENT</span>
+      </div>
+      <button class="btn-top-admin" type="button" onclick="switchView('adminLogin')">ADMIN ACCESS 🔒</button>
+    </div>
+
+    <div class="restricted-text">
+      ENTER YOUR ACCESS KEY BELOW<br>TO START YOUR SESSION
+    </div>
+
+    <div class="input-group">
+      <span class="input-icon">🔑</span>
+      <input type="text" id="clientKeyInput" placeholder="ENTER ACCESS KEY">
+    </div>
+
+    <button class="btn-login" type="button" onclick="loginClient()">LOGIN [ ➔</button>
+
+    <div style="margin-top: 20px;">
+      <span class="back-link" onclick="switchView('resellerLogin')">◀ RESELLER LOGIN</span>
+    </div>
+
+    <div id="msg" style="margin-top:15px; font-size:12px; font-weight:bold; color:#ff334b;"></div>
+  </div>
+
+  <!-- 2. Admin Login Screen -->
+  <div id="adminLogin" class="card" style="display: none;">
+    <div class="top-bar">
+      <div class="site-logo">
+        <h2>𝚂𝚑𝚊𝚍𝚘𝚠 𝚟𝟷</h2>
+        <span>DASHBOARD</span>
+      </div>
+      <button class="btn-top-admin" style="color: #00e676; border-color: #00e676;" type="button" onclick="switchView('adminLogin')">ADMIN ACCESS 🛡️</button>
+    </div>
+
+    <div class="restricted-text">
+      RESTRICTED AREA<br>AUTHORIZED PERSONNEL ONLY
+    </div>
+
+    <div class="input-group">
+      <span class="input-icon">🔒</span>
+      <input type="password" id="adminPass" placeholder="ENTER ADMIN PASSWORD">
+    </div>
+
+    <label class="checkbox-group">
+      <input type="checkbox" id="rememberAdmin"> Remember Password
+    </label>
+
+    <button class="btn-login" type="button" onclick="loginAdmin()">LOGIN [ ➔</button>
+
+    <div>
+      <span class="back-link" onclick="switchView('homePage')">◀ BACK TO CLIENT LOGIN</span>
+    </div>
+
+    <div id="adminMsg" style="margin-top:15px; font-size:12px; font-weight:bold; color:#ff334b;"></div>
+  </div>
+
+  <!-- 3. Reseller Login Screen -->
+  <div id="resellerLogin" class="card" style="display: none;">
+    <div class="top-bar">
+      <div class="site-logo">
+        <h2>𝚂𝚑𝚊𝚍𝚘𝚠 𝚟𝟷</h2>
+        <span>RESELLER PORTAL</span>
+      </div>
+      <button class="btn-top-admin" style="color: #00e676;" type="button" onclick="switchView('resellerLogin')">RESELLER ACCESS 👤</button>
+    </div>
+
+    <div class="restricted-text">
+      RESELLER PANEL ACCESS<br>ENTER YOUR UNIQUE RESELLER CODE
+    </div>
+
+    <div class="input-group">
+      <span class="input-icon">👤</span>
+      <input type="text" id="resInputCode" placeholder="ENTER RESELLER CODE">
+    </div>
+
+    <label class="checkbox-group">
+      <input type="checkbox" id="rememberReseller"> Remember Code
+    </label>
+
+    <button class="btn-login" style="background: linear-gradient(90deg, #00e676, #00b0ff);" type="button" onclick="loginReseller()">LOGIN [ ➔</button>
+
+    <div>
+      <span class="back-link" onclick="switchView('homePage')">◀ BACK TO CLIENT LOGIN</span>
+    </div>
+
+    <div id="resMsg" style="margin-top:15px; font-size:12px; font-weight:bold; color:#ff334b;"></div>
+  </div>
+
+  <!-- 4. Client Dashboard Screen (ACTIVE) -->
+  <div id="clientDash" style="display: none;" class="card">
+    <div class="client-header">
+      <div style="font-weight: 900; color: #00b0ff;">𝚂𝚑𝚊𝚍𝚘𝚠 CLIENT</div>
+      <div class="online-badge">● ONLINE</div>
+      <button style="background: transparent; border: 1px solid #1a2332; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;" type="button" onclick="location.reload()">LOGOUT</button>
+    </div>
+
+    <div class="shield-box" style="border-color: #00e676; box-shadow: 0 0 20px rgba(0,230,118,0.2);">
+      <div style="font-size: 26px;">🛡️</div>
+      <div class="active-text" id="keyStatusText">ACTIVE</div>
+    </div>
+
+    <div class="key-box-ui">
+      <div style="text-align: left;">
+        <div style="font-size: 10px; color: #6c7a89;">ACCESS KEY</div>
+        <div style="font-size: 11px; font-weight: bold; color: #fff;" id="activeKeyDisplay">SHADOW-XXXX-XXXX</div>
+      </div>
+      <button style="background: transparent; border: 1px solid #00b0ff; color: #00b0ff; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;" type="button" onclick="copyActiveKey()">COPY</button>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-title">DEVICE</div>
+        <div class="info-val">Android</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">CREATED</div>
+        <div class="info-val" id="keyCreatedDate">06 Nov 2026</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">EXPIRES</div>
+        <div class="info-val" id="keyExpireDate">06 Dec 2026</div>
+      </div>
+    </div>
+
+    <div style="color: #00e676; font-size: 12px; font-weight: bold; margin-top: 10px;">
+      Your subscription is active and running successfully.
+    </div>
+  </div>
+
+  <!-- 5. Admin Dashboard -->
+  <div id="adminDash" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <button style="background: transparent; border: 1px solid #1a2332; color: #00b0ff; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;" type="button" onclick="location.reload()">LOGOUT</button>
+      <div style="font-weight: 900; color: #00b0ff;">𝚂𝚑𝚊𝚍𝚘𝚠 ADMIN</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-val" id="admTotalKeys">0</div><div class="stat-lbl">TOTAL KEYS</div></div>
+      <div class="stat-box"><div class="stat-val" id="admTotalRes">0</div><div class="stat-lbl">RESELLERS</div></div>
+      <div class="stat-box"><div class="stat-val" id="admPrice">1.00</div><div class="stat-lbl">PRICE</div></div>
+      <div class="stat-box"><div class="stat-val" id="admBalance">∞</div><div class="stat-lbl">ADMIN BALANCE</div></div>
+    </div>
+
+    <div class="sec-box">
+      <div class="sec-header" onclick="toggleSec('secAdminKeys')"><span class="sec-title">🔑 Key Generator (Free for Admin)</span><span>❯</span></div>
+      <div id="secAdminKeys" class="sec-body active">
+        <select id="admKeyDuration" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+          <option value="1">1 Hour</option>
+          <option value="24">1 Day</option>
+          <option value="168">7 Days</option>
+          <option value="720">30 Days</option>
+        </select>
+        <button class="btn-login" type="button" onclick="adminGenerateKey()">Generate New Key 🚀</button>
+      </div>
+    </div>
+
+    <div class="sec-box">
+      <div class="sec-header" onclick="toggleSec('secAdmPrice')"><span class="sec-title">🏷️ KEY PRICE</span><span>❯</span></div>
+      <div id="secAdmPrice" class="sec-body">
+        <input type="number" id="newPriceInput" value="1.00" step="0.1" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+        <button class="btn-login" type="button" onclick="updatePrice()">UPDATE PRICE 💾</button>
+      </div>
+    </div>
+
+    <div class="sec-box">
+      <div class="sec-header" onclick="toggleSec('secAddRes')"><span class="sec-title">👤 ADD RESELLER</span><span>❯</span></div>
+      <div id="secAddRes" class="sec-body">
+        <input type="text" id="resCode" placeholder="Reseller code" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+        <input type="number" id="resInitBal" placeholder="Initial Balance" value="10" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+        <button class="btn-login" type="button" onclick="addReseller()">ADD RESELLER ➕</button>
+      </div>
+    </div>
+
+    <div class="sec-box">
+      <div class="sec-header" onclick="toggleSec('secResList')"><span class="sec-title">👥 RESELLERS LIST</span><span>❯</span></div>
+      <div id="secResList" class="sec-body active"><div id="resellersListContainer"></div></div>
+    </div>
+  </div>
+
+  <!-- 6. Reseller Dashboard -->
+  <div id="resDash" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <button style="background: transparent; border: 1px solid #1a2332; color: #00e676; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;" type="button" onclick="location.reload()">LOGOUT</button>
+      <div style="font-weight: 900; color: #00e676;" id="resDashTitle">RESELLER PANEL</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-val" id="resMyBal">0.00</div><div class="stat-lbl">MY BALANCE ($)</div></div>
+      <div class="stat-box"><div class="stat-val" id="resKeyCost">1.00</div><div class="stat-lbl">KEY COST</div></div>
+    </div>
+    <div class="card" style="text-align: left; padding: 20px;">
+      <h3 style="color: #00e676; font-size: 15px; margin-bottom: 15px;">➕ Generate New Key</h3>
+      <label style="font-size: 12px; color: #6c7a89;">Select Key Duration:</label>
+      <select id="resKeyDuration" style="width: 100%; padding: 12px; margin: 6px 0 12px 0; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+        <option value="1">1 Hour</option>
+        <option value="24">1 Day</option>
+        <option value="168">7 Days</option>
+        <option value="720">30 Days</option>
+      </select>
+      <button class="btn-login" style="background: linear-gradient(90deg, #00e676, #00b0ff);" type="button" onclick="resellerGenerateKey()">Generate & Create Key 🔑</button>
+    </div>
+    <div class="sec-box">
+      <div class="sec-header" onclick="toggleSec('secMyKeys')"><span class="sec-title">📦 My Generated Keys</span><span>❯</span></div>
+      <div id="secMyKeys" class="sec-body active"><div id="myKeysContainer"></div></div>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let currentPrice = 1.00;
+  let resellers = [];
+  let allKeys = [];
+  let activeResellerDocId = null;
+
+  window.onload = async function() {
+    const savedAdminPass = localStorage.getItem('saved_admin_pass');
+    if (savedAdminPass) {
+      document.getElementById('adminPass').value = savedAdminPass;
+      document.getElementById('rememberAdmin').checked = true;
+    }
+
+    const savedResCode = localStorage.getItem('saved_res_code');
+    if (savedResCode) {
+      document.getElementById('resInputCode').value = savedResCode;
+      document.getElementById('rememberReseller').checked = true;
+    }
+
+    await loadDataFromFirebase();
+  };
+
+  async function loadDataFromFirebase() {
+    try {
+      const priceDoc = await getDoc(doc(db, "settings", "pricing"));
+      if (priceDoc.exists()) {
+        currentPrice = priceDoc.data().price || 1.00;
+      }
+
+      const resSnapshot = await getDocs(collection(db, "resellers"));
+      resellers = [];
+      resSnapshot.forEach((d) => {
+        resellers.push({ id: d.id, ...d.data() });
+      });
+
+      const keysSnapshot = await getDocs(collection(db, "keys"));
+      allKeys = [];
+      keysSnapshot.forEach((d) => {
+        allKeys.push({ id: d.id, ...d.data() });
+      });
+    } catch (e) {
+      console.error("Error loading data: ", e);
+    }
+  }
+
+  function generateShadowKey() {
+    const part1 = Math.floor(1000 + Math.random() * 9000);
+    const part2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `SHADOW-${part1}-${part2}`;
+  }
+
+  window.switchView = function(viewId) {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('resellerLogin').style.display = 'none';
+    document.getElementById('clientDash').style.display = 'none';
+    document.getElementById('adminDash').style.display = 'none';
+    document.getElementById('resDash').style.display = 'none';
+
+    document.getElementById(viewId).style.display = 'block';
+  };
+
+  window.loginClient = async function() {
+    await loadDataFromFirebase();
+    const enteredKey = document.getElementById('clientKeyInput').value.trim();
+    const foundKey = allKeys.find(k => k.key === enteredKey);
+    if (foundKey) {
+      switchView('clientDash');
+      document.getElementById('activeKeyDisplay').innerText = foundKey.key;
+      document.getElementById('keyCreatedDate').innerText = foundKey.created || "06 Nov 2026";
+      document.getElementById('keyExpireDate').innerText = foundKey.expires || "06 Dec 2026";
+    } else {
+      document.getElementById('msg').innerText = "Invalid activation key!";
+    }
+  };
+
+  window.copyActiveKey = function() {
+    const keyText = document.getElementById('activeKeyDisplay').innerText;
+    navigator.clipboard.writeText(keyText);
+    alert("Key copied successfully: " + keyText);
+  };
+
+  window.copySpecificKey = function(keyStr) {
+    navigator.clipboard.writeText(keyStr);
+    alert("Key copied successfully: " + keyStr);
+  };
+
+  window.loginAdmin = async function() {
+    const pass = document.getElementById('adminPass').value.trim();
+    const remember = document.getElementById('rememberAdmin').checked;
+
+    if (pass === "ADHAM XIT RES") {
+      if (remember) {
+        localStorage.setItem('saved_admin_pass', pass);
+      } else {
+        localStorage.removeItem('saved_admin_pass');
+      }
+      await loadDataFromFirebase();
+      switchView('adminDash');
+      renderAdmin();
+    } else {
+      document.getElementById('adminMsg').innerText = "Incorrect admin password!";
+    }
+  };
+
+  window.loginReseller = async function() {
+    const code = document.getElementById('resInputCode').value.trim();
+    const remember = document.getElementById('rememberReseller').checked;
+    
+    await loadDataFromFirebase();
+    const foundRes = resellers.find(r => r.code === code);
+
+    if (foundRes) {
+      if (remember) {
+        localStorage.setItem('saved_res_code', code);
+      } else {
+        localStorage.removeItem('saved_res_code');
+      }
+      activeResellerDocId = foundRes.id;
+      switchView('resDash');
+      document.getElementById('resDashTitle').innerText = `RESELLER: ${foundRes.code}`;
+      renderReseller();
+    } else {
+      document.getElementById('resMsg').innerText = "Reseller code not found!";
+    }
+  };
+
+  window.toggleSec = function(id) {
+    document.getElementById(id).classList.toggle('active');
+  };
+
+  window.updatePrice = async function() {
+    const val = parseFloat(document.getElementById('newPriceInput').value);
+    if(val > 0) {
+      currentPrice = val;
+      await setDoc(doc(db, "settings", "pricing"), { price: currentPrice });
+      renderAdmin();
+      alert("Price updated successfully!");
+    }
+  };
+
+  window.addReseller = async function() {
+    const code = document.getElementById('resCode').value.trim();
+    const bal = parseFloat(document.getElementById('resInitBal').value) || 0;
+    if(code) {
+      if(resellers.some(r => r.code === code)) {
+        alert("Reseller code already exists!");
+        return;
+      }
+      const newResRef = doc(collection(db, "resellers"));
+      await setDoc(newResRef, { code: code, bal: bal, keysCreated: 0 });
+      
+      document.getElementById('resCode').value = '';
+      await loadDataFromFirebase();
+      renderAdmin();
+      alert("Reseller added successfully and saved permanently to Firebase!");
+    }
+  };
+
+  window.deleteReseller = async function(id) {
+    if(confirm("Are you sure you want to delete this reseller?")) {
+      await deleteDoc(doc(db, "resellers", id));
+      await loadDataFromFirebase();
+      renderAdmin();
+    }
+  };
+
+  window.adminGenerateKey = async function() {
+    const duration = document.getElementById('admKeyDuration').value;
+    const newKey = generateShadowKey();
+    const keyData = { key: newKey, duration: duration + " Hours", owner: "ADMIN", created: "06 Nov 2026", expires: "06 Dec 2026" };
+    
+    const keyRef = doc(collection(db, "keys"));
+    await setDoc(keyRef, keyData);
+    
+    await loadDataFromFirebase();
+    prompt("Key generated successfully! You can copy it from here:", newKey);
+    renderAdmin();
+  };
+
+  window.resellerGenerateKey = async function() {
+    await loadDataFromFirebase();
+    let res = resellers.find(r => r.id === activeResellerDocId);
+    if (!res) return;
+
+    if (res.bal < currentPrice) {
+      alert("Sorry, your balance is insufficient!");
+      return;
+    }
+
+    const newBal = res.bal - currentPrice;
+    const newKeysCount = (res.keysCreated || 0) + 1;
+
+    await updateDoc(doc(db, "resellers", res.id), {
+      bal: newBal,
+      keysCreated: newKeysCount
+    });
+
+    const duration = document.getElementById('resKeyDuration').value;
+    const newKey = generateShadowKey();
+    const keyData = { key: newKey, duration: duration + " Hours", owner: res.code, created: "06 Nov 2026", expires: "06 Dec 2026" };
+
+    const keyRef = doc(collection(db, "keys"));
+    await setDoc(keyRef, keyData);
+
+    await loadDataFromFirebase();
+    prompt(`Key generated and $${currentPrice.toFixed(2)} deducted!\nYour Key:`, newKey);
+    renderReseller();
+  };
+
+  function renderAdmin() {
+    document.getElementById('admTotalKeys').innerText = allKeys.length;
+    document.getElementById('admTotalRes').innerText = resellers.length;
+    document.getElementById('admPrice').innerText = currentPrice.toFixed(2);
+    document.getElementById('newPriceInput').value = currentPrice.toFixed(2);
+    
+    let listHtml = '';
+    resellers.forEach((r) => {
+      listHtml += `
+        <div class="res-row">
+          <button class="btn-danger" type="button" onclick="deleteReseller('${r.id}')">🗑️</button>
+          <div>Keys: <b>${r.keysCreated || 0}</b></div>
+          <div class="res-bal">$${(r.bal || 0).toFixed(2)}</div>
+          <div class="res-code">${r.code}</div>
+        </div>
+      `;
+    });
+    document.getElementById('resellersListContainer').innerHTML = listHtml || '<div style="text-align:center; color:#6c7a89;">No resellers found</div>';
+  }
+
+  function renderReseller() {
+    let res = resellers.find(r => r.id === activeResellerDocId);
+    if (!res) return;
+
+    document.getElementById('resMyBal').innerText = (res.bal || 0).toFixed(2);
+    document.getElementById('resKeyCost').innerText = currentPrice.toFixed(2);
+    
+    let myKeysHtml = '';
+    allKeys.filter(k => k.owner === res.code).forEach(k => {
+      myKeysHtml += `
+        <div style="background:#06090e; border:1px solid #1a2332; padding:10px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+          <div>🔑 <b>${k.key}</b></div>
+          <button style="background:transparent; border:1px solid #00b0ff; color:#00b0ff; padding:4px 8px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;" type="button" onclick="copySpecificKey('${k.key}')">Copy</button>
+        </div>
+      `;
+    });
+    document.getElementById('myKeysContainer').innerHTML = myKeysHtml || '<div style="text-align:center; color:#6c7a89;">You have not generated any keys yet</div>';
+  }
+</script>
+
+</body>
+</html>
