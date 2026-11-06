@@ -79,7 +79,7 @@
       <div class="online-badge">● MAINTENANCE MODE</div>
     </div>
 
-    <div class="panel-title">DEVILXIT</div>
+    <div class="panel-title">Shadow v1</div>
     <div class="panel-subtitle">SYSTEM UNDER MAINTENANCE</div>
 
     <div class="maintenance-box">
@@ -97,7 +97,7 @@
       <button class="btn-top-admin" style="color: #00e676; border-color: #00e676;" onclick="switchView('homePage')">CANCEL ❌</button>
     </div>
 
-    <div class="panel-title">DEVILXIT</div>
+    <div class="panel-title">Shadow v1</div>
     <div class="panel-subtitle">ADMIN DASHBOARD</div>
 
     <div class="input-group" style="margin-top: 20px;">
@@ -134,7 +134,7 @@
     <div class="key-box-ui">
       <div style="text-align: left;">
         <div style="font-size: 9px; color: #8a9ba8;">ACCESS KEY</div>
-        <div style="font-size: 11px; font-weight: bold; color: #fff;" id="activeKeyDisplay">DEVIL-XXXX-XXXX</div>
+        <div style="font-size: 11px; font-weight: bold; color: #fff;" id="activeKeyDisplay">SHADOW-XXXX-XXXX</div>
       </div>
       <button style="background: transparent; border: 1px solid #00b0ff; color: #00b0ff; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;" onclick="copyActiveKey()">COPY</button>
     </div>
@@ -167,7 +167,7 @@
   <div id="adminDash" style="display: none;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
       <button style="background: transparent; border: 1px solid #162235; color: #00b0ff; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;" onclick="location.reload()">LOGOUT</button>
-      <div style="font-weight: 900; color: #00b0ff;">DEVILXIT ADMIN</div>
+      <div style="font-weight: 900; color: #00b0ff;">Shadow v1 ADMIN</div>
     </div>
     <div class="stats-grid">
       <div class="stat-box"><div class="stat-val" id="admTotalKeys">0</div><div class="stat-lbl">TOTAL KEYS</div></div>
@@ -241,7 +241,7 @@
   let allKeys = [];
 
   const hysteriaConfig = {
-    "remarks": "Sonic Xit V5 - Config",
+    "remarks": "Shadow v1 - Config",
     "inbounds": [
       {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
       {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
@@ -310,10 +310,10 @@
     }
   }
 
-  function generateDevilKey() {
+  function generateShadowKey() {
     const part1 = Math.floor(1000 + Math.random() * 9000);
     const part2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return `DEVIL-${part1}-${part2}`;
+    return `SHADOW-${part1}-${part2}`;
   }
 
   window.switchView = function(viewId) {
@@ -401,7 +401,7 @@
   };
 
   window.adminGenerateKey = async function() {
-    const newKey = generateDevilKey();
+    const newKey = generateShadowKey();
     const createdAt = Date.now();
     const keyData = { 
       key: newKey, 
