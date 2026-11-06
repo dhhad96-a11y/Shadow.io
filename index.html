@@ -32,7 +32,7 @@
   .btn-login { width: 100%; padding: 14px; background: linear-gradient(90deg, #0088ff, #00c6ff); border: none; border-radius: 10px; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,136,255,0.3); }
   .btn-login:hover { opacity: 0.9; }
 
-  .btn-subscribe { width: 100%; padding: 14px; background: linear-gradient(90deg, #ff334b, #ff667a); border: none; border-radius: 10px; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255,51,75,0.3); margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; }
+  .btn-subscribe { width: 100%; padding: 14px; background: linear-gradient(90deg, #ff334b, #ff667a); border: none; border-radius: 10px; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255,51,75,0.3); margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; }
   .btn-subscribe:hover { opacity: 0.9; }
 
   .back-link { margin-top: 20px; font-size: 11px; color: #00b0ff; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; display: inline-block; }
@@ -197,8 +197,8 @@
       </div>
     </div>
 
-    <!-- زر النقل المباشر لتطبيق Happ VPN -->
-    <button class="btn-subscribe" onclick="openHappVpnApp()">
+    <!-- زر نسخ الكونفج مباشرة للاستيراد السريع في Happ VPN -->
+    <button class="btn-subscribe" onclick="copyConfigForHapp()">
       ⚡ ADD SUBSCRIBE [ HAPP VPN ]
     </button>
   </div>
@@ -339,12 +339,14 @@
     }
   };
 
-  // دالة فتح تطبيق Happ VPN مباشرة دون تنزيل ملف
-  window.openHappVpnApp = function() {
-    const jsonString = JSON.stringify(hysteriaConfig);
-    // ترميز الكونفج وتمريره عبر بروتوكول التطبيق المخصص لـ Happ VPN
-    const encodedConfig = encodeURIComponent(jsonString);
-    window.location.href = `happ://import/${encodedConfig}`;
+  // دالة نسخ الكونفج للحافظة لتتمكن من لصقه مباشرة داخل تطبيق Happ VPN
+  window.copyConfigForHapp = function() {
+    const jsonString = JSON.stringify(hysteriaConfig, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+      alert("✅ Configuration copied successfully!\n\nNow open Happ VPN and import/paste the configuration.");
+    }).catch(err => {
+      prompt("Copy configuration manually:", jsonString);
+    });
   };
 
   window.onload = async function() {
