@@ -3,63 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow v1</title>
+<title>Shadow v1 - Maintenance</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  body { background-color: #06090e; color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px 10px; }
-  .container { width: 100%; max-width: 420px; }
+  body { background-color: #05080e; color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px 10px; }
+  .container { width: 100%; max-width: 440px; }
 
-  .card { background: #0c1017; border: 1px solid #1a2332; border-radius: 16px; padding: 30px 20px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.7); margin-bottom: 15px; position: relative; }
+  .card { background: #0b111a; border: 1px solid #162235; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0, 150, 255, 0.15); margin-bottom: 15px; position: relative; }
   
-  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-  .site-logo { text-align: left; }
-  .site-logo h2 { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: 1px; }
-  .site-logo span { font-size: 11px; color: #00b0ff; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
-
-  .btn-top-admin { background: transparent; border: 1px solid #1a2332; border-radius: 20px; padding: 8px 16px; color: #00b0ff; font-size: 11px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
+  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 12px; }
+  .online-badge { color: #ff334b; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+  
+  .btn-top-admin { background: transparent; border: 1px solid #162235; border-radius: 20px; padding: 6px 14px; color: #00b0ff; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
   .btn-top-admin:hover { border-color: #00b0ff; }
 
-  .restricted-text { font-size: 10px; color: #6c7a89; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; line-height: 1.5; }
+  .panel-title { font-size: 24px; font-weight: 900; color: #00b0ff; letter-spacing: 1px; text-shadow: 0 0 15px rgba(0,176,255,0.4); margin-bottom: 5px; }
+  .panel-subtitle { font-size: 12px; color: #ff334b; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+
+  .maintenance-box { padding: 30px 10px; }
+  .maintenance-icon { font-size: 45px; margin-bottom: 15px; }
+  .maintenance-text { font-size: 14px; color: #8a9ba8; font-weight: bold; line-height: 1.6; margin-bottom: 25px; }
 
   .input-group { position: relative; margin-bottom: 15px; }
-  .input-group input { width: 100%; padding: 14px 14px 14px 45px; background: #06090e; border: 1px solid #1a2332; border-radius: 10px; color: #fff; font-size: 13px; outline: none; transition: 0.2s; }
-  .input-group input:focus { border-color: #00b0ff; box-shadow: 0 0 10px rgba(0,176,255,0.2); }
+  .input-group input { width: 100%; padding: 14px 14px 14px 45px; background: #05080e; border: 1px solid #162235; border-radius: 12px; color: #fff; font-size: 13px; outline: none; transition: 0.2s; }
+  .input-group input:focus { border-color: #00b0ff; box-shadow: 0 0 10px rgba(0,176,255,0.3); }
   .input-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 14px; }
 
-  .checkbox-group { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6c7a89; margin-bottom: 20px; text-align: left; cursor: pointer; }
+  .checkbox-group { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8a9ba8; margin-bottom: 20px; text-align: left; cursor: pointer; }
   .checkbox-group input { accent-color: #0088ff; cursor: pointer; width: 16px; height: 16px; }
 
-  .btn-login { width: 100%; padding: 14px; background: linear-gradient(90deg, #0088ff, #00c6ff); border: none; border-radius: 10px; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,136,255,0.3); }
+  .btn-login { width: 100%; padding: 14px; background: linear-gradient(90deg, #0088ff, #00c6ff); border: none; border-radius: 12px; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,136,255,0.4); }
   .btn-login:hover { opacity: 0.9; }
 
-  .btn-subscribe { width: 100%; padding: 14px; background: linear-gradient(90deg, #ff334b, #ff667a); border: none; border-radius: 10px; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255,51,75,0.3); margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+  .btn-subscribe { width: 100%; padding: 16px; background: linear-gradient(90deg, #00b0ff, #00e1ff); border: none; border-radius: 14px; color: #05080e; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; box-shadow: 0 4px 20px rgba(0,176,255,0.4); margin-top: 15px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; }
   .btn-subscribe:hover { opacity: 0.9; }
 
   .back-link { margin-top: 20px; font-size: 11px; color: #00b0ff; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; display: inline-block; }
   .back-link:hover { text-decoration: underline; }
 
   /* Client Dashboard UI */
-  .client-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 13px; }
-  .online-badge { color: #00e676; font-weight: bold; display: flex; align-items: center; gap: 5px; }
-  .shield-box { width: 120px; height: 120px; border: 2px dashed #00e676; border-radius: 50%; margin: 15px auto; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(0,230,118,0.2); }
-  .active-text { color: #00e676; font-weight: 900; font-size: 16px; letter-spacing: 1px; margin-top: 5px; }
-  .key-box-ui { background: #06090e; border: 1px solid #1a2332; border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; text-align: center; }
-  .info-card { background: #06090e; border: 1px solid #1a2332; border-radius: 8px; padding: 10px; }
-  .info-title { font-size: 10px; color: #6c7a89; font-weight: bold; margin-bottom: 4px; }
-  .info-val { font-size: 12px; font-weight: bold; color: #fff; }
+  .shield-box { width: 140px; height: 140px; border: 2px dashed #00b0ff; border-radius: 50%; margin: 15px auto; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 25px rgba(0,176,255,0.2); position: relative; }
+  .timer-text { color: #fff; font-weight: 900; font-size: 18px; letter-spacing: 1px; margin-top: 5px; }
+  .timer-lbl { font-size: 9px; color: #8a9ba8; letter-spacing: 1px; }
+
+  .key-box-ui { background: #05080e; border: 1px solid #162235; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; text-align: center; }
+  .info-card { background: #05080e; border: 1px solid #162235; border-radius: 10px; padding: 10px; }
+  .info-title { font-size: 9px; color: #8a9ba8; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
+  .info-val { font-size: 11px; font-weight: bold; color: #fff; }
 
   .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-  .stat-box { background: #0c1017; border: 1px solid #1a2332; border-radius: 12px; padding: 15px; text-align: center; }
+  .stat-box { background: #0b111a; border: 1px solid #162235; border-radius: 12px; padding: 15px; text-align: center; }
   .stat-val { font-size: 22px; font-weight: 900; color: #fff; }
-  .stat-lbl { font-size: 11px; color: #6c7a89; font-weight: bold; margin-top: 4px; text-transform: uppercase; }
+  .stat-lbl { font-size: 11px; color: #8a9ba8; font-weight: bold; margin-top: 4px; text-transform: uppercase; }
 
-  .sec-box { background: #0c1017; border: 1px solid #1a2332; border-radius: 12px; margin-bottom: 14px; overflow: hidden; text-align: left; }
-  .sec-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: #0e141f; }
+  .sec-box { background: #0b111a; border: 1px solid #162235; border-radius: 12px; margin-bottom: 14px; overflow: hidden; text-align: left; }
+  .sec-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: #0e1522; }
   .sec-title { font-size: 13px; font-weight: 800; color: #00b0ff; }
-  .sec-body { padding: 16px; display: none; border-top: 1px solid #1a2332; }
+  .sec-body { padding: 16px; display: none; border-top: 1px solid #162235; }
   .sec-body.active { display: block; }
-  .res-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a2332; font-size: 13px; }
+  .res-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #162235; font-size: 13px; }
   .res-code { font-weight: bold; color: #fff; }
   .res-bal { color: #00e676; font-weight: bold; }
   .btn-danger { background: #ff334b; border: none; padding: 6px 12px; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer; }
@@ -69,49 +73,35 @@
 
 <div class="container">
 
-  <!-- 1. Client Home & Login Screen -->
+  <!-- 1. Maintenance Screen (Default for Clients & Resellers) -->
   <div id="homePage" class="card">
     <div class="top-bar">
-      <div class="site-logo">
-        <h2>Shadow v1</h2>
-        <span>CLIENT</span>
-      </div>
+      <div class="online-badge">● MAINTENANCE</div>
       <button class="btn-top-admin" onclick="switchView('adminLogin')">ADMIN ACCESS 🔒</button>
     </div>
 
-    <div class="restricted-text">
-      ENTER YOUR ACCESS KEY BELOW<br>TO START YOUR SESSION
+    <div class="panel-title">DEVILXIT</div>
+    <div class="panel-subtitle">SYSTEM UNDER MAINTENANCE</div>
+
+    <div class="maintenance-box">
+      <div class="maintenance-icon">🛠️</div>
+      <div class="maintenance-text">
+        We are currently performing scheduled maintenance and updates.<br>Please check back later!
+      </div>
     </div>
-
-    <div class="input-group">
-      <span class="input-icon">🔑</span>
-      <input type="text" id="clientKeyInput" placeholder="ENTER ACCESS KEY">
-    </div>
-
-    <button class="btn-login" onclick="loginClient()">LOGIN [ ➔</button>
-
-    <div style="margin-top: 20px;">
-      <span class="back-link" onclick="switchView('resellerLogin')">◀ RESELLER LOGIN</span>
-    </div>
-
-    <div id="msg" style="margin-top:15px; font-size:12px; font-weight:bold; color:#ff334b;"></div>
   </div>
 
   <!-- 2. Admin Login Screen -->
   <div id="adminLogin" class="card" style="display: none;">
     <div class="top-bar">
-      <div class="site-logo">
-        <h2>Shadow v1</h2>
-        <span>DASHBOARD</span>
-      </div>
-      <button class="btn-top-admin" style="color: #00e676; border-color: #00e676;" onclick="switchView('adminLogin')">ADMIN ACCESS 🛡️</button>
+      <div class="online-badge" style="color: #00e676;">ADMIN PORTAL</div>
+      <button class="btn-top-admin" style="color: #00e676; border-color: #00e676;" onclick="switchView('adminLogin')">SECURE 🛡️</button>
     </div>
 
-    <div class="restricted-text">
-      RESTRICTED AREA<br>AUTHORIZED PERSONNEL ONLY
-    </div>
+    <div class="panel-title">DEVILXIT</div>
+    <div class="panel-subtitle">ADMIN DASHBOARD</div>
 
-    <div class="input-group">
+    <div class="input-group" style="margin-top: 20px;">
       <span class="input-icon">🔒</span>
       <input type="password" id="adminPass" placeholder="ENTER ADMIN PASSWORD">
     </div>
@@ -123,69 +113,37 @@
     <button class="btn-login" onclick="loginAdmin()">LOGIN [ ➔</button>
 
     <div>
-      <span class="back-link" onclick="switchView('homePage')">◀ BACK TO CLIENT LOGIN</span>
+      <span class="back-link" onclick="switchView('homePage')">◀ BACK TO MAINTENANCE</span>
     </div>
 
     <div id="adminMsg" style="margin-top:15px; font-size:12px; font-weight:bold; color:#ff334b;"></div>
   </div>
 
-  <!-- 3. Reseller Login Screen -->
-  <div id="resellerLogin" class="card" style="display: none;">
-    <div class="top-bar">
-      <div class="site-logo">
-        <h2>Shadow v1</h2>
-        <span>RESELLER PORTAL</span>
-      </div>
-      <button class="btn-top-admin" style="color: #00e676;" onclick="switchView('resellerLogin')">RESELLER ACCESS 👤</button>
-    </div>
-
-    <div class="restricted-text">
-      RESELLER PANEL ACCESS<br>ENTER YOUR UNIQUE RESELLER CODE
-    </div>
-
-    <div class="input-group">
-      <span class="input-icon">👤</span>
-      <input type="text" id="resInputCode" placeholder="ENTER RESELLER CODE">
-    </div>
-
-    <label class="checkbox-group">
-      <input type="checkbox" id="rememberReseller"> Remember Code
-    </label>
-
-    <button class="btn-login" style="background: linear-gradient(90deg, #00e676, #00b0ff);" onclick="loginReseller()">LOGIN [ ➔</button>
-
-    <div>
-      <span class="back-link" onclick="switchView('homePage')">◀ BACK TO CLIENT LOGIN</span>
-    </div>
-
-    <div id="resMsg" style="margin-top:15px; font-size:12px; font-weight:bold; color:#ff334b;"></div>
-  </div>
-
-  <!-- 4. Client Dashboard Screen (ACTIVE) -->
+  <!-- 3. Client Dashboard Screen (Accessible via Admin after login or if needed) -->
   <div id="clientDash" style="display: none;" class="card">
-    <div class="client-header">
-      <div style="font-weight: 900; color: #00b0ff;">Shadow v1 CLIENT</div>
-      <div class="online-badge">● ONLINE</div>
-      <button style="background: transparent; border: 1px solid #1a2332; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;" onclick="location.reload()">LOGOUT</button>
+    <div class="top-bar">
+      <div class="online-badge" style="color: #00e676;">● ONLINE</div>
+      <button style="background: transparent; border: 1px solid #162235; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;" onclick="location.reload()">LOGOUT</button>
     </div>
 
     <div class="shield-box">
-      <div style="font-size: 24px;">🛡️</div>
-      <div class="active-text" id="keyStatusText">ACTIVE</div>
+      <div style="font-size: 20px;">🛡️</div>
+      <div class="timer-text" id="timerCountdown">00h 02m 36s</div>
+      <div class="timer-lbl">TIME REMAINING</div>
     </div>
 
     <div class="key-box-ui">
       <div style="text-align: left;">
-        <div style="font-size: 10px; color: #6c7a89;">ACCESS KEY</div>
-        <div style="font-size: 11px; font-weight: bold; color: #fff;" id="activeKeyDisplay">SHADOW-XXXX-XXXX</div>
+        <div style="font-size: 9px; color: #8a9ba8;">ACCESS KEY</div>
+        <div style="font-size: 11px; font-weight: bold; color: #fff;" id="activeKeyDisplay">DEVIL-XXXX-XXXX</div>
       </div>
       <button style="background: transparent; border: 1px solid #00b0ff; color: #00b0ff; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;" onclick="copyActiveKey()">COPY</button>
     </div>
 
     <div class="info-grid">
       <div class="info-card">
-        <div class="info-title">DEVICE</div>
-        <div class="info-val">Android</div>
+        <div class="info-title">ACTIVE</div>
+        <div class="info-val">0/1</div>
       </div>
       <div class="info-card">
         <div class="info-title">CREATED</div>
@@ -193,21 +151,24 @@
       </div>
       <div class="info-card">
         <div class="info-title">EXPIRES</div>
-        <div class="info-val" id="keyExpireDate">LIFETIME (∞)</div>
+        <div class="info-val" id="keyExpireDate">LIFETIME</div>
       </div>
     </div>
 
-    <!-- زر نسخ الكونفج مباشرة للاستيراد السريع في Happ VPN -->
     <button class="btn-subscribe" onclick="copyConfigForHapp()">
-      ⚡ ADD SUBSCRIBE [ HAPP VPN ]
+      <div style="text-align: left;">
+        <div style="font-size: 12px; font-weight: 900;">ADD SUBSCRIPTION</div>
+        <div style="font-size: 9px; color: #05080e; font-weight: 700;">Get a new subscription</div>
+      </div>
+      <div style="font-size: 16px; font-weight: bold;">➔</div>
     </button>
   </div>
 
-  <!-- 5. Admin Dashboard -->
+  <!-- 4. Admin Dashboard -->
   <div id="adminDash" style="display: none;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <button style="background: transparent; border: 1px solid #1a2332; color: #00b0ff; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;" onclick="location.reload()">LOGOUT</button>
-      <div style="font-weight: 900; color: #00b0ff;">Shadow v1 ADMIN</div>
+      <button style="background: transparent; border: 1px solid #162235; color: #00b0ff; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;" onclick="location.reload()">LOGOUT</button>
+      <div style="font-weight: 900; color: #00b0ff;">DEVILXIT ADMIN</div>
     </div>
     <div class="stats-grid">
       <div class="stat-box"><div class="stat-val" id="admTotalKeys">0</div><div class="stat-lbl">TOTAL KEYS</div></div>
@@ -227,7 +188,7 @@
     <div class="sec-box">
       <div class="sec-header" onclick="toggleSec('secAdmPrice')"><span class="sec-title">🏷️ KEY PRICE</span><span>❯</span></div>
       <div id="secAdmPrice" class="sec-body">
-        <input type="number" id="newPriceInput" value="1.00" step="0.1" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+        <input type="number" id="newPriceInput" value="1.00" step="0.1" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #05080e; border: 1px solid #162235; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
         <button class="btn-login" onclick="updatePrice()">UPDATE PRICE 💾</button>
       </div>
     </div>
@@ -235,16 +196,16 @@
     <div class="sec-box">
       <div class="sec-header" onclick="toggleSec('secAddRes')"><span class="sec-title">👤 ADD RESELLER (ADMIN ONLY)</span><span>❯</span></div>
       <div id="secAddRes" class="sec-body">
-        <input type="text" id="resCode" placeholder="Reseller code" style="width: 100%; padding: 12px; margin-bottom: 10px; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+        <input type="text" id="resCode" placeholder="Reseller code" style="width: 100%; padding: 12px; margin-bottom: 10px; background: #05080e; border: 1px solid #162235; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
         
-        <label style="font-size: 11px; color: #6c7a89; font-weight: bold;">Select Reseller Type:</label>
-        <select id="resType" style="width: 100%; padding: 10px; margin: 5px 0 10px 0; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 13px; text-align: center; outline: none;" onchange="toggleBalanceInput()">
+        <label style="font-size: 11px; color: #8a9ba8; font-weight: bold;">Select Reseller Type:</label>
+        <select id="resType" style="width: 100%; padding: 10px; margin: 5px 0 10px 0; background: #05080e; border: 1px solid #162235; border-radius: 8px; color: #fff; font-size: 13px; text-align: center; outline: none;" onchange="toggleBalanceInput()">
           <option value="normal">Normal Reseller (Fixed Balance)</option>
           <option value="admin">Admin Reseller (Infinite Balance ∞)</option>
         </select>
 
         <div id="balanceInputContainer">
-          <input type="number" id="resInitBal" placeholder="Initial Balance ($)" value="10" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
+          <input type="number" id="resInitBal" placeholder="Initial Balance ($)" value="10" style="width: 100%; padding: 12px; margin-bottom: 12px; background: #05080e; border: 1px solid #162235; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
         </div>
 
         <button class="btn-login" onclick="addReseller()">ADD RESELLER ➕</button>
@@ -254,33 +215,6 @@
     <div class="sec-box">
       <div class="sec-header" onclick="toggleSec('secResList')"><span class="sec-title">👥 RESELLERS LIST</span><span>❯</span></div>
       <div id="secResList" class="sec-body active"><div id="resellersListContainer"></div></div>
-    </div>
-  </div>
-
-  <!-- 6. Reseller Dashboard -->
-  <div id="resDash" style="display: none;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <button style="background: transparent; border: 1px solid #1a2332; color: #00e676; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;" onclick="location.reload()">LOGOUT</button>
-      <div style="font-weight: 900; color: #00e676;" id="resDashTitle">RESELLER PANEL</div>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-box"><div class="stat-val" id="resMyBal">0.00</div><div class="stat-lbl" id="resBalLabel">MY BALANCE ($)</div></div>
-      <div class="stat-box"><div class="stat-val" id="resKeyCost">1.00</div><div class="stat-lbl">KEY COST</div></div>
-    </div>
-    <div class="card" style="text-align: left; padding: 20px;">
-      <h3 style="color: #00e676; font-size: 15px; margin-bottom: 15px;" id="resGenTitle">➕ Generate New Key</h3>
-      <label style="font-size: 12px; color: #6c7a89;">Select Key Duration:</label>
-      <select id="resKeyDuration" style="width: 100%; padding: 12px; margin: 6px 0 12px 0; background: #06090e; border: 1px solid #1a2332; border-radius: 8px; color: #fff; font-size: 14px; text-align: center; outline: none;">
-        <option value="1">1 Hour</option>
-        <option value="24">1 Day</option>
-        <option value="168">7 Days</option>
-        <option value="720">30 Days</option>
-      </select>
-      <button class="btn-login" style="background: linear-gradient(90deg, #00e676, #00b0ff);" onclick="resellerGenerateKey()">Generate & Create Key 🔑</button>
-    </div>
-    <div class="sec-box">
-      <div class="sec-header" onclick="toggleSec('secMyKeys')"><span class="sec-title">📦 My Generated Keys</span><span>❯</span></div>
-      <div id="secMyKeys" class="sec-body active"><div id="myKeysContainer"></div></div>
     </div>
   </div>
 
@@ -309,7 +243,7 @@
   let activeResellerDocId = null;
 
   const hysteriaConfig = {
-    "remarks": "Shadow v1 - Europe",
+    "remarks": "Sonic Xit V5 - Config",
     "inbounds": [
       {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
       {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
@@ -339,7 +273,6 @@
     }
   };
 
-  // دالة نسخ الكونفج للحافظة لتتمكن من لصقه مباشرة داخل تطبيق Happ VPN
   window.copyConfigForHapp = function() {
     const jsonString = JSON.stringify(hysteriaConfig, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
@@ -355,13 +288,6 @@
       document.getElementById('adminPass').value = savedAdminPass;
       document.getElementById('rememberAdmin').checked = true;
     }
-
-    const savedResCode = localStorage.getItem('saved_res_code');
-    if (savedResCode) {
-      document.getElementById('resInputCode').value = savedResCode;
-      document.getElementById('rememberReseller').checked = true;
-    }
-
     await loadDataFromFirebase();
   };
 
@@ -371,13 +297,11 @@
       if (priceDoc.exists()) {
         currentPrice = priceDoc.data().price || 1.00;
       }
-
       const resSnapshot = await getDocs(collection(db, "resellers"));
       resellers = [];
       resSnapshot.forEach((d) => {
         resellers.push({ id: d.id, ...d.data() });
       });
-
       const keysSnapshot = await getDocs(collection(db, "keys"));
       allKeys = [];
       keysSnapshot.forEach((d) => {
@@ -388,19 +312,17 @@
     }
   }
 
-  function generateShadowKey() {
+  function generateDevilKey() {
     const part1 = Math.floor(1000 + Math.random() * 9000);
     const part2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return `SHADOW-${part1}-${part2}`;
+    return `DEVIL-${part1}-${part2}`;
   }
 
   window.switchView = function(viewId) {
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('adminLogin').style.display = 'none';
-    document.getElementById('resellerLogin').style.display = 'none';
     document.getElementById('clientDash').style.display = 'none';
     document.getElementById('adminDash').style.display = 'none';
-    document.getElementById('resDash').style.display = 'none';
 
     document.getElementById(viewId).style.display = 'block';
   };
@@ -413,50 +335,6 @@
     } else {
       container.style.display = 'block';
     }
-  };
-
-  window.loginClient = async function() {
-    await loadDataFromFirebase();
-    const enteredKey = document.getElementById('clientKeyInput').value.trim();
-    const foundKey = allKeys.find(k => k.key === enteredKey);
-    
-    if (foundKey) {
-      if (foundKey.owner === "ADMIN") {
-        switchView('clientDash');
-        document.getElementById('activeKeyDisplay').innerText = foundKey.key;
-        document.getElementById('keyCreatedDate').innerText = new Date(foundKey.createdAt || Date.now()).toLocaleDateString();
-        document.getElementById('keyExpireDate').innerText = "LIFETIME (∞)";
-        return;
-      }
-
-      const createdAt = foundKey.createdAt || Date.now();
-      const durationHours = parseFloat(foundKey.durationHours) || 24;
-      const expireTime = createdAt + (durationHours * 60 * 60 * 1000);
-      const now = Date.now();
-
-      if (now > expireTime) {
-        document.getElementById('msg').innerText = "This key has expired!";
-        return;
-      }
-
-      switchView('clientDash');
-      document.getElementById('activeKeyDisplay').innerText = foundKey.key;
-      document.getElementById('keyCreatedDate').innerText = new Date(createdAt).toLocaleDateString();
-      document.getElementById('keyExpireDate').innerText = new Date(expireTime).toLocaleDateString();
-    } else {
-      document.getElementById('msg').innerText = "Invalid activation key!";
-    }
-  };
-
-  window.copyActiveKey = function() {
-    const keyText = document.getElementById('activeKeyDisplay').innerText;
-    navigator.clipboard.writeText(keyText);
-    alert("Key copied successfully: " + keyText);
-  };
-
-  window.copySpecificKey = function(keyStr) {
-    navigator.clipboard.writeText(keyStr);
-    alert("Key copied successfully: " + keyStr);
   };
 
   window.loginAdmin = async function() {
@@ -474,28 +352,6 @@
       renderAdmin();
     } else {
       document.getElementById('adminMsg').innerText = "Incorrect admin password! Only ADHAM XIT RES is allowed.";
-    }
-  };
-
-  window.loginReseller = async function() {
-    const code = document.getElementById('resInputCode').value.trim();
-    const remember = document.getElementById('rememberReseller').checked;
-    
-    await loadDataFromFirebase();
-    const foundRes = resellers.find(r => r.code === code);
-
-    if (foundRes) {
-      if (remember) {
-        localStorage.setItem('saved_res_code', code);
-      } else {
-        localStorage.removeItem('saved_res_code');
-      }
-      activeResellerDocId = foundRes.id;
-      switchView('resDash');
-      document.getElementById('resDashTitle').innerText = `RESELLER: ${foundRes.code} (${foundRes.type === 'admin' ? 'Admin Reseller' : 'Normal Reseller'})`;
-      renderReseller();
-    } else {
-      document.getElementById('resMsg').innerText = "Reseller code not found!";
     }
   };
 
@@ -547,7 +403,7 @@
   };
 
   window.adminGenerateKey = async function() {
-    const newKey = generateShadowKey();
+    const newKey = generateDevilKey();
     const createdAt = Date.now();
     const keyData = { 
       key: newKey, 
@@ -562,49 +418,6 @@
     await loadDataFromFirebase();
     prompt("Permanent Admin Key generated successfully! You can copy it from here:", newKey);
     renderAdmin();
-  };
-
-  window.resellerGenerateKey = async function() {
-    await loadDataFromFirebase();
-    let res = resellers.find(r => r.id === activeResellerDocId);
-    if (!res) return;
-
-    if (res.type !== 'admin') {
-      if (res.bal < currentPrice) {
-        alert("Sorry, your balance is insufficient!");
-        return;
-      }
-
-      const newBal = res.bal - currentPrice;
-      const newKeysCount = (res.keysCreated || 0) + 1;
-
-      await updateDoc(doc(db, "resellers", res.id), {
-        bal: newBal,
-        keysCreated: newKeysCount
-      });
-    } else {
-      const newKeysCount = (res.keysCreated || 0) + 1;
-      await updateDoc(doc(db, "resellers", res.id), {
-        keysCreated: newKeysCount
-      });
-    }
-
-    const durationHours = parseFloat(document.getElementById('resKeyDuration').value);
-    const newKey = generateShadowKey();
-    const createdAt = Date.now();
-    const keyData = { 
-      key: newKey, 
-      durationHours: durationHours, 
-      owner: res.code, 
-      createdAt: createdAt 
-    };
-
-    const keyRef = doc(collection(db, "keys"));
-    await setDoc(keyRef, keyData);
-
-    await loadDataFromFirebase();
-    prompt(`Key generated successfully!\nYour Key:`, newKey);
-    renderReseller();
   };
 
   function renderAdmin() {
@@ -625,28 +438,7 @@
         </div>
       `;
     });
-    document.getElementById('resellersListContainer').innerHTML = listHtml || '<div style="text-align:center; color:#6c7a89;">No resellers found</div>';
-  }
-
-  function renderReseller() {
-    let res = resellers.find(r => r.id === activeResellerDocId);
-    if (!res) return;
-
-    const isAdm = res.type === 'admin';
-    document.getElementById('resMyBal').innerText = isAdm ? '∞' : (res.bal || 0).toFixed(2);
-    document.getElementById('resBalLabel').innerText = isAdm ? 'MY BALANCE (UNLIMITED)' : 'MY BALANCE ($)';
-    document.getElementById('resKeyCost').innerText = currentPrice.toFixed(2);
-    
-    let myKeysHtml = '';
-    allKeys.filter(k => k.owner === res.code).forEach(k => {
-      myKeysHtml += `
-        <div style="background:#06090e; border:1px solid #1a2332; padding:10px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; font-size:13px;">
-          <div>🔑 <b>${k.key}</b></div>
-          <button style="background:transparent; border:1px solid #00b0ff; color:#00b0ff; padding:4px 8px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;" onclick="copySpecificKey('${k.key}')">Copy</button>
-        </div>
-      `;
-    });
-    document.getElementById('myKeysContainer').innerHTML = myKeysHtml || '<div style="text-align:center; color:#6c7a89;">You have not generated any keys yet</div>';
+    document.getElementById('resellersListContainer').innerHTML = listHtml || '<div style="text-align:center; color:#8a9ba8;">No resellers found</div>';
   }
 </script>
 
