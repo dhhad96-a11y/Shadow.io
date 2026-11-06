@@ -11,7 +11,7 @@
 
   .card { background: #0b111a; border: 1px solid #162235; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0, 150, 255, 0.15); margin-bottom: 15px; position: relative; }
   
-  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 12px; }
+  .top-bar { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; font-size: 12px; }
   .online-badge { color: #ff334b; font-weight: bold; display: flex; align-items: center; gap: 5px; }
   
   .btn-top-admin { background: transparent; border: 1px solid #162235; border-radius: 20px; padding: 6px 14px; color: #00b0ff; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
@@ -73,11 +73,10 @@
 
 <div class="container">
 
-  <!-- 1. Maintenance Screen (Default for Clients & Resellers) -->
+  <!-- 1. Maintenance Screen (Default) -->
   <div id="homePage" class="card">
     <div class="top-bar">
-      <div class="online-badge">● MAINTENANCE</div>
-      <button class="btn-top-admin" onclick="switchView('adminLogin')">ADMIN ACCESS 🔒</button>
+      <div class="online-badge">● MAINTENANCE MODE</div>
     </div>
 
     <div class="panel-title">DEVILXIT</div>
@@ -95,7 +94,7 @@
   <div id="adminLogin" class="card" style="display: none;">
     <div class="top-bar">
       <div class="online-badge" style="color: #00e676;">ADMIN PORTAL</div>
-      <button class="btn-top-admin" style="color: #00e676; border-color: #00e676;" onclick="switchView('adminLogin')">SECURE 🛡️</button>
+      <button class="btn-top-admin" style="color: #00e676; border-color: #00e676;" onclick="switchView('homePage')">CANCEL ❌</button>
     </div>
 
     <div class="panel-title">DEVILXIT</div>
@@ -119,7 +118,7 @@
     <div id="adminMsg" style="margin-top:15px; font-size:12px; font-weight:bold; color:#ff334b;"></div>
   </div>
 
-  <!-- 3. Client Dashboard Screen (Accessible via Admin after login or if needed) -->
+  <!-- 3. Client Dashboard Screen -->
   <div id="clientDash" style="display: none;" class="card">
     <div class="top-bar">
       <div class="online-badge" style="color: #00e676;">● ONLINE</div>
@@ -240,7 +239,6 @@
   let currentPrice = 1.00;
   let resellers = [];
   let allKeys = [];
-  let activeResellerDocId = null;
 
   const hysteriaConfig = {
     "remarks": "Sonic Xit V5 - Config",
