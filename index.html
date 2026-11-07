@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHADOW TEAM - Portal & Admin</title>
+    <title>SHADOW TEAM - Complete Management System</title>
     <style>
         * {
             box-sizing: border-box;
@@ -134,7 +134,7 @@
             color: #fff;
         }
 
-        /* 2. نافذة إدخال كلمة سر الأدمن */
+        /* 2. نافذة تسجيل سر الأدمن / البائع */
         .admin-modal {
             position: fixed;
             inset: 0;
@@ -177,7 +177,7 @@
             display: none;
         }
 
-        /* 3. لوحة تحكم الأدمن (مع قسم إضافة البائعين) */
+        /* 3. لوحة التحكم للأدمن والبائعين */
         .dashboard-card {
             background: #0d0d12;
             border: 1px solid #1a1a24;
@@ -237,32 +237,6 @@
             margin-bottom: 10px;
             outline: none;
         }
-        .counter-row {
-            display: flex;
-            align-items: center;
-            background: #121218;
-            border: 1px solid #222230;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-        .counter-btn {
-            background: #1a1a24;
-            border: none;
-            color: #fff;
-            padding: 10px 15px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .counter-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #fff;
-            text-align: center;
-            font-size: 13px;
-            outline: none;
-        }
         .action-btn {
             width: 100%;
             background: linear-gradient(135deg, #b31212, #e61919);
@@ -280,15 +254,15 @@
         .action-btn:hover {
             opacity: 0.9;
         }
-        .reseller-list, .keys-output {
-            max-height: 120px;
+        .reseller-list {
+            max-height: 140px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 6px;
             margin-bottom: 10px;
         }
-        .list-item, .key-item {
+        .list-item {
             background: #121218;
             border: 1px solid #1f1f2b;
             padding: 8px 10px;
@@ -299,8 +273,51 @@
             justify-content: space-between;
             align-items: center;
         }
-        .key-item {
+        .delete-btn {
+            background: #2a0808;
+            border: 1px solid #551111;
+            color: #ff4d4d;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        .delete-btn:hover {
+            background: #ff2222;
+            color: #fff;
+        }
+
+        /* مربع عرض كود واحد فقط */
+        .key-single-box {
+            background: #14141d;
+            border: 2px dashed #ff3333;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .key-single-text {
             font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2ecc71;
+            letter-spacing: 1px;
+            word-break: break-all;
+            margin-bottom: 8px;
+        }
+        .copy-btn {
+            background: #222230;
+            border: 1px solid #333344;
+            color: #aaa;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            color: #fff;
+            border-color: #ff3333;
         }
         .back-link {
             display: block;
@@ -323,90 +340,85 @@
             
             <div class="input-container">
                 <span class="key-icon">🔑</span>
-                <input type="text" class="portal-input" placeholder="ENTER ACCESS KEY">
+                <input type="text" class="portal-input" id="userKeyInput" placeholder="ENTER ACCESS KEY">
             </div>
             
             <label class="remember-row">
                 <input type="checkbox"> Remember Me
             </label>
             
-            <button class="login-btn" onclick="alert('Please enter a valid access key.')">LOGIN [ →</button>
+            <button class="login-btn" onclick="validateKeyLogin()">LOGIN [ →</button>
             
             <div class="portal-footer">
-                <span onclick="alert('Contact your reseller to get an access key.')">◀ RESELLER</span>
+                <span onclick="alert('Contact your seller to get a key.')">◀ RESELLER</span>
                 <span onclick="openAdminModal()">ADMIN 🔒</span>
             </div>
         </div>
     </div>
 
-    <!-- نافذة كلمة سر الأدمن -->
+    <!-- نافذة دخول الأدمن والبائعين -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-box">
-            <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 Admin Authentication</div>
-            <div style="font-size: 11px; color: #777; margin-top: 4px;">Enter administrator password</div>
+            <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 System Portal Access</div>
+            <div style="font-size: 11px; color: #777; margin-top: 4px;">Enter Admin or Reseller Password</div>
             
             <input type="password" id="adminPassInput" placeholder="Password...">
-            <div class="admin-error" id="adminError">Incorrect Password!</div>
+            <div class="admin-error" id="adminError">Invalid Password!</div>
             
             <div style="display: flex; gap: 10px;">
                 <button onclick="closeAdminModal()" style="flex:1; background:#1c1c28; border:none; color:#aaa; padding:10px; border-radius:8px; cursor:pointer;">Cancel</button>
-                <button onclick="verifyAdmin()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Enter</button>
+                <button onclick="verifyAccess()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Enter</button>
             </div>
         </div>
     </div>
 
-    <!-- لوحة تحكم الأدمن الشاملة -->
+    <!-- لوحة تحكم الأدمن والبائعين -->
     <div id="dashboardScreen" class="screen">
         <div class="dashboard-card">
             <div class="dash-header">
-                <span class="admin-title">👑 Admin Control Panel</span>
-                <span class="balance-badge">$500.00</span>
+                <span class="admin-title" id="panelTitle">👑 Admin Control Panel</span>
+                <span class="balance-badge" id="accountBalance">UNLIMITED</span>
             </div>
 
-            <!-- قسم إضافة البائعين الجديد -->
-            <div class="section-title">👥 Add New Reseller</div>
-            <label class="form-label">Reseller Username / Telegram:</label>
-            <input type="text" class="text-input" id="resellerName" placeholder="@Username or Name">
-            
-            <label class="form-label">Initial Balance ($):</label>
-            <input type="number" class="text-input" id="resellerBalance" value="10" placeholder="10">
-            
-            <button class="action-btn" onclick="addReseller()">➕ Add Reseller</button>
+            <!-- قسم إضافة وحذف البائعين (يظهر للأدمن فقط) -->
+            <div id="adminResellerSection">
+                <div class="section-title">👥 Manage Resellers</div>
+                <label class="form-label">Reseller Name / Telegram:</label>
+                <input type="text" class="text-input" id="resellerName" placeholder="@Username or Name">
+                
+                <label class="form-label">Initial Balance ($):</label>
+                <input type="number" class="text-input" id="resellerBalance" value="10" placeholder="10">
+                
+                <button class="action-btn" onclick="addReseller()">➕ Add Reseller Account</button>
 
-            <label class="form-label">Active Resellers:</label>
-            <div class="reseller-list" id="resellerContainer">
-                <div class="list-item"><span>@BX_MG (Active)</span> <span style="color:#2ecc71;">$50.00</span></div>
+                <label class="form-label">Active Accounts:</label>
+                <div class="reseller-list" id="resellerContainer"></div>
             </div>
 
-            <!-- قسم توليد المفاتيح -->
-            <div class="section-title">⚡ Key Generator</div>
+            <!-- قسم توليد كود واحد فقط -->
+            <div class="section-title">⚡ Generate Single Key</div>
 
             <label class="form-label">📦 Product Type:</label>
             <select class="select-box" id="productType">
-                <option>Shadow V2 VIP - Full Hack</option>
-                <option>Drip Client - Apk Mod</option>
-                <option>Pubg Mobile - Global VIP</option>
+                <option value="Shadow V2 VIP">Shadow V2 VIP - Full Hack</option>
+                <option value="Drip Client">Drip Client - Apk Mod</option>
+                <option value="Pubg Mobile">Pubg Mobile - Global VIP</option>
             </select>
 
             <label class="form-label">⏳ Validity & Price:</label>
             <select class="select-box" id="validity">
-                <option>1 Day - $0.50</option>
-                <option>7 Days - $3.00</option>
-                <option>30 Days - $10.00</option>
+                <option value="0.50">1 Day - $0.50</option>
+                <option value="3.00">7 Days - $3.00</option>
+                <option value="10.00">30 Days - $10.00</option>
             </select>
 
-            <label class="form-label">🔢 Quantity:</label>
-            <div class="counter-row">
-                <button class="counter-btn" onclick="adjustQty(-1)">-</button>
-                <input type="text" class="counter-input" id="qtyInput" value="5">
-                <button class="counter-btn" onclick="adjustQty(1)">+</button>
-            </div>
+            <button class="action-btn" onclick="generateSingleKey()">⚡ GENERATE 1 KEY</button>
 
-            <button class="action-btn" onclick="generateKeys()">⚡ GENERATE KEYS</button>
-
-            <label class="form-label">Generated Keys:</label>
-            <div class="keys-output" id="keysContainer">
-                <div class="key-item"><span>SHDW-ZJBUFH-CWTAOL</span> <span>[VIP]</span></div>
+            <!-- مربع الكود المولد الواحد -->
+            <div class="key-single-box" id="singleKeyBox" style="display:none;">
+                <div class="form-label">Generated Key Code:</div>
+                <div class="key-single-text" id="generatedKeyText">SHDW-XXXX-XXXX-XXXX</div>
+                <button class="copy-btn" onclick="copyKey()">📋 Copy Key</button>
             </div>
 
             <div class="back-link" onclick="lockSystem()">🔒 Lock & Back to Portal</div>
@@ -414,6 +426,33 @@
     </div>
 
     <script>
+        // قواعد البيانات المحلية للمفاتيح والبائعين
+        let validKeys = JSON.parse(localStorage.getItem('shdw_keys')) || ["SHDW-VIP-PASS-2026"];
+        let resellers = JSON.parse(localStorage.getItem('shdw_resellers')) || [
+            { id: 1, name: "@BX_MG", balance: 50.00, pass: "seller123" }
+        ];
+
+        let currentUserType = "admin"; // "admin" أو رقم البائع
+        let currentResellerIndex = -1;
+
+        function renderResellers() {
+            let container = document.getElementById('resellerContainer');
+            container.innerHTML = '';
+            resellers.forEach((r, idx) => {
+                let div = document.createElement('div');
+                div.className = 'list-item';
+                div.innerHTML = `
+                    <span>${r.name} (Pass: ${r.pass})</span>
+                    <div>
+                        <span style="color:#2ecc71; margin-right:8px;">$${r.balance.toFixed(2)}</span>
+                        <button class="delete-btn" onclick="deleteReseller(${idx})">🗑️ Delete</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            localStorage.setItem('shdw_resellers', JSON.stringify(resellers));
+        }
+
         function openAdminModal() {
             document.getElementById('adminModal').classList.add('active');
             document.getElementById('adminPassInput').value = '';
@@ -424,69 +463,124 @@
             document.getElementById('adminModal').classList.remove('active');
         }
 
-        function verifyAdmin() {
-            let val = document.getElementById('adminPassInput').value;
+        function verifyAccess() {
+            let val = document.getElementById('adminPassInput').value.trim();
             let err = document.getElementById('adminError');
             
-            // كلمة المرور المفعلة والآمنة للأدمن
+            // 1. التحقق من كلمة سر الأدمن الرئيسي
             if (val === "SHADOW V2" || val === "shadow v2") {
+                currentUserType = "admin";
+                document.getElementById('panelTitle').innerText = "👑 Admin Control Panel";
+                document.getElementById('accountBalance').innerText = "UNLIMITED";
+                document.getElementById('adminResellerSection').style.display = 'block';
                 closeAdminModal();
-                document.getElementById('userScreen').classList.remove('active');
-                document.getElementById('dashboardScreen').classList.add('active');
-            } else {
-                err.style.display = 'block';
+                showDashboard();
+                return;
             }
+
+            // 2. التحقق من كلمات سر البائعين
+            let foundIndex = resellers.findIndex(r => r.pass === val || r.name === val);
+            if (foundIndex !== -1) {
+                currentUserType = "reseller";
+                currentResellerIndex = foundIndex;
+                let seller = resellers[foundIndex];
+                document.getElementById('panelTitle').innerText = `👤 Seller: ${seller.name}`;
+                document.getElementById('accountBalance').innerText = `$${seller.balance.toFixed(2)}`;
+                document.getElementById('adminResellerSection').style.display = 'none';
+                closeAdminModal();
+                showDashboard();
+                return;
+            }
+
+            err.style.display = 'block';
+        }
+
+        function showDashboard() {
+            document.getElementById('userScreen').classList.remove('active');
+            document.getElementById('dashboardScreen').classList.add('active');
+            renderResellers();
         }
 
         function lockSystem() {
             document.getElementById('dashboardScreen').classList.remove('active');
-            document.getElementById('userScreen').classList.active = true;
             document.getElementById('userScreen').classList.add('active');
-        }
-
-        function adjustQty(amount) {
-            let input = document.getElementById('qtyInput');
-            let val = parseInt(input.value) + amount;
-            if (val < 1) val = 1;
-            if (val > 100) val = 100;
-            input.value = val;
+            document.getElementById('singleKeyBox').style.display = 'none';
         }
 
         function addReseller() {
             let name = document.getElementById('resellerName').value.trim();
-            let balance = document.getElementById('resellerBalance').value;
-            let container = document.getElementById('resellerContainer');
+            let balance = parseFloat(document.getElementById('resellerBalance').value);
 
             if (!name) {
-                alert('Please enter a reseller name or handle.');
+                alert('Please enter reseller username');
                 return;
             }
 
-            let div = document.createElement('div');
-            div.className = 'list-item';
-            div.innerHTML = `<span>${name} (Active)</span> <span style="color:#2ecc71;">$${balance}.00</span>`;
-            container.appendChild(div);
+            let randomPass = "pass" + Math.floor(1000 + Math.random() * 9000);
+            resellers.push({ id: Date.now(), name: name, balance: balance || 0, pass: randomPass });
+            renderResellers();
 
             document.getElementById('resellerName').value = '';
             document.getElementById('resellerBalance').value = '10';
         }
 
-        function generateKeys() {
-            let qty = parseInt(document.getElementById('qtyInput').value);
-            let container = document.getElementById('keysContainer');
-            container.innerHTML = '';
-            
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            for (let i = 0; i < qty; i++) {
-                let randomKey = 'SHDW-';
-                for (let j = 0; j < 12; j++) {
-                    randomKey += chars.charAt(Math.floor(Math.random() * chars.length));
-                    if (j === 3 || j === 7) randomKey += '-';
+        function deleteReseller(index) {
+            if (confirm("Are you sure you want to delete this reseller?")) {
+                resellers.splice(index, 1);
+                renderResellers();
+            }
+        }
+
+        function generateSingleKey() {
+            let price = parseFloat(document.getElementById('validity').value);
+
+            // خصم الرصيد إذا كان المستخدم بائعاً وليس أدمن
+            if (currentUserType === "reseller") {
+                let seller = resellers[currentResellerIndex];
+                if (seller.balance < price) {
+                    alert("Insufficient balance! Please contact Admin.");
+                    return;
                 }
-                let div = document.createElement('div');
-                div.className = 'key-item';
-                div.innerHTML = `<span>${randomKey}</span> <span>[Active]</span>`;
-                container.appendChild(div);
+                seller.balance -= price;
+                document.getElementById('accountBalance').innerText = `$${seller.balance.toFixed(2)}`;
+                renderResellers();
+            }
+
+            // إنشاء كود مفتاح فريد واحد
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let key = 'SHDW-';
+            for (let j = 0; j < 12; j++) {
+                key += chars.charAt(Math.floor(Math.random() * chars.length));
+                if (j === 3 || j === 7) key += '-';
+            }
+
+            // حفظ المفتاح في النظام ليعمل في شاشة تسجيل الدخول
+            validKeys.push(key);
+            localStorage.setItem('shdw_keys', JSON.stringify(validKeys));
+
+            // عرض الكود داخل المربع المصمم
+            document.getElementById('generatedKeyText').innerText = key;
+            document.getElementById('singleKeyBox').style.display = 'block';
+        }
+
+        function copyKey() {
+            let keyText = document.getElementById('generatedKeyText').innerText;
+            navigator.clipboard.writeText(keyText).then(() => {
+                alert("Key copied to clipboard!");
+            });
+        }
+
+        function validateKeyLogin() {
+            let inputKey = document.getElementById('userKeyInput').value.trim();
+            if (!inputKey) {
+                alert("Please enter your Access Key!");
+                return;
+            }
+
+            if (validKeys.includes(inputKey)) {
+                alert("✅ SUCCESS: Access Granted! Welcome to SHADOW TEAM.");
+            } else {
+                alert("❌ ERROR: Invalid or expired key!");
             }
         }
     </script>
