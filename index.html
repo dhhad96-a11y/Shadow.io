@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHADOW TEAM - VIP Hub</title>
+    <title>SHADOW TEAM - Maintenance Mode</title>
     <style>
         * {
             box-sizing: border-box;
@@ -131,24 +131,45 @@
             color: #fff;
         }
 
-        /* شاشة الصيانة للمستخدمين */
+        /* شاشة الصيانة المغلقة المصممة خصيصاً */
         .maintenance-card {
-            background: #120808;
-            border: 2px dashed #ff3333;
-            border-radius: 20px;
+            background: #0d0d12;
+            border: 1px solid rgba(255, 51, 51, 0.4);
+            border-radius: 24px;
             padding: 40px 25px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 0 30px rgba(255, 51, 51, 0.25);
+            box-shadow: 0 0 35px rgba(255, 51, 51, 0.2);
         }
         .maint-icon {
-            font-size: 45px;
+            font-size: 50px;
             margin-bottom: 15px;
             animation: pulse 1.5s infinite alternate;
         }
         @keyframes pulse {
             from { transform: scale(1); }
             to { transform: scale(1.1); }
+        }
+        .channel-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: linear-gradient(135deg, #0088cc, #005580);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 20px 0 10px;
+            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
+            transition: 0.2s;
+        }
+        .channel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 136, 204, 0.6);
         }
 
         /* 2. شاشة المشتركين (VIP Dashboard) */
@@ -496,7 +517,8 @@
 
     <!-- 1. الشاشة الرئيسية للمستخدم -->
     <div id="userScreen" class="screen active">
-        <div class="portal-card" id="mainPortalCard">
+        <!-- شاشة تسجيل الدخول العادية -->
+        <div class="portal-card" id="mainPortalCard" style="display: none;">
             <div class="portal-title">👑 SHADOW TEAM</div>
             <div class="portal-sub">USER PORTAL</div>
             
@@ -517,12 +539,18 @@
             </div>
         </div>
 
-        <!-- شاشة الصيانة المغلقة -->
-        <div class="maintenance-card" id="maintScreenCard" style="display: none;">
+        <!-- شاشة الصيانة الافتراضية مع رابط القناة -->
+        <div class="maintenance-card" id="maintScreenCard">
             <div class="maint-icon">🛠️</div>
-            <div class="portal-title" style="color: #ff3333;">SYSTEM UNDER MAINTENANCE</div>
-            <p style="color: #aaaaee; font-size: 12px; margin: 15px 0;">We are currently upgrading server systems.<br>Please try again later.</p>
-            <div class="portal-footer" style="justify-content: center; gap: 20px; margin-top: 20px;">
+            <div class="portal-title" style="color: #ff3333; letter-spacing: 2px;">SYSTEM UNDER MAINTENANCE</div>
+            <p style="color: #888899; font-size: 12px; margin: 15px 0 5px;">We are currently upgrading server systems.</p>
+            <p style="color: #aaaaee; font-size: 13px; font-weight: 600;">تابع قناة التحديثات لمعرفة الأجواء والتسريبات:</p>
+            
+            <a href="https://t.me/adhamxmodz" target="_blank" class="channel-btn">
+                <span>🚀 قناة التحديثات: @adhamxmodz</span>
+            </a>
+
+            <div class="portal-footer" style="justify-content: space-between; margin-top: 25px; padding: 0 10px;">
                 <span onclick="openResellerModal()">◀ RESELLER</span>
                 <span onclick="openAdminModal()">ADMIN 🔒</span>
             </div>
@@ -595,7 +623,7 @@
 
             <!-- زر التحكم بالصيانة (للأدمن) -->
             <div id="adminMaintToggleSection" style="display:none;">
-                <button class="maint-btn" id="maintBtnToggle" onclick="toggleMaintenanceCloud()">🛠️ MAINTENANCE MODE: OFF</button>
+                <button class="maint-btn active-mode" id="maintBtnToggle" onclick="toggleMaintenanceCloud()">🛠️ MAINTENANCE MODE: ON</button>
             </div>
 
             <!-- قسم البائعين -->
@@ -719,7 +747,7 @@
         let currentUserType = "admin";
         let currentResellerId = null;
         let currentResellerData = null;
-        let isMaintenanceMode = false;
+        let isMaintenanceMode = true;
 
         function showToast(msg) {
             let toast = document.getElementById('toast');
@@ -731,9 +759,9 @@
         window.listenMaintenance = function() {
             window.onSnapshot(window.doc(window.db, "settings", "status"), (docSnap) => {
                 if (docSnap.exists()) {
-                    isMaintenanceMode = docSnap.data().maintenance || false;
+                    isMaintenanceMode = docSnap.data().maintenance !== undefined ? docSnap.data().maintenance : true;
                 } else {
-                    isMaintenanceMode = false;
+                    isMaintenanceMode = true;
                 }
                 applyMaintenanceUI();
             });
