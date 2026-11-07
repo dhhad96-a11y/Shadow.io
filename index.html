@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHADOW TEAM - Complete Management System</title>
+    <title>SHADOW TEAM - VIP Hub</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
-            background-color: #060609;
+            background-color: #040406;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-x: hidden;
         }
         .screen {
             display: none;
@@ -31,7 +33,7 @@
             align-items: center;
         }
 
-        /* 1. واجهة المستخدم الرئيسية */
+        /* 1. واجهة تسجيل الدخول */
         .portal-card {
             background: #0d0d12;
             border: 1px solid #1a1a24;
@@ -73,14 +75,13 @@
             border: 1px solid #222230;
             border-radius: 12px;
             padding: 16px 16px 16px 45px;
-            color: #a0a0b0;
+            color: #fff;
             font-size: 13px;
             outline: none;
             letter-spacing: 1px;
         }
         .portal-input:focus {
             border-color: #ff2222;
-            color: #fff;
         }
         .remember-row {
             display: flex;
@@ -94,9 +95,6 @@
         }
         .remember-row input[type="checkbox"] {
             accent-color: #ff2222;
-            width: 15px;
-            height: 15px;
-            cursor: pointer;
         }
         .login-btn {
             width: 100%;
@@ -124,7 +122,6 @@
             color: #777788;
             padding: 0 5px;
             font-weight: 600;
-            letter-spacing: 1px;
         }
         .portal-footer span {
             cursor: pointer;
@@ -134,7 +131,106 @@
             color: #fff;
         }
 
-        /* 2. نوافذ تسجيل الدخول (Admin & Reseller) */
+        /* 2. شاشة المشتركين (VIP Dashboard) */
+        .user-hub-card {
+            background: rgba(13, 13, 18, 0.95);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+            border-radius: 28px;
+            padding: 28px 22px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 34, 34, 0.15);
+            backdrop-filter: blur(14px);
+        }
+        .hub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .hub-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+        .avatar-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff3333, #800000);
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        }
+        .logout-pill {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .ring-container {
+            position: relative;
+            display: grid;
+            place-items: center;
+            margin: 10px 0 20px;
+        }
+        .ring-container svg {
+            width: 100%;
+            max-width: 220px;
+        }
+        circle.bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.07);
+            stroke-width: 9;
+        }
+        circle.fg {
+            fill: none;
+            stroke: #ff3333;
+            stroke-width: 9;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 8px rgba(255, 51, 51, 0.7));
+        }
+        .ring-center {
+            position: absolute;
+            text-align: center;
+        }
+        .ring-center small {
+            color: #888899;
+            font-size: 10px;
+            letter-spacing: 3px;
+        }
+        .ring-center strong {
+            display: block;
+            font-size: 28px;
+            color: #ff3333;
+            margin: 4px 0;
+            font-weight: 900;
+        }
+        .sub-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 18px;
+            padding: 20px;
+            font-weight: 900;
+            font-size: 16px;
+            letter-spacing: 1.5px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #cc1111, #ff3333);
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 51, 51, 0.4);
+            transition: 0.2s;
+        }
+        .sub-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 3. النوافذ واللوحات الإدارية */
         .admin-modal {
             position: fixed;
             inset: 0;
@@ -170,14 +266,6 @@
             margin: 15px 0 10px;
             outline: none;
         }
-        .admin-error {
-            color: #ff3333;
-            font-size: 11px;
-            margin-bottom: 10px;
-            display: none;
-        }
-
-        /* 3. لوحة تحكم الأدمن والبائعين */
         .dashboard-card {
             background: #0d0d12;
             border: 1px solid #1a1a24;
@@ -249,13 +337,9 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(230, 25, 25, 0.3);
             margin-bottom: 10px;
-            transition: 0.2s;
-        }
-        .action-btn:hover {
-            opacity: 0.9;
         }
         .reseller-list {
-            max-height: 140px;
+            max-height: 120px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -282,28 +366,19 @@
             cursor: pointer;
             font-size: 10px;
         }
-        .delete-btn:hover {
-            background: #ff2222;
-            color: #fff;
-        }
-
-        /* مربع الكود المولد */
         .key-single-box {
             background: #14141d;
             border: 2px dashed #ff3333;
             border-radius: 10px;
             padding: 15px;
             text-align: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
         .key-single-text {
             font-family: monospace;
             font-size: 14px;
             font-weight: bold;
             color: #2ecc71;
-            letter-spacing: 1px;
-            word-break: break-all;
             margin-bottom: 8px;
         }
         .copy-btn {
@@ -315,10 +390,6 @@
             font-size: 10px;
             cursor: pointer;
         }
-        .copy-btn:hover {
-            color: #fff;
-            border-color: #ff3333;
-        }
         .back-link {
             display: block;
             text-align: center;
@@ -328,9 +399,35 @@
             cursor: pointer;
             text-decoration: underline;
         }
+
+        /* 4. إشعار النسخ (Toast Notification) */
+        #toast {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translate(-50%, 20px);
+            background: #1a0808;
+            border: 1px solid #ff3333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: bold;
+            font-size: 13px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            z-index: 6000;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+        }
+        #toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
     </style>
 </head>
 <body>
+
+    <div id="toast">✓ Happ VPN Config Copied!</div>
 
     <!-- 1. الشاشة الرئيسية للمستخدم -->
     <div id="userScreen" class="screen active">
@@ -356,15 +453,42 @@
         </div>
     </div>
 
-    <!-- 2. نافذة دخول الأدمن (طلب كلمة السر) -->
+    <!-- 2. شاشة المشتركين بعد تسجيل الدخول -->
+    <div id="userHubScreen" class="screen">
+        <div class="user-hub-card">
+            <div class="hub-header">
+                <div class="hub-user-info">
+                    <div class="avatar-logo">🦅</div>
+                    <div>
+                        <b style="display:block; font-size:15px;">SHADOW VIP</b>
+                        <small style="color:#666677; font-size:9px; letter-spacing:2px;">LUXEN XIT</small>
+                    </div>
+                </div>
+                <button class="logout-pill" onclick="lockSystem()">LOGOUT</button>
+            </div>
+
+            <div class="ring-container">
+                <svg viewBox="0 0 200 200">
+                    <circle class="bg" cx="100" cy="100" r="88"></circle>
+                    <circle class="fg" cx="100" cy="100" r="88" transform="rotate(-90 100 100)"></circle>
+                </svg>
+                <div class="ring-center">
+                    <small>STATUS</small>
+                    <strong>ACTIVE</strong>
+                    <span style="color:#888; font-size:11px;">Happ VPN Ready</span>
+                </div>
+            </div>
+
+            <button class="sub-btn" onclick="copyHappVpnConfig()">＋ ADD SUBSCRIPTION</button>
+        </div>
+    </div>
+
+    <!-- 3. نافذة دخول الأدمن (بدون أي تلميحات) -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-box">
             <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 Admin Access</div>
-            <div style="font-size: 11px; color: #777; margin-top: 4px;">Enter Administrator Password</div>
-            
             <input type="password" id="adminPassInput" placeholder="Password...">
-            <div class="admin-error" id="adminError">Invalid Password!</div>
-            
+            <div id="adminError" style="color:#ff3333; font-size:11px; display:none; margin-bottom:10px;">Access Denied!</div>
             <div style="display: flex; gap: 10px;">
                 <button onclick="closeModal('adminModal')" style="flex:1; background:#1c1c28; border:none; color:#aaa; padding:10px; border-radius:8px; cursor:pointer;">Cancel</button>
                 <button onclick="verifyAdmin()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Enter</button>
@@ -372,15 +496,12 @@
         </div>
     </div>
 
-    <!-- 3. نافذة دخول البائعين (طلب اسم المستخدم فقط) -->
+    <!-- 4. نافذة دخول البائعين (بدون أي تلميحات) -->
     <div class="admin-modal" id="resellerModal">
         <div class="admin-box">
-            <div style="font-size: 15px; font-weight: bold; color: #fff;">👤 Reseller Login</div>
-            <div style="font-size: 11px; color: #777; margin-top: 4px;">Enter Username Only</div>
-            
-            <input type="text" id="resellerUserInput" placeholder="Username (e.g. @BX_MG)">
-            <div class="admin-error" id="resellerError">Username not found!</div>
-            
+            <div style="font-size: 15px; font-weight: bold; color: #fff;">👤 Reseller Portal</div>
+            <input type="text" id="resellerUserInput" placeholder="Username...">
+            <div id="resellerError" style="color:#ff3333; font-size:11px; display:none; margin-bottom:10px;">User not found!</div>
             <div style="display: flex; gap: 10px;">
                 <button onclick="closeModal('resellerModal')" style="flex:1; background:#1c1c28; border:none; color:#aaa; padding:10px; border-radius:8px; cursor:pointer;">Cancel</button>
                 <button onclick="verifyReseller()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Login</button>
@@ -388,53 +509,45 @@
         </div>
     </div>
 
-    <!-- 4. لوحة التحكم للأدمن والبائعين -->
+    <!-- 5. لوحة التحكم للأدمن والبائعين -->
     <div id="dashboardScreen" class="screen">
         <div class="dashboard-card">
             <div class="dash-header">
-                <span class="admin-title" id="panelTitle">👑 Admin Control Panel</span>
+                <span class="admin-title" id="panelTitle">👑 Control Panel</span>
                 <span class="balance-badge" id="accountBalance">UNLIMITED</span>
             </div>
 
-            <!-- قسم إدارة البائعين (يظهر للأدمن فقط) -->
+            <!-- قسم البائعين -->
             <div id="adminResellerSection">
                 <div class="section-title">👥 Manage Resellers</div>
                 <label class="form-label">Reseller Username:</label>
-                <input type="text" class="text-input" id="resellerName" placeholder="e.g. @BX_MG or seller1">
-                
+                <input type="text" class="text-input" id="resellerName" placeholder="Username">
                 <label class="form-label">Initial Balance ($):</label>
-                <input type="number" class="text-input" id="resellerBalance" value="20" placeholder="20">
-                
+                <input type="number" class="text-input" id="resellerBalance" value="20">
                 <button class="action-btn" onclick="addReseller()">➕ Add Reseller Account</button>
-
                 <label class="form-label">Active Resellers:</label>
                 <div class="reseller-list" id="resellerContainer"></div>
             </div>
 
-            <!-- قسم شراء وتوليد المفتاح -->
+            <!-- قسم الشراء والتوليد -->
             <div class="section-title" id="genTitle">🛒 Buy & Generate Key</div>
-
             <label class="form-label">📦 Product Type:</label>
             <select class="select-box" id="productType">
-                <option value="Shadow V2 VIP">Shadow V2 VIP - Full Hack</option>
+                <option value="Shadow V3">Shadow v3 - Happ VPN</option>
                 <option value="Drip Client">Drip Client - Apk Mod</option>
-                <option value="Pubg Mobile">Pubg Mobile - Global VIP</option>
             </select>
-
             <label class="form-label">⏳ Validity & Price:</label>
             <select class="select-box" id="validity">
                 <option value="0.50">1 Day - $0.50</option>
                 <option value="3.00">7 Days - $3.00</option>
                 <option value="10.00">30 Days - $10.00</option>
             </select>
-
             <button class="action-btn" id="buyBtn" onclick="buyAndGenerateKey()">🛒 BUY & GENERATE 1 KEY</button>
 
-            <!-- مربع عرض الكود المولد -->
             <div class="key-single-box" id="singleKeyBox" style="display:none;">
                 <div class="form-label">Generated Key Code:</div>
                 <div class="key-single-text" id="generatedKeyText">SHDW-XXXX-XXXX-XXXX</div>
-                <button class="copy-btn" onclick="copyKey()">📋 Copy Key</button>
+                <button class="copy-btn" onclick="copyGeneratedKey()">📋 Copy Key</button>
             </div>
 
             <div class="back-link" onclick="lockSystem()">🔒 Lock & Back to Portal</div>
@@ -442,14 +555,101 @@
     </div>
 
     <script>
-        // قواعد البيانات المحلية للمفاتيح والبائعين
+        // كونفيج Happ VPN (Shadow v3)
+        const happVpnConfig = `{
+  "remarks": "Shadow v3 - LUXEN",
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 10808,
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      },
+      "sniffing": {
+        "destOverride": ["http", "tls", "quic"],
+        "enabled": true,
+        "routeOnly": false
+      },
+      "tag": "socks"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 10809,
+      "protocol": "http",
+      "sniffing": {
+        "destOverride": ["http", "tls", "quic"],
+        "enabled": true,
+        "routeOnly": false
+      },
+      "tag": "http"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "hysteria",
+      "settings": {
+        "address": "proxy-eu.dripwire.cc",
+        "port": 443,
+        "version": 2
+      },
+      "streamSettings": {
+        "hysteriaSettings": {
+          "auth": "2292878901",
+          "version": 2
+        },
+        "network": "hysteria",
+        "security": "tls",
+        "tlsSettings": {
+          "alpn": ["h3"],
+          "serverName": "proxy-eu.dripwire.cc",
+          "show": false
+        },
+        "finalmask": {
+          "quicParams": {
+            "disableChromeParrot": true
+          }
+        }
+      },
+      "tag": "proxy"
+    },
+    {
+      "protocol": "freedom",
+      "tag": "direct"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "network": "tcp",
+        "outboundTag": "proxy"
+      },
+      {
+        "network": "udp",
+        "outboundTag": "proxy",
+        "port": "10000-10999"
+      }
+    ]
+  }
+}`;
+
+        // بيانات النظام
         let validKeys = JSON.parse(localStorage.getItem('shdw_keys')) || ["SHDW-VIP-PASS-2026"];
         let resellers = JSON.parse(localStorage.getItem('shdw_resellers')) || [
             { id: 1, name: "@BX_MG", balance: 50.00 }
         ];
 
-        let currentUserType = "admin"; // "admin" أو "reseller"
+        let currentUserType = "admin";
         let currentResellerIndex = -1;
+
+        function showToast(msg) {
+            let toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
 
         function renderResellers() {
             let container = document.getElementById('resellerContainer');
@@ -458,7 +658,7 @@
                 let div = document.createElement('div');
                 div.className = 'list-item';
                 div.innerHTML = `
-                    <span>Username: <b>${r.name}</b></span>
+                    <span><b>${r.name}</b></span>
                     <div>
                         <span style="color:#2ecc71; margin-right:8px;">$${r.balance.toFixed(2)}</span>
                         <button class="delete-btn" onclick="deleteReseller(${idx})">🗑️ Delete</button>
@@ -487,52 +687,44 @@
 
         function verifyAdmin() {
             let val = document.getElementById('adminPassInput').value.trim();
-            let err = document.getElementById('adminError');
-            
             if (val === "SHADOW V2" || val === "shadow v2") {
                 currentUserType = "admin";
                 document.getElementById('panelTitle').innerText = "👑 Admin Control Panel";
                 document.getElementById('accountBalance').innerText = "UNLIMITED";
                 document.getElementById('adminResellerSection').style.display = 'block';
-                document.getElementById('genTitle').innerText = "⚡ Generate Single Key";
-                document.getElementById('buyBtn').innerText = "⚡ GENERATE 1 KEY";
                 closeModal('adminModal');
                 showDashboard();
             } else {
-                err.style.display = 'block';
+                document.getElementById('adminError').style.display = 'block';
             }
         }
 
         function verifyReseller() {
             let val = document.getElementById('resellerUserInput').value.trim();
-            let err = document.getElementById('resellerError');
-            
             let foundIndex = resellers.findIndex(r => r.name.toLowerCase() === val.toLowerCase());
             
             if (foundIndex !== -1) {
                 currentUserType = "reseller";
                 currentResellerIndex = foundIndex;
                 let seller = resellers[foundIndex];
-                document.getElementById('panelTitle').innerText = `👤 Seller Panel: ${seller.name}`;
+                document.getElementById('panelTitle').innerText = `👤 Seller: ${seller.name}`;
                 document.getElementById('accountBalance').innerText = `$${seller.balance.toFixed(2)}`;
                 document.getElementById('adminResellerSection').style.display = 'none';
-                document.getElementById('genTitle').innerText = "🛒 Buy & Generate Key";
-                document.getElementById('buyBtn').innerText = "🛒 BUY & GENERATE 1 KEY";
                 closeModal('resellerModal');
                 showDashboard();
             } else {
-                err.style.display = 'block';
+                document.getElementById('resellerError').style.display = 'block';
             }
         }
 
         function showDashboard() {
-            document.getElementById('userScreen').classList.remove('active');
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('dashboardScreen').classList.add('active');
             renderResellers();
         }
 
         function lockSystem() {
-            document.getElementById('dashboardScreen').classList.remove('active');
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('userScreen').classList.add('active');
             document.getElementById('singleKeyBox').style.display = 'none';
         }
@@ -541,27 +733,19 @@
             let name = document.getElementById('resellerName').value.trim();
             let balance = parseFloat(document.getElementById('resellerBalance').value);
 
-            if (!name) {
-                alert('Please enter a reseller username!');
-                return;
-            }
-
-            // التأكد من عدم تكرار الاسم
+            if (!name) return alert('Please enter username');
             if (resellers.some(r => r.name.toLowerCase() === name.toLowerCase())) {
-                alert('This username already exists!');
-                return;
+                return alert('Username already exists!');
             }
 
             resellers.push({ id: Date.now(), name: name, balance: balance || 0 });
             renderResellers();
-
             document.getElementById('resellerName').value = '';
-            document.getElementById('resellerBalance').value = '20';
-            alert(`✅ Account created successfully for ${name}!`);
+            showToast(`Account created for ${name}`);
         }
 
         function deleteReseller(index) {
-            if (confirm(`Are you sure you want to delete ${resellers[index].name}?`)) {
+            if (confirm("Delete this reseller?")) {
                 resellers.splice(index, 1);
                 renderResellers();
             }
@@ -570,19 +754,16 @@
         function buyAndGenerateKey() {
             let price = parseFloat(document.getElementById('validity').value);
 
-            // خصم القيمة إذا كان المسجل بائعاً
             if (currentUserType === "reseller") {
                 let seller = resellers[currentResellerIndex];
                 if (seller.balance < price) {
-                    alert("❌ Insufficient balance to buy this key! Please contact Admin.");
-                    return;
+                    return alert("❌ Insufficient balance!");
                 }
                 seller.balance -= price;
                 document.getElementById('accountBalance').innerText = `$${seller.balance.toFixed(2)}`;
                 renderResellers();
             }
 
-            // توليد كود مفتاح فريد واحد
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let key = 'SHDW-';
             for (let j = 0; j < 12; j++) {
@@ -590,34 +771,36 @@
                 if (j === 3 || j === 7) key += '-';
             }
 
-            // حفظ المفتاح في النظام لتجربة تسجيل الدخول به
             validKeys.push(key);
             localStorage.setItem('shdw_keys', JSON.stringify(validKeys));
 
-            // عرض الكود داخل المربع
             document.getElementById('generatedKeyText').innerText = key;
             document.getElementById('singleKeyBox').style.display = 'block';
         }
 
-        function copyKey() {
-            let keyText = document.getElementById('generatedKeyText').innerText;
-            navigator.clipboard.writeText(keyText).then(() => {
-                alert("Key copied to clipboard!");
-            });
+        function copyGeneratedKey() {
+            let text = document.getElementById('generatedKeyText').innerText;
+            navigator.clipboard.writeText(text).then(() => showToast("Key Copied!"));
         }
 
         function validateKeyLogin() {
             let inputKey = document.getElementById('userKeyInput').value.trim();
-            if (!inputKey) {
-                alert("Please enter your Access Key!");
-                return;
-            }
+            if (!inputKey) return alert("Please enter Access Key!");
 
             if (validKeys.includes(inputKey)) {
-                alert("✅ SUCCESS: Access Granted! Welcome to SHADOW TEAM.");
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById('userHubScreen').classList.add('active');
             } else {
                 alert("❌ ERROR: Invalid or expired key!");
             }
+        }
+
+        function copyHappVpnConfig() {
+            navigator.clipboard.writeText(happVpnConfig).then(() => {
+                showToast("✓ Happ VPN (Shadow v3) Copied!");
+            }).catch(() => {
+                prompt("Copy Happ VPN Config:", happVpnConfig);
+            });
         }
     </script>
 </body>
