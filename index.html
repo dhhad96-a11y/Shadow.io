@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHADOW V2 - Key Generator</title>
+    <title>SHADOW V2 - Secure Portal</title>
     <style>
         * {
             box-sizing: border-box;
@@ -58,7 +58,7 @@
         }
         .input-group {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .access-input {
             width: 100%;
@@ -66,7 +66,7 @@
             border: 1px solid #2b2b38;
             border-radius: 8px;
             padding: 14px;
-            color: #a0a0b0;
+            color: #ffffff;
             font-size: 14px;
             text-align: center;
             outline: none;
@@ -74,7 +74,12 @@
         }
         .access-input:focus {
             border-color: #ff3333;
-            color: #fff;
+        }
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 12px;
+            margin-bottom: 15px;
+            display: none;
         }
         .unlock-btn {
             width: 100%;
@@ -97,8 +102,6 @@
             margin-top: 25px;
             font-size: 12px;
             color: #555566;
-            cursor: pointer;
-            text-decoration: underline;
         }
 
         /* Dashboard Screen */
@@ -233,16 +236,18 @@
             <div class="logo-sub">ACCESS KEY</div>
             
             <div class="input-group">
-                <input type="text" class="access-input" id="keyInput" placeholder="SHDW-XXXX-XXXX-XXXX" value="SHDW-9921-5582-1920">
+                <input type="password" class="access-input" id="keyInput" placeholder="Enter Access Key...">
             </div>
             
-            <button class="unlock-btn" onclick="openDashboard()">UNLOCK</button>
+            <div class="error-msg" id="errorMsg">Invalid Access Key!</div>
             
-            <div class="footer-link" onclick="openDashboard()">no key? contact @BX_MG</div>
+            <button class="unlock-btn" onclick="checkKey()">UNLOCK</button>
+            
+            <div class="footer-link">restricted access area</div>
         </div>
     </div>
 
-    <!-- شاشة توليد المفاتيح (تم حذف Admin و Reseller) -->
+    <!-- شاشة توليد المفاتيح -->
     <div id="dashboardScreen" class="screen">
         <div class="dashboard-card">
             <div class="dash-header">
@@ -280,14 +285,24 @@
                 <div class="key-item">SHDW-DLXKHE-9DYCL4</div>
             </div>
 
-            <div class="back-link" onclick="backToLogin()">← Back to Login</div>
+            <div class="back-link" onclick="backToLogin()">← Lock Portal</div>
         </div>
     </div>
 
     <script>
-        function openDashboard() {
-            document.getElementById('loginScreen').classList.remove('active');
-            document.getElementById('dashboardScreen').classList.add('active');
+        function checkKey() {
+            let inputVal = document.getElementById('keyInput').value.trim();
+            let errorBox = document.getElementById('errorMsg');
+            
+            // التحقق من كلمة السر (تقبل الحالتين الكبيرة والصغيرة أو إحداهما بدقة)
+            if (inputVal === "SHADOW V2" || inputVal === "shadow v2") {
+                errorBox.style.display = 'none';
+                document.getElementById('keyInput').value = '';
+                document.getElementById('loginScreen').classList.remove('active');
+                document.getElementById('dashboardScreen').classList.add('active');
+            } else {
+                errorBox.style.display = 'block';
+            }
         }
 
         function backToLogin() {
