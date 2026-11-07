@@ -33,7 +33,7 @@
             align-items: center;
         }
 
-        /* 1. واجهة تسجيل الدخول */
+        /* 1. واجهة تسجيل الدخول للمستخدم */
         .portal-card {
             background: #0d0d12;
             border: 1px solid #1a1a24;
@@ -400,7 +400,6 @@
             text-decoration: underline;
         }
 
-        /* 4. إشعار النسخ (Toast Notification) */
         #toast {
             position: fixed;
             left: 50%;
@@ -427,7 +426,7 @@
 </head>
 <body>
 
-    <div id="toast">✓ Happ VPN Config Copied!</div>
+    <div id="toast">✓ Success!</div>
 
     <!-- 1. الشاشة الرئيسية للمستخدم -->
     <div id="userScreen" class="screen active">
@@ -453,7 +452,7 @@
         </div>
     </div>
 
-    <!-- 2. شاشة المشتركين بعد تسجيل الدخول -->
+    <!-- 2. شاشة المشتركين -->
     <div id="userHubScreen" class="screen">
         <div class="user-hub-card">
             <div class="hub-header">
@@ -483,7 +482,7 @@
         </div>
     </div>
 
-    <!-- 3. نافذة دخول الأدمن -->
+    <!-- 3. نافذة الأدمن -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-box">
             <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 Admin Access</div>
@@ -496,7 +495,7 @@
         </div>
     </div>
 
-    <!-- 4. نافذة دخول البائعين -->
+    <!-- 4. نافذة البائع -->
     <div class="admin-modal" id="resellerModal">
         <div class="admin-box">
             <div style="font-size: 15px; font-weight: bold; color: #fff;">👤 Reseller Portal</div>
@@ -509,7 +508,7 @@
         </div>
     </div>
 
-    <!-- 5. لوحة التحكم للأدمن والبائعين -->
+    <!-- 5. لوحة التحكم -->
     <div id="dashboardScreen" class="screen">
         <div class="dashboard-card">
             <div class="dash-header">
@@ -555,7 +554,6 @@
     </div>
 
     <script>
-        // كونفيج Happ VPN (Shadow v3) بدون إشارة لـ Luxen
         const happVpnConfig = `{
   "remarks": "Shadow v3",
   "inbounds": [
@@ -635,7 +633,6 @@
   }
 }`;
 
-        // بيانات النظام
         let validKeys = JSON.parse(localStorage.getItem('shdw_keys')) || ["SHDW-VIP-PASS-2026"];
         let resellers = JSON.parse(localStorage.getItem('shdw_resellers')) || [
             { id: 1, name: "@BX_MG", balance: 50.00 }
@@ -666,6 +663,7 @@
                 `;
                 container.appendChild(div);
             });
+            // حفظ التغييرات فوراً في الذاكرة لتثبيت الحفظ
             localStorage.setItem('shdw_resellers', JSON.stringify(resellers));
         }
 
@@ -739,15 +737,18 @@
             }
 
             resellers.push({ id: Date.now(), name: name, balance: balance || 0 });
-            renderResellers();
+            renderResellers(); // سيقوم بحفظهم في localStorage تلقائياً
+            
             document.getElementById('resellerName').value = '';
-            showToast(`Account created for ${name}`);
+            document.getElementById('resellerBalance').value = '20';
+            showToast(`✓ Reseller ${name} saved successfully!`);
         }
 
         function deleteReseller(index) {
             if (confirm("Delete this reseller?")) {
                 resellers.splice(index, 1);
-                renderResellers();
+                renderResellers(); // تحديث الحفظ بعد الحذف
+                showToast("✓ Reseller deleted successfully!");
             }
         }
 
@@ -761,7 +762,7 @@
                 }
                 seller.balance -= price;
                 document.getElementById('accountBalance').innerText = `$${seller.balance.toFixed(2)}`;
-                renderResellers();
+                renderResellers(); // حفظ التحديث الجديد للرصيد
             }
 
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -776,6 +777,7 @@
 
             document.getElementById('generatedKeyText').innerText = key;
             document.getElementById('singleKeyBox').style.display = 'block';
+            showToast("✓ Key generated successfully!");
         }
 
         function copyGeneratedKey() {
