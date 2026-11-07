@@ -131,6 +131,26 @@
             color: #fff;
         }
 
+        /* شاشة الصيانة للمستخدمين */
+        .maintenance-card {
+            background: #120808;
+            border: 2px dashed #ff3333;
+            border-radius: 20px;
+            padding: 40px 25px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 51, 51, 0.25);
+        }
+        .maint-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
         /* 2. شاشة المشتركين (VIP Dashboard) */
         .user-hub-card {
             background: rgba(13, 13, 18, 0.95);
@@ -225,9 +245,6 @@
             cursor: pointer;
             box-shadow: 0 10px 25px rgba(255, 51, 51, 0.4);
             transition: 0.2s;
-        }
-        .sub-btn:active {
-            transform: scale(0.98);
         }
 
         /* 3. النوافذ واللوحات الإدارية */
@@ -338,6 +355,24 @@
             box-shadow: 0 4px 15px rgba(230, 25, 25, 0.3);
             margin-bottom: 10px;
         }
+        .maint-btn {
+            width: 100%;
+            background: #2a1010;
+            border: 1px solid #661111;
+            color: #ff5555;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: 0.2s;
+        }
+        .maint-btn.active-mode {
+            background: #ff3333;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(255,51,51,0.5);
+        }
         .reseller-list {
             max-height: 120px;
             overflow-y: auto;
@@ -424,10 +459,10 @@
         }
     </style>
 
-    <!-- ربط فايربيس السحابي (المشروع الجديد: bbbdhr-cfb74) -->
+    <!-- ربط فايربيس السحابي (bbbdhr-cfb74) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC1h9PKwJ98fDDVbV5dxLScJZjXMyz-2k4",
@@ -448,8 +483,11 @@
         window.deleteDoc = deleteDoc;
         window.doc = doc;
         window.updateDoc = updateDoc;
+        window.setDoc = setDoc;
+        window.onSnapshot = onSnapshot;
 
         window.loadCloudData();
+        window.listenMaintenance();
     </script>
 </head>
 <body>
@@ -458,7 +496,7 @@
 
     <!-- 1. الشاشة الرئيسية للمستخدم -->
     <div id="userScreen" class="screen active">
-        <div class="portal-card">
+        <div class="portal-card" id="mainPortalCard">
             <div class="portal-title">👑 SHADOW TEAM</div>
             <div class="portal-sub">USER PORTAL</div>
             
@@ -474,6 +512,17 @@
             <button class="login-btn" onclick="validateKeyLogin()">LOGIN [ →</button>
             
             <div class="portal-footer">
+                <span onclick="openResellerModal()">◀ RESELLER</span>
+                <span onclick="openAdminModal()">ADMIN 🔒</span>
+            </div>
+        </div>
+
+        <!-- شاشة الصيانة المغلقة -->
+        <div class="maintenance-card" id="maintScreenCard" style="display: none;">
+            <div class="maint-icon">🛠️</div>
+            <div class="portal-title" style="color: #ff3333;">SYSTEM UNDER MAINTENANCE</div>
+            <p style="color: #aaaaee; font-size: 12px; margin: 15px 0;">We are currently upgrading server systems.<br>Please try again later.</p>
+            <div class="portal-footer" style="justify-content: center; gap: 20px; margin-top: 20px;">
                 <span onclick="openResellerModal()">◀ RESELLER</span>
                 <span onclick="openAdminModal()">ADMIN 🔒</span>
             </div>
@@ -542,6 +591,11 @@
             <div class="dash-header">
                 <span class="admin-title" id="panelTitle">👑 Control Panel</span>
                 <span class="balance-badge" id="accountBalance">UNLIMITED</span>
+            </div>
+
+            <!-- زر التحكم بالصيانة (للأدمن) -->
+            <div id="adminMaintToggleSection" style="display:none;">
+                <button class="maint-btn" id="maintBtnToggle" onclick="toggleMaintenanceCloud()">🛠️ MAINTENANCE MODE: OFF</button>
             </div>
 
             <!-- قسم البائعين -->
@@ -665,6 +719,7 @@
         let currentUserType = "admin";
         let currentResellerId = null;
         let currentResellerData = null;
+        let isMaintenanceMode = false;
 
         function showToast(msg) {
             let toast = document.getElementById('toast');
@@ -672,6 +727,49 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
+
+        window.listenMaintenance = function() {
+            window.onSnapshot(window.doc(window.db, "settings", "status"), (docSnap) => {
+                if (docSnap.exists()) {
+                    isMaintenanceMode = docSnap.data().maintenance || false;
+                } else {
+                    isMaintenanceMode = false;
+                }
+                applyMaintenanceUI();
+            });
+        };
+
+        function applyMaintenanceUI() {
+            let portal = document.getElementById('mainPortalCard');
+            let maint = document.getElementById('maintScreenCard');
+            let btn = document.getElementById('maintBtnToggle');
+
+            if (isMaintenanceMode) {
+                portal.style.display = 'none';
+                maint.style.display = 'block';
+                if(btn) {
+                    btn.innerText = "🛠️ MAINTENANCE MODE: ON";
+                    btn.classList.add('active-mode');
+                }
+            } else {
+                portal.style.display = 'block';
+                maint.style.display = 'none';
+                if(btn) {
+                    btn.innerText = "🛠️ MAINTENANCE MODE: OFF";
+                    btn.classList.remove('active-mode');
+                }
+            }
+        }
+
+        window.toggleMaintenanceCloud = async function() {
+            try {
+                let newState = !isMaintenanceMode;
+                await window.setDoc(window.doc(window.db, "settings", "status"), { maintenance: newState });
+                showToast(newState ? "🛠️ Maintenance Turned ON!" : "✓ System is LIVE!");
+            } catch(e) {
+                alert("Error updating maintenance: " + e.message);
+            }
+        };
 
         window.loadCloudData = async function() {
             try {
@@ -723,6 +821,7 @@
                 document.getElementById('panelTitle').innerText = "👑 Control Panel";
                 document.getElementById('accountBalance').innerText = "UNLIMITED";
                 document.getElementById('adminResellerSection').style.display = 'block';
+                document.getElementById('adminMaintToggleSection').style.display = 'block';
                 closeModal('adminModal');
                 showDashboard();
             } else {
@@ -741,6 +840,7 @@
                 document.getElementById('panelTitle').innerText = `👤 Seller: ${found.name}`;
                 document.getElementById('accountBalance').innerText = `$${Number(found.balance).toFixed(2)}`;
                 document.getElementById('adminResellerSection').style.display = 'none';
+                document.getElementById('adminMaintToggleSection').style.display = 'none';
                 closeModal('resellerModal');
                 showDashboard();
             } else {
@@ -839,6 +939,10 @@
         }
 
         window.validateKeyLogin = async function() {
+            if (isMaintenanceMode) {
+                return alert("🛠️ System is under maintenance. Login is temporarily disabled.");
+            }
+
             let inputKey = document.getElementById('userKeyInput').value.trim();
             if (!inputKey) return alert("Please enter Access Key!");
 
