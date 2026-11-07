@@ -134,7 +134,7 @@
             color: #fff;
         }
 
-        /* 2. نافذة تسجيل سر الأدمن / البائع */
+        /* 2. نوافذ تسجيل الدخول (Admin & Reseller) */
         .admin-modal {
             position: fixed;
             inset: 0;
@@ -177,7 +177,7 @@
             display: none;
         }
 
-        /* 3. لوحة التحكم للأدمن والبائعين */
+        /* 3. لوحة تحكم الأدمن والبائعين */
         .dashboard-card {
             background: #0d0d12;
             border: 1px solid #1a1a24;
@@ -287,7 +287,7 @@
             color: #fff;
         }
 
-        /* مربع عرض كود واحد فقط */
+        /* مربع الكود المولد */
         .key-single-box {
             background: #14141d;
             border: 2px dashed #ff3333;
@@ -332,7 +332,7 @@
 </head>
 <body>
 
-    <!-- الواجهة الرئيسية للمستخدم -->
+    <!-- 1. الشاشة الرئيسية للمستخدم -->
     <div id="userScreen" class="screen active">
         <div class="portal-card">
             <div class="portal-title">👑 SHADOW TEAM</div>
@@ -350,29 +350,45 @@
             <button class="login-btn" onclick="validateKeyLogin()">LOGIN [ →</button>
             
             <div class="portal-footer">
-                <span onclick="alert('Contact your seller to get a key.')">◀ RESELLER</span>
+                <span onclick="openResellerModal()">◀ RESELLER</span>
                 <span onclick="openAdminModal()">ADMIN 🔒</span>
             </div>
         </div>
     </div>
 
-    <!-- نافذة دخول الأدمن والبائعين -->
+    <!-- 2. نافذة دخول الأدمن (طلب كلمة السر) -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-box">
-            <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 System Portal Access</div>
-            <div style="font-size: 11px; color: #777; margin-top: 4px;">Enter Admin or Reseller Password</div>
+            <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 Admin Access</div>
+            <div style="font-size: 11px; color: #777; margin-top: 4px;">Enter Administrator Password</div>
             
             <input type="password" id="adminPassInput" placeholder="Password...">
             <div class="admin-error" id="adminError">Invalid Password!</div>
             
             <div style="display: flex; gap: 10px;">
-                <button onclick="closeAdminModal()" style="flex:1; background:#1c1c28; border:none; color:#aaa; padding:10px; border-radius:8px; cursor:pointer;">Cancel</button>
-                <button onclick="verifyAccess()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Enter</button>
+                <button onclick="closeModal('adminModal')" style="flex:1; background:#1c1c28; border:none; color:#aaa; padding:10px; border-radius:8px; cursor:pointer;">Cancel</button>
+                <button onclick="verifyAdmin()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Enter</button>
             </div>
         </div>
     </div>
 
-    <!-- لوحة تحكم الأدمن والبائعين -->
+    <!-- 3. نافذة دخول البائعين (طلب اسم المستخدم فقط) -->
+    <div class="admin-modal" id="resellerModal">
+        <div class="admin-box">
+            <div style="font-size: 15px; font-weight: bold; color: #fff;">👤 Reseller Login</div>
+            <div style="font-size: 11px; color: #777; margin-top: 4px;">Enter Username Only</div>
+            
+            <input type="text" id="resellerUserInput" placeholder="Username (e.g. @BX_MG)">
+            <div class="admin-error" id="resellerError">Username not found!</div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closeModal('resellerModal')" style="flex:1; background:#1c1c28; border:none; color:#aaa; padding:10px; border-radius:8px; cursor:pointer;">Cancel</button>
+                <button onclick="verifyReseller()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. لوحة التحكم للأدمن والبائعين -->
     <div id="dashboardScreen" class="screen">
         <div class="dashboard-card">
             <div class="dash-header">
@@ -380,23 +396,23 @@
                 <span class="balance-badge" id="accountBalance">UNLIMITED</span>
             </div>
 
-            <!-- قسم إضافة وحذف البائعين (يظهر للأدمن فقط) -->
+            <!-- قسم إدارة البائعين (يظهر للأدمن فقط) -->
             <div id="adminResellerSection">
                 <div class="section-title">👥 Manage Resellers</div>
-                <label class="form-label">Reseller Name / Telegram:</label>
-                <input type="text" class="text-input" id="resellerName" placeholder="@Username or Name">
+                <label class="form-label">Reseller Username:</label>
+                <input type="text" class="text-input" id="resellerName" placeholder="e.g. @BX_MG or seller1">
                 
                 <label class="form-label">Initial Balance ($):</label>
-                <input type="number" class="text-input" id="resellerBalance" value="10" placeholder="10">
+                <input type="number" class="text-input" id="resellerBalance" value="20" placeholder="20">
                 
                 <button class="action-btn" onclick="addReseller()">➕ Add Reseller Account</button>
 
-                <label class="form-label">Active Accounts:</label>
+                <label class="form-label">Active Resellers:</label>
                 <div class="reseller-list" id="resellerContainer"></div>
             </div>
 
-            <!-- قسم توليد كود واحد فقط -->
-            <div class="section-title">⚡ Generate Single Key</div>
+            <!-- قسم شراء وتوليد المفتاح -->
+            <div class="section-title" id="genTitle">🛒 Buy & Generate Key</div>
 
             <label class="form-label">📦 Product Type:</label>
             <select class="select-box" id="productType">
@@ -412,9 +428,9 @@
                 <option value="10.00">30 Days - $10.00</option>
             </select>
 
-            <button class="action-btn" onclick="generateSingleKey()">⚡ GENERATE 1 KEY</button>
+            <button class="action-btn" id="buyBtn" onclick="buyAndGenerateKey()">🛒 BUY & GENERATE 1 KEY</button>
 
-            <!-- مربع الكود المولد الواحد -->
+            <!-- مربع عرض الكود المولد -->
             <div class="key-single-box" id="singleKeyBox" style="display:none;">
                 <div class="form-label">Generated Key Code:</div>
                 <div class="key-single-text" id="generatedKeyText">SHDW-XXXX-XXXX-XXXX</div>
@@ -429,10 +445,10 @@
         // قواعد البيانات المحلية للمفاتيح والبائعين
         let validKeys = JSON.parse(localStorage.getItem('shdw_keys')) || ["SHDW-VIP-PASS-2026"];
         let resellers = JSON.parse(localStorage.getItem('shdw_resellers')) || [
-            { id: 1, name: "@BX_MG", balance: 50.00, pass: "seller123" }
+            { id: 1, name: "@BX_MG", balance: 50.00 }
         ];
 
-        let currentUserType = "admin"; // "admin" أو رقم البائع
+        let currentUserType = "admin"; // "admin" أو "reseller"
         let currentResellerIndex = -1;
 
         function renderResellers() {
@@ -442,7 +458,7 @@
                 let div = document.createElement('div');
                 div.className = 'list-item';
                 div.innerHTML = `
-                    <span>${r.name} (Pass: ${r.pass})</span>
+                    <span>Username: <b>${r.name}</b></span>
                     <div>
                         <span style="color:#2ecc71; margin-right:8px;">$${r.balance.toFixed(2)}</span>
                         <button class="delete-btn" onclick="deleteReseller(${idx})">🗑️ Delete</button>
@@ -459,40 +475,54 @@
             document.getElementById('adminError').style.display = 'none';
         }
 
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('active');
+        function openResellerModal() {
+            document.getElementById('resellerModal').classList.add('active');
+            document.getElementById('resellerUserInput').value = '';
+            document.getElementById('resellerError').style.display = 'none';
         }
 
-        function verifyAccess() {
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function verifyAdmin() {
             let val = document.getElementById('adminPassInput').value.trim();
             let err = document.getElementById('adminError');
             
-            // 1. التحقق من كلمة سر الأدمن الرئيسي
             if (val === "SHADOW V2" || val === "shadow v2") {
                 currentUserType = "admin";
                 document.getElementById('panelTitle').innerText = "👑 Admin Control Panel";
                 document.getElementById('accountBalance').innerText = "UNLIMITED";
                 document.getElementById('adminResellerSection').style.display = 'block';
-                closeAdminModal();
+                document.getElementById('genTitle').innerText = "⚡ Generate Single Key";
+                document.getElementById('buyBtn').innerText = "⚡ GENERATE 1 KEY";
+                closeModal('adminModal');
                 showDashboard();
-                return;
+            } else {
+                err.style.display = 'block';
             }
+        }
 
-            // 2. التحقق من كلمات سر البائعين
-            let foundIndex = resellers.findIndex(r => r.pass === val || r.name === val);
+        function verifyReseller() {
+            let val = document.getElementById('resellerUserInput').value.trim();
+            let err = document.getElementById('resellerError');
+            
+            let foundIndex = resellers.findIndex(r => r.name.toLowerCase() === val.toLowerCase());
+            
             if (foundIndex !== -1) {
                 currentUserType = "reseller";
                 currentResellerIndex = foundIndex;
                 let seller = resellers[foundIndex];
-                document.getElementById('panelTitle').innerText = `👤 Seller: ${seller.name}`;
+                document.getElementById('panelTitle').innerText = `👤 Seller Panel: ${seller.name}`;
                 document.getElementById('accountBalance').innerText = `$${seller.balance.toFixed(2)}`;
                 document.getElementById('adminResellerSection').style.display = 'none';
-                closeAdminModal();
+                document.getElementById('genTitle').innerText = "🛒 Buy & Generate Key";
+                document.getElementById('buyBtn').innerText = "🛒 BUY & GENERATE 1 KEY";
+                closeModal('resellerModal');
                 showDashboard();
-                return;
+            } else {
+                err.style.display = 'block';
             }
-
-            err.style.display = 'block';
         }
 
         function showDashboard() {
@@ -512,33 +542,39 @@
             let balance = parseFloat(document.getElementById('resellerBalance').value);
 
             if (!name) {
-                alert('Please enter reseller username');
+                alert('Please enter a reseller username!');
                 return;
             }
 
-            let randomPass = "pass" + Math.floor(1000 + Math.random() * 9000);
-            resellers.push({ id: Date.now(), name: name, balance: balance || 0, pass: randomPass });
+            // التأكد من عدم تكرار الاسم
+            if (resellers.some(r => r.name.toLowerCase() === name.toLowerCase())) {
+                alert('This username already exists!');
+                return;
+            }
+
+            resellers.push({ id: Date.now(), name: name, balance: balance || 0 });
             renderResellers();
 
             document.getElementById('resellerName').value = '';
-            document.getElementById('resellerBalance').value = '10';
+            document.getElementById('resellerBalance').value = '20';
+            alert(`✅ Account created successfully for ${name}!`);
         }
 
         function deleteReseller(index) {
-            if (confirm("Are you sure you want to delete this reseller?")) {
+            if (confirm(`Are you sure you want to delete ${resellers[index].name}?`)) {
                 resellers.splice(index, 1);
                 renderResellers();
             }
         }
 
-        function generateSingleKey() {
+        function buyAndGenerateKey() {
             let price = parseFloat(document.getElementById('validity').value);
 
-            // خصم الرصيد إذا كان المستخدم بائعاً وليس أدمن
+            // خصم القيمة إذا كان المسجل بائعاً
             if (currentUserType === "reseller") {
                 let seller = resellers[currentResellerIndex];
                 if (seller.balance < price) {
-                    alert("Insufficient balance! Please contact Admin.");
+                    alert("❌ Insufficient balance to buy this key! Please contact Admin.");
                     return;
                 }
                 seller.balance -= price;
@@ -546,7 +582,7 @@
                 renderResellers();
             }
 
-            // إنشاء كود مفتاح فريد واحد
+            // توليد كود مفتاح فريد واحد
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let key = 'SHDW-';
             for (let j = 0; j < 12; j++) {
@@ -554,11 +590,11 @@
                 if (j === 3 || j === 7) key += '-';
             }
 
-            // حفظ المفتاح في النظام ليعمل في شاشة تسجيل الدخول
+            // حفظ المفتاح في النظام لتجربة تسجيل الدخول به
             validKeys.push(key);
             localStorage.setItem('shdw_keys', JSON.stringify(validKeys));
 
-            // عرض الكود داخل المربع المصمم
+            // عرض الكود داخل المربع
             document.getElementById('generatedKeyText').innerText = key;
             document.getElementById('singleKeyBox').style.display = 'block';
         }
