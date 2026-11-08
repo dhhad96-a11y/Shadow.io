@@ -321,7 +321,7 @@ function render(){
  l.innerHTML=codes.map((c,i)=>`<div class="table-row"><div><div style="font-weight:800;font-size:13px">${c.code} <span style="font-size:9px;color:#ff3333">(${c.creator||'admin'})</span></div><div style="color:#666;font-size:11px">${c.dur}h | ${c.devices?c.devices.length:0}/${c.max} | ${new Date(c.exp).toLocaleDateString()}</div></div><div style="display:flex;gap:6px"><button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:8px 14px;font-size:11px;cursor:pointer">Copy</button><button onclick="codes.splice(${i},1);localStorage.setItem('st_codes',JSON.stringify(codes));render()" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:8px 14px;font-size:11px;cursor:pointer">Del</button></div></div>`).join('');
 }
 
-function copyPop(){ navigator.clipboard.writeText(last); document.getElementById('popCode').innerText='Copied! ✓'; setTimeout(()=>document.getElementById('popCode')->innerText=last,1200); }
+function copyPop(){ navigator.clipboard.writeText(last); document.getElementById('popCode').innerText='Copied! ✓'; setTimeout(()=>document.getElementById('popCode').innerText=last,1200); }
 function closePop(){ document.getElementById('codePop').classList.add('hidden'); }
 </script>
 </body>
