@@ -1,4 +1,3 @@
-𝖠𝘥𝘩𝘢𝘮 <\>:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,29 +114,12 @@
         .login-btn:hover {
             background: #ff2222;
         }
-        .portal-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: #777788;
-            padding: 0 5px;
-            font-weight: 600;
-        }
-        .portal-footer span {
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .portal-footer span:hover {
-            color: #fff;
-        }
 
         /* شاشة الصيانة المغلقة */
         .maintenance-card {
             background: #0d0d12;
             border: 1px solid rgba(255, 51, 51, 0.4);
-
-border-radius: 24px;
+            border-radius: 24px;
             padding: 40px 25px;
             width: 100%;
             text-align: center;
@@ -270,7 +252,7 @@ border-radius: 24px;
             transition: 0.2s;
         }
 
-/* 3. النوافذ واللوحات الإدارية */
+        /* 3. النوافذ واللوحات الإدارية */
         .admin-modal {
             position: fixed;
             inset: 0;
@@ -401,8 +383,7 @@ border-radius: 24px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-
-gap: 6px;
+            gap: 6px;
             margin-bottom: 10px;
         }
         .list-item {
@@ -520,12 +501,12 @@ gap: 6px;
 
     <!-- 1. الشاشة الرئيسية للمستخدم -->
     <div id="userScreen" class="screen active">
-        <!-- شاشة تسجيل الدخول العادية (تظهر فقط عند إيقاف الصيانة) -->
+        <!-- شاشة تسجيل الدخول العادية -->
         <div class="portal-card" id="mainPortalCard" style="display: none;">
             <div class="portal-title">👑 SHADOW TEAM</div>
             <div class="portal-sub">USER PORTAL</div>
-
-<div class="input-container">
+            
+            <div class="input-container">
                 <span class="key-icon">🔑</span>
                 <input type="text" class="portal-input" id="userKeyInput" placeholder="ENTER ACCESS KEY">
             </div>
@@ -537,15 +518,15 @@ gap: 6px;
             <button class="login-btn" onclick="validateKeyLogin()">LOGIN [ →</button>
         </div>
 
-        <!-- شاشة الصيانة مع رابط قناة التحديثات وتلغي أزرار الإدارة أثناء الصيانة -->
+        <!-- شاشة الصيانة مع رابط قناتك الجديد -->
         <div class="maintenance-card" id="maintScreenCard">
             <div class="maint-icon">🛠️</div>
             <div class="portal-title" style="color: #ff3333; letter-spacing: 2px;">SYSTEM UNDER MAINTENANCE</div>
             <p style="color: #888899; font-size: 12px; margin: 15px 0 5px;">We are currently upgrading server systems.</p>
             <p style="color: #aaaaee; font-size: 13px; font-weight: 600;">تابع قناة التحديثات لمعرفة الأجواء والتسريبات:</p>
             
-            <a href="https://t.me/adhamxmodz" target="_blank" class="channel-btn">
-                <span>🚀 قناة التحديثات: @adhamxmodz</span>
+            <a href="https://t.me/Adhambacko" target="_blank" class="channel-btn">
+                <span>🚀 قناة التحديثات: @Adhambacko</span>
             </a>
         </div>
     </div>
@@ -580,7 +561,7 @@ gap: 6px;
         </div>
     </div>
 
-    <!-- 3. نافذة الأدمن (مخفية مؤقتاً أو يمكن الوصول لها برمجياً/خلف الكواليس) -->
+    <!-- 3. نافذة الأدمن (مخفية) -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-box">
             <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 Admin Access</div>
@@ -606,7 +587,7 @@ gap: 6px;
                 <button class="maint-btn active-mode" id="maintBtnToggle" onclick="toggleMaintenanceCloud()">🛠️ MAINTENANCE MODE: ON</button>
             </div>
 
-<!-- قسم البائعين -->
+            <!-- قسم البائعين -->
             <div id="adminResellerSection">
                 <div class="section-title">👥 Manage Resellers</div>
                 <label class="form-label">Reseller Username:</label>
@@ -644,7 +625,7 @@ gap: 6px;
     </div>
 
     <script>
-        const happVpnConfig = {
+        const happVpnConfig = `{
   "remarks": "Shadow v3",
   "inbounds": [
     {
@@ -721,7 +702,7 @@ gap: 6px;
       }
     ]
   }
-};
+}`;
 
         let cloudResellers = [];
         let currentUserType = "admin";
@@ -736,7 +717,7 @@ gap: 6px;
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-window.listenMaintenance = function() {
+        window.listenMaintenance = function() {
             window.onSnapshot(window.doc(window.db, "settings", "status"), (docSnap) => {
                 if (docSnap.exists()) {
                     isMaintenanceMode = docSnap.data().maintenance !== undefined ? docSnap.data().maintenance : true;
@@ -795,22 +776,15 @@ window.listenMaintenance = function() {
             cloudResellers.forEach((r) => {
                 let div = document.createElement('div');
                 div.className = 'list-item';
-                div.innerHTML = 
+                div.innerHTML = `
                     <span><b>${r.name}</b></span>
                     <div>
                         <span style="color:#2ecc71; margin-right:8px;">$${Number(r.balance).toFixed(2)}</span>
                         <button class="delete-btn" onclick="deleteResellerCloud('${r.firestoreId}')">🗑️ Delete</button>
                     </div>
-                ;
+                `;
                 container.appendChild(div);
             });
-        }
-
-        // لو أردت الدخول للوحة الأدمن خلف الكواليس لتغيير حالة الصيانة، يمكنك استدعاء دالة openAdminModal() من متصفحك أو عبر الرابط المخصص
-        function openAdminModal() {
-            document.getElementById('adminModal').classList.add('active');
-            document.getElementById('adminPassInput').value = '';
-            document.getElementById('adminError').style.display = 'none';
         }
 
         function closeModal(id) {
@@ -823,8 +797,7 @@ window.listenMaintenance = function() {
                 currentUserType = "admin";
                 document.getElementById('panelTitle').innerText = "👑 Control Panel";
                 document.getElementById('accountBalance').innerText = "UNLIMITED";
-
-document.getElementById('adminResellerSection').style.display = 'block';
+                document.getElementById('adminResellerSection').style.display = 'block';
                 document.getElementById('adminMaintToggleSection').style.display = 'block';
                 closeModal('adminModal');
                 showDashboard();
@@ -862,7 +835,7 @@ document.getElementById('adminResellerSection').style.display = 'block';
                 cloudResellers.push({ firestoreId: docRef.id, name: name, balance: balance || 0 });
                 renderResellersUI();
                 document.getElementById('resellerName').value = '';
-                showToast(✓ Reseller ${name} saved to Cloud!);
+                showToast(`✓ Reseller ${name} saved to Cloud!`);
             } catch (e) {
                 alert("Error saving to Firebase: " + e.message);
             }
@@ -894,7 +867,7 @@ document.getElementById('adminResellerSection').style.display = 'block';
                     await window.updateDoc(window.doc(window.db, "resellers", currentResellerId), {
                         balance: currentResellerData.balance
                     });
-                    document.getElementById('accountBalance').innerText = $${Number(currentResellerData.balance).toFixed(2)};
+                    document.getElementById('accountBalance').innerText = `$${Number(currentResellerData.balance).toFixed(2)}`;
                 } catch (e) {
                     return alert("Error updating balance: " + e.message);
                 }
@@ -911,8 +884,7 @@ document.getElementById('adminResellerSection').style.display = 'block';
                 await window.addDoc(window.collection(window.db, "keys"), { code: key });
 
                 document.getElementById('generatedKeyText').innerText = key;
-
-document.getElementById('singleKeyBox').style.display = 'block';
+                document.getElementById('singleKeyBox').style.display = 'block';
                 showToast("✓ Key generated & saved to Cloud!");
             } catch (e) {
                 alert("Error saving key: " + e.message);
