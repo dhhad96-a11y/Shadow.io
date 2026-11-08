@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHADOW TEAM - Maintenance Mode</title>
+    <title>SHADOW TEAM - VIP Hub</title>
     <style>
         * {
             box-sizing: border-box;
@@ -114,46 +114,21 @@
         .login-btn:hover {
             background: #ff2222;
         }
-
-        /* شاشة الصيانة المغلقة */
-        .maintenance-card {
-            background: #0d0d12;
-            border: 1px solid rgba(255, 51, 51, 0.4);
-            border-radius: 24px;
-            padding: 40px 25px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 0 35px rgba(255, 51, 51, 0.2);
-        }
-        .maint-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-            animation: pulse 1.5s infinite alternate;
-        }
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
-        }
-        .channel-btn {
+        .portal-footer {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            background: linear-gradient(135deg, #0088cc, #005580);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 14px;
-            padding: 16px;
-            font-size: 14px;
-            font-weight: bold;
-            margin: 20px 0 10px;
-            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
+            font-size: 11px;
+            color: #777788;
+            padding: 0 5px;
+            font-weight: 600;
+        }
+        .portal-footer span {
+            cursor: pointer;
             transition: 0.2s;
         }
-        .channel-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 136, 204, 0.6);
+        .portal-footer span:hover {
+            color: #fff;
         }
 
         /* 2. شاشة المشتركين (VIP Dashboard) */
@@ -250,6 +225,9 @@
             cursor: pointer;
             box-shadow: 0 10px 25px rgba(255, 51, 51, 0.4);
             transition: 0.2s;
+        }
+        .sub-btn:active {
+            transform: scale(0.98);
         }
 
         /* 3. النوافذ واللوحات الإدارية */
@@ -501,8 +479,7 @@
 
     <!-- 1. الشاشة الرئيسية للمستخدم -->
     <div id="userScreen" class="screen active">
-        <!-- شاشة تسجيل الدخول العادية -->
-        <div class="portal-card" id="mainPortalCard" style="display: none;">
+        <div class="portal-card">
             <div class="portal-title">👑 SHADOW TEAM</div>
             <div class="portal-sub">USER PORTAL</div>
             
@@ -516,18 +493,11 @@
             </label>
             
             <button class="login-btn" onclick="validateKeyLogin()">LOGIN [ →</button>
-        </div>
-
-        <!-- شاشة الصيانة مع رابط قناتك الجديد -->
-        <div class="maintenance-card" id="maintScreenCard">
-            <div class="maint-icon">🛠️</div>
-            <div class="portal-title" style="color: #ff3333; letter-spacing: 2px;">SYSTEM UNDER MAINTENANCE</div>
-            <p style="color: #888899; font-size: 12px; margin: 15px 0 5px;">We are currently upgrading server systems.</p>
-            <p style="color: #aaaaee; font-size: 13px; font-weight: 600;">تابع قناة التحديثات لمعرفة الأجواء والتسريبات:</p>
             
-            <a href="https://t.me/Adhambacko" target="_blank" class="channel-btn">
-                <span>🚀 قناة التحديثات: @Adhambacko</span>
-            </a>
+            <div class="portal-footer">
+                <span onclick="openResellerModal()">◀ RESELLER</span>
+                <span onclick="openAdminModal()">ADMIN 🔒</span>
+            </div>
         </div>
     </div>
 
@@ -561,7 +531,7 @@
         </div>
     </div>
 
-    <!-- 3. نافذة الأدمن (مخفية) -->
+    <!-- 3. نافذة الأدمن -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-box">
             <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 Admin Access</div>
@@ -574,6 +544,19 @@
         </div>
     </div>
 
+    <!-- 4. نافذة البائع -->
+    <div class="admin-modal" id="resellerModal">
+        <div class="admin-box">
+            <div style="font-size: 15px; font-weight: bold; color: #fff;">👤 Reseller Portal</div>
+            <input type="text" id="resellerUserInput" placeholder="Username...">
+            <div id="resellerError" style="color:#ff3333; font-size:11px; display:none; margin-bottom:10px;">User not found!</div>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closeModal('resellerModal')" style="flex:1; background:#1c1c28; border:none; color:#aaa; padding:10px; border-radius:8px; cursor:pointer;">Cancel</button>
+                <button onclick="verifyReseller()" style="flex:1; background:#e61919; border:none; color:#fff; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold;">Login</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 5. لوحة التحكم -->
     <div id="dashboardScreen" class="screen">
         <div class="dashboard-card">
@@ -582,9 +565,9 @@
                 <span class="balance-badge" id="accountBalance">UNLIMITED</span>
             </div>
 
-            <!-- زر التحكم بالصيانة (للأدمن لإيقاف الصيانة لاحقاً) -->
-            <div id="adminMaintToggleSection">
-                <button class="maint-btn active-mode" id="maintBtnToggle" onclick="toggleMaintenanceCloud()">🛠️ MAINTENANCE MODE: ON</button>
+            <!-- زر التحكم بالصيانة (للأدمن) -->
+            <div id="adminMaintToggleSection" style="display:none;">
+                <button class="maint-btn" id="maintBtnToggle" onclick="toggleMaintenanceCloud()">🛠️ MAINTENANCE MODE: OFF</button>
             </div>
 
             <!-- قسم البائعين -->
@@ -708,7 +691,7 @@
         let currentUserType = "admin";
         let currentResellerId = null;
         let currentResellerData = null;
-        let isMaintenanceMode = true;
+        let isMaintenanceMode = false;
 
         function showToast(msg) {
             let toast = document.getElementById('toast');
@@ -720,29 +703,22 @@
         window.listenMaintenance = function() {
             window.onSnapshot(window.doc(window.db, "settings", "status"), (docSnap) => {
                 if (docSnap.exists()) {
-                    isMaintenanceMode = docSnap.data().maintenance !== undefined ? docSnap.data().maintenance : true;
+                    isMaintenanceMode = docSnap.data().maintenance || false;
                 } else {
-                    isMaintenanceMode = true;
+                    isMaintenanceMode = false;
                 }
                 applyMaintenanceUI();
             });
         };
 
         function applyMaintenanceUI() {
-            let portal = document.getElementById('mainPortalCard');
-            let maint = document.getElementById('maintScreenCard');
             let btn = document.getElementById('maintBtnToggle');
-
             if (isMaintenanceMode) {
-                portal.style.display = 'none';
-                maint.style.display = 'block';
                 if(btn) {
                     btn.innerText = "🛠️ MAINTENANCE MODE: ON";
                     btn.classList.add('active-mode');
                 }
             } else {
-                portal.style.display = 'block';
-                maint.style.display = 'none';
                 if(btn) {
                     btn.innerText = "🛠️ MAINTENANCE MODE: OFF";
                     btn.classList.remove('active-mode');
@@ -787,6 +763,18 @@
             });
         }
 
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+            document.getElementById('adminPassInput').value = '';
+            document.getElementById('adminError').style.display = 'none';
+        }
+
+        function openResellerModal() {
+            document.getElementById('resellerModal').classList.add('active');
+            document.getElementById('resellerUserInput').value = '';
+            document.getElementById('resellerError').style.display = 'none';
+        }
+
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
         }
@@ -803,6 +791,25 @@
                 showDashboard();
             } else {
                 document.getElementById('adminError').style.display = 'block';
+            }
+        }
+
+        function verifyReseller() {
+            let val = document.getElementById('resellerUserInput').value.trim().toLowerCase();
+            let found = cloudResellers.find(r => r.name.toLowerCase() === val);
+            
+            if (found) {
+                currentUserType = "reseller";
+                currentResellerId = found.firestoreId;
+                currentResellerData = found;
+                document.getElementById('panelTitle').innerText = `👤 Seller: ${found.name}`;
+                document.getElementById('accountBalance').innerText = `$${Number(found.balance).toFixed(2)}`;
+                document.getElementById('adminResellerSection').style.display = 'none';
+                document.getElementById('adminMaintToggleSection').style.display = 'none';
+                closeModal('resellerModal');
+                showDashboard();
+            } else {
+                document.getElementById('resellerError').style.display = 'block';
             }
         }
 
