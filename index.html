@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V2.4</title>
+<title>SHADOW TEAM - VIP Hub V2.5</title>
 
 <style>
 :root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
@@ -43,12 +43,12 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 </head>
 <body>
 <div class="container">
-<!-- LOGIN -->
+<!-- LOGIN PAGE -->
 <div id="loginPage">
 <div class="card">
 <div class="header" style="justify-content:center;flex-direction:column">
 <div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.4</div></div>
+<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.5</div></div>
 </div>
 <div class="tabs">
 <div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
@@ -57,7 +57,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="formU">
 <div class="label">ACCESS CODE</div>
 <input id="codeIn" class="input" placeholder="SHDW-XXXX-XXXX">
-<button class="btn" onclick="loginUser()">LOGIN • دخول</button>
+<button class="btn" onclick="loginUser()">LOGIN • دخول وتفعيل الكونفिग</button>
 </div>
 <div id="formA" class="hidden">
 <div class="label">USERNAME ONLY</div>
@@ -67,11 +67,11 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 </div>
 </div>
 
-<!-- FEATURES -->
+<!-- FEATURES / USER HUB -->
 <div id="featPage" class="hidden">
 <div class="card">
 <div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.4</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.5</div></div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -82,28 +82,47 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="deviceInfo" style="background:#050508;border:1px solid #222230;border-radius:12px;padding:10px;text-align:center;font-size:11px;color:#888;margin-bottom:16px">Device: <span id="devId" style="color:#ff3333">-</span> • Code: <span id="curCode" style="color:#fff">-</span></div>
 
 <div style="margin-top:10px">
-<div class="feature"><div><div style="font-weight:800">AIM BOT</div><div style="color:#666;font-size:12px">Auto aim precision</div></div><div id="togAim" class="toggle" onclick="toggle('togAim')"><div class="toggle-dot"></div></div></div>
-<div class="feature"><div><div style="font-weight:800">ESP MOCO</div><div style="color:#666;font-size:12px">Wallhack + Location</div></div><div id="togEsp" class="toggle" onclick="toggle('togEsp')"><div class="toggle-dot"></div></div></div>
+<div class="feature"><div><div style="font-weight:800">HAPP VPN STATUS</div><div style="color:#2ecc71;font-size:12px" id="vpnStatusText">CONNECTED & ACTIVE</div></div><div id="togVpn" class="toggle on"><div class="toggle-dot"></div></div></div>
 </div>
 
-<button class="btn" style="margin-top:28px" onclick="launchHub()">ADD SUBSCRIPTION</button>
+<button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
 <div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
 </div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.4</div>
+<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.5</div>
 </div>
 
-<!-- ADMIN -->
+<!-- ADMIN & RESELLER PANEL -->
 <div id="adminPage" class="hidden">
 <div class="card">
 <div class="header">
-<div><div style="font-weight:900;font-size:18px">SHADOW TEAM</div><div class="sub">CODE GENERATOR & PANEL</div></div>
+<div><div style="font-weight:900;font-size:18px">SHADOW TEAM</div><div class="sub">ADMIN & RESELLER CONTROL</div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
+
+<!-- صيانة الموقع (للأدمن فقط) -->
+<div id="maintenanceSection" style="background:#13131a;border:1px solid #ff3333;padding:12px;border-radius:14px;margin-bottom:15px;display:none;">
+<div class="label" style="color:#ff3333; margin-top:0;">🔧 وضع الصيانة (MAINTENANCE MODE)</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+<span style="font-size:12px; color:#fff;" id="maintStatusText">الموقع مفعل حالياً</span>
+<button class="btn" style="margin:0; padding:8px 14px; font-size:11px;" onclick="toggleMaintenance()">تبديل الوضع</button>
+</div>
+</div>
+
+<!-- إدارة أسعار الأكواد (للأدمن فقط) -->
+<div id="pricingSection" style="background:#13131a;border:1px solid #222230;padding:12px;border-radius:14px;margin-bottom:15px;display:none;">
+<div class="label" style="color:#ff3333; margin-top:0;">💰 إدارة أسعار الأكواد ($)</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+<div><span style="font-size:10px;color:#888;">1 ساعة / يوم:</span><input id="price1" type="number" class="input" style="padding:8px;font-size:12px;" value="1.0"></div>
+<div><span style="font-size:10px;color:#888;">أكثر من يوم:</span><input id="price2" type="number" class="input" style="padding:8px;font-size:12px;" value="3.0"></div>
+</div>
+<button class="btn" style="margin-top:8px; padding:8px; font-size:11px;" onclick="savePrices()">حفظ الأسعار الجديدة</button>
+</div>
+
 <div id="resellerMgmtSection">
-<div class="label" style="color:#ff3333; font-weight:bold;">RESELLER MANAGEMENT (ADMIN ONLY)</div>
+<div class="label" style="color:#ff3333; font-weight:bold;">👥 إدارة الموزعين وحساباتهم</div>
 <input id="resellerUser" class="input" placeholder="Reseller Username" style="margin-bottom:8px">
 <input id="resellerBal" type="number" class="input" placeholder="Initial Balance ($)" value="20" style="margin-bottom:8px">
-<button class="btn" style="margin-top:5px; background:linear-gradient(100deg,#ff3333,#990000);" onclick="addReseller()">Add Reseller Account</button>
+<button class="btn" style="margin-top:5px; background:linear-gradient(100deg,#ff3333,#990000);" onclick="addReseller()">إضافة موزّع جديد</button>
 <div id="resellersList" style="margin-top:15px; max-height:120px; overflow-y:auto;"></div>
 <hr style="border-color:#222230; margin:20px 0;">
 </div>
@@ -115,10 +134,10 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <select id="dur" class="select"><option value="1">1 Hour</option><option value="6">6 Hours</option><option value="24">1 Day</option><option value="72">3 Days</option><option value="168">7 Days</option><option value="720">30 Days</option><option value="8760">Lifetime</option></select>
 <div class="label">MAX DEVICES (1-10)</div>
 <input id="maxD" type="number" class="input" value="1" min="1" max="10">
-<button class="btn" onclick="generate()">Generate & Deduct</button>
+<button class="btn" onclick="generate()">توليد الكود وخفض الرصيد</button>
 </div>
 <div class="card">
-<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">CODES TABLE • جدول الأكواد</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">إدارة الأكواد • CODES TABLE</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
 <div id="list"></div>
 </div>
 </div>
@@ -137,16 +156,26 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 </div>
 
 <script>
-const HUB = 'Happ://crypt5/fzvdRJKmE5aHB5kakRmL3wr1151anw6dlTDzAdiZCq1MkWEm+G1zf/HZ+X4SZjXLTF9usz8DTaLG2GaJYRYe42jQxEwiBYyn14GfnZS+QWOcMF4rvd/zHPBnId5TBN6As/TWiWB2eMn2M68YMZaBwElvOR5Vm7rCngmeQbUN07LRoi6QcHsKSGmcK0g=oryOlaANwX1cUMApu3prGqf8PfGQQJOXO21vb8pPAptGcGM6FHN2tRiLFi5nGxw0khO0Zt38pMGEFK9EWDDj28Jp6Lvq/7nzhFZqeHrlP6F0BRyR51WjroWvVn/7cOV58jibKokUFZTVZaDsfHYeOijmJQzQ9Sa8hE9PkqgGL+fBVVHDCVcJgi0lMNAN4l9MkRFJaEQBNePUKEBGkdZ1HkKod2n5V2mb3JWJOPP1vo4yi4TDRRT5AtEj2gLF/AG68KIIZzr6R721E212sMwBb8puB62VMFb+43wxAj9D2oh/2Bf+earK67A/kPOJdq704fi+dCd5aoDhKuHB0wUZkJzGem+4hNuPQz30hC7iR11tlB0EEzx0AGAC/TjqpHppIsm0RCxmtcC8ABTsP9YDxlx/C39FdvP40DFkrfV2i2uAU5Mi5zM822E6KZxvL/pJfk5BFwYyZyzrczy2H/c+ZnDnXJOzRBH4Rc8CnPUwvyzFkLg2uyiITVqGhJKoOnRuGbvOvHNe9p6bTRlHmvNsj9LBh316kGt/RY+Z6t+WWZHCZF2xN9myYteNXBkpK0qy75ZXcPHKLy0MfS8UR460Z3iCRNOZqxq9YrVA81n7Lwrk7iQ7all6FiU83ssDZ7PkfiXvmkVSMsLCIk9ZKZASVb9lGgeHUZOX49UIiIhwfos=ff';
+const encryptedHappConfig = "Happ://crypt5/fzvdRJKmE5aHB5kakRmL3wr1151anw6dlTDzAdiZCq1MkWEm+G1zf/HZ+X4SZjXLTF9usz8DTaLG2GaJYRYe42jQxEwiBYyn14GfnZS+QWOcMF4rvd/zHPBnId5TBN6As/TWiWB2eMn2M68YMZaBwElvOR5Vm7rCngmeQbUN07LRoi6QcHsKSGmcK0g=oryOlaANwX1cUMApu3prGqf8PfGQQJOXO21vb8pPAptGcGM6FHN2tRiLFi5nGxw0khO0Zt38pMGEFK9EWDDj28Jp6Lvq/7nzhFZqeHrlP6F0BRyR51WjroWvVn/7cOV58jibKokUFZTVZaDsfHYeOijmJQzQ9Sa8hE9PkqgGL+fBVVHDCVcJgi0lMNAN4l9MkRFJaEQBNePUKEBGkdZ1HkKod2n5V2mb3JWJOPP1vo4yi4TDRRT5AtEj2gLF/AG68KIIZzr6R721E212sMwBb8puB62VMFb+43wxAj9D2oh/2Bf+earK67A/kPOJdq704fi+dCd5aoDhKuHB0wUZkJzGem+4hNuPQz30hC7iR11tlB0EEzx0AGAC/TjqpHppIsm0RCxmtcC8ABTsP9YDxlx/C39FdvP40DFkrfV2i2uAU5Mi5zM822E6KZxvL/pJfk5BFwYyZyzrczy2H/c+ZnDnXJOzRBH4Rc8CnPUwvyzFkLg2uyiITVqGhJKoOnRuGbvOvHNe9p6bTRlHmvNsj9LBh316kGt/RY+Z6t+WWZHCZF2xN9myYteNXBkpK0qy75ZXcPHKLy0MfS8UR460Z3iCRNOZqxq9YrVA81n7Lwrk7iQ7all6FiU83ssDZ7PkfiXvmkVSMsLCIk9ZKZASVb9lGgeHUZOX49UIiIhwfos=ff";
 
 let codes = JSON.parse(localStorage.getItem('st_codes')||'[]');
 let resellers = JSON.parse(localStorage.getItem('st_resellers')||'[]');
+let prices = JSON.parse(localStorage.getItem('st_prices')||'{"p1":1.0, "p2":3.0}');
+let maintenanceMode = JSON.parse(localStorage.getItem('st_maint')||'false');
+
 let deviceId = localStorage.getItem('devId') || ('DEV-'+Math.random().toString(36).substr(2,6).toUpperCase());
 localStorage.setItem('devId', deviceId);
 
-let activeCode=null;
-let timerInt=null;
+let activeCode = null;
+let timerInt = null;
 let currentUser = null; 
+
+// التحقق من حالة الصيانة عند الفتح
+window.onload = function() {
+  if(maintenanceMode) {
+    document.getElementById('formU').innerHTML = '<div style="color:#ff3333;text-align:center;padding:20px;font-weight:bold;">🛠️ الموقع تحتف الصيانة حالياً. يرجى العودة لاحقاً.</div>';
+  }
+};
 
 function switchTab(t){
  document.getElementById('formU').classList.toggle('hidden', t!=='u');
@@ -155,61 +184,96 @@ function switchTab(t){
  document.getElementById('tabA').className = t==='a'?'tab active':'tab inactive';
 }
 
+function openHappVpnDirectly() {
+    window.location.href = encryptedHappConfig;
+}
+
 function loginUser(){
- let c=document.getElementById('codeIn').value.trim();
+ if(maintenanceMode) { alert('الموقع تحت الصيانة حالياً!'); return; }
+ let c = document.getElementById('codeIn').value.trim();
  if(!c) return;
- let idx=codes.findIndex(x=>x.code===c);
- if(idx===-1){ alert('Code not found'); return; }
- let codeObj=codes[idx];
- let now=new Date();
- if(new Date(codeObj.exp) < now){ alert('Code expired'); return; }
+ let idx = codes.findIndex(x=>x.code===c);
+ if(idx===-1){ alert('❌ كود غير صحيح أو غير موجود!'); return; }
+ let codeObj = codes[idx];
+ let now = new Date();
+ 
+ // فحص انتهاء الصلاحية وإغلاق الكونفिग تلقائياً
+ if(new Date(codeObj.exp) < now){ 
+   alert('❌ هذا الكود منتهي الصلاحية! تم إغلاق الكونفिग.'); 
+   return; 
+ }
+
  if(!codeObj.devices) codeObj.devices=[];
  let already = codeObj.devices.includes(deviceId);
  if(!already){
-   if(codeObj.devices.length >= codeObj.max){ alert('Device limit reached - هذا الكود خدم في جهاز آخر'); return; }
+   if(codeObj.devices.length >= codeObj.max){ alert('❌ تم الوصول للحد الأقصى للأجهزة لهذا الكود!'); return; }
    codeObj.devices.push(deviceId);
    codeObj.used = codeObj.devices.length;
    codes[idx]=codeObj;
    localStorage.setItem('st_codes',JSON.stringify(codes));
  }
- activeCode=codeObj;
+
+ activeCode = codeObj;
  document.getElementById('loginPage').classList.add('hidden');
  document.getElementById('featPage').classList.remove('hidden');
- document.getElementById('curCode').innerText=codeObj.code;
- document.getElementById('devId').innerText=deviceId;
- document.getElementById('expireDate').innerText=new Date(codeObj.exp).toLocaleString();
+ document.getElementById('curCode').innerText = codeObj.code;
+ document.getElementById('devId').innerText = deviceId;
+ document.getElementById('expireDate').innerText = new Date(codeObj.exp).toLocaleString();
+ 
  startTimer(codeObj.exp);
- updateFeatureStates();
+
+ // فتح تفعيل Happ VPN تلقائياً فور تسجيل الدخول الصحيح
+ openHappVpnDirectly();
 }
 
 function loginAdmin(){
  let u = document.getElementById('userIn').value.trim();
 
- // التحقق من حساب الأدمن الرئيسي
  if(u.toUpperCase() === 'ADHAM SHADOW'){
    currentUser = 'admin';
    document.getElementById('loginPage').classList.add('hidden');
    document.getElementById('adminPage').classList.remove('hidden');
    document.getElementById('resellerMgmtSection').style.display = 'block';
-   document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED';
+   document.getElementById('maintenanceSection').style.display = 'block';
+   document.getElementById('pricingSection').style.display = 'block';
+   document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED (صلاحيات كاملة)';
+   document.getElementById('price1').value = prices.p1;
+   document.getElementById('price2').value = prices.p2;
    renderResellers();
    render();
    return;
  }
 
- // التحقق من حسابات الموزعين (باستخدام اسم المستخدم فقط)
  let foundReseller = resellers.find(r => r.name.toLowerCase() === u.toLowerCase());
  if(foundReseller){
    currentUser = foundReseller.name;
    document.getElementById('loginPage').classList.add('hidden');
    document.getElementById('adminPage').classList.remove('hidden');
    document.getElementById('resellerMgmtSection').style.display = 'none';
+   document.getElementById('maintenanceSection').style.display = 'none';
+   document.getElementById('pricingSection').style.display = 'none';
    document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${foundReseller.balance.toFixed(2)}`;
    render();
    return;
  }
 
- alert('اسم المستخدم غير صحيح!');
+ alert('❌ اسم المستخدم غير صحيح!');
+}
+
+function toggleMaintenance() {
+  if(currentUser !== 'admin') return;
+  maintenanceMode = !maintenanceMode;
+  localStorage.setItem('st_maint', JSON.stringify(maintenanceMode));
+  document.getElementById('maintStatusText').innerText = maintenanceMode ? 'الموقع في وضع الصيانة الآن 🔴' : 'الموقع مفعل حالياً 🟢';
+  alert('تم تغيير حالة الصيانة بنجاح!');
+}
+
+function savePrices() {
+  if(currentUser !== 'admin') return;
+  prices.p1 = parseFloat(document.getElementById('price1').value) || 1.0;
+  prices.p2 = parseFloat(document.getElementById('price2').value) || 3.0;
+  localStorage.setItem('st_prices', JSON.stringify(prices));
+  alert('✓ تم حفظ الأسعار الجديدة بنجاح!');
 }
 
 function addReseller(){
@@ -223,14 +287,27 @@ function addReseller(){
  localStorage.setItem('st_resellers', JSON.stringify(resellers));
  document.getElementById('resellerUser').value = '';
  renderResellers();
- alert(`تم إضافة الموزع ${name} برصيد $${bal} بنجاح`);
+ alert(`✓ تم إضافة الموزع ${name} برصيد $${bal} بنجاح`);
 }
 
 function deleteReseller(index){
  if(currentUser !== 'admin') return;
- resellers.splice(index, 1);
- localStorage.setItem('st_resellers', JSON.stringify(resellers));
- renderResellers();
+ if(confirm('هل تريد حذف حساب هذا الموزع نهائياً؟')) {
+   resellers.splice(index, 1);
+   localStorage.setItem('st_resellers', JSON.stringify(resellers));
+   renderResellers();
+ }
+}
+
+function updateResellerBalance(index) {
+ if(currentUser !== 'admin') return;
+ let newBal = prompt('أدخل الرصيد الجديد للموزع:', resellers[index].balance);
+ if(newBal !== null) {
+   resellers[index].balance = parseFloat(newBal) || 0;
+   localStorage.setItem('st_resellers', JSON.stringify(resellers));
+   renderResellers();
+   alert('✓ تم تحديث الرصيد!');
+ }
 }
 
 function renderResellers(){
@@ -238,8 +315,11 @@ function renderResellers(){
  if(!resellers.length){ container.innerHTML = '<div style="color:#666;font-size:11px">لا يوجد موزعين حالياً</div>'; return; }
  container.innerHTML = resellers.map((r, i) => `
    <div style="background:#050508;border:1px solid #222230;padding:8px 12px;border-radius:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
-     <span style="font-size:12px"><b>${r.name}</b> (رصيد: $${r.balance.toFixed(2)})</span>
-     <button onclick="deleteReseller(${i})" style="background:#331111;color:#ff5555;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">حذف</button>
+     <span style="font-size:12px"><b>${r.name}</b> ($${r.balance.toFixed(2)})</span>
+     <div style="display:flex;gap:4px;">
+       <button onclick="updateResellerBalance(${i})" style="background:#113311;color:#2ecc71;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">تعديل الرصيد</button>
+       <button onclick="deleteReseller(${i})" style="background:#331111;color:#ff5555;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">حذف</button>
+     </div>
    </div>
  `).join('');
 }
@@ -250,48 +330,41 @@ function doLogout(){
  document.getElementById('loginPage').classList.remove('hidden'); 
  document.getElementById('featPage').classList.add('hidden'); 
  document.getElementById('adminPage').classList.add('hidden'); 
+ document.getElementById('userIn').value = '';
+ document.getElementById('codeIn').value = '';
 }
-
-function toggle(id){
-  document.getElementById(id).classList.toggle('on');
-  updateFeatureStates();
-}
-
-function updateFeatureStates(){
-  const aim=document.getElementById('togAim');
-  const esp=document.getElementById('togEsp');
-  const a=document.getElementById('aimState');
-  const e=document.getElementById('espState');
-  if(a) a.innerText=aim && aim.classList.contains('on')?'ENABLED':'DISABLED';
-  if(e) e.innerText=esp && esp.classList.contains('on')?'ENABLED':'DISABLED';
-}
-
-function launchHub(){ window.location.assign(HUB); }
 
 function startTimer(expIso){
  if(timerInt) clearInterval(timerInt);
  function upd(){
    let diff = new Date(expIso) - new Date();
-   if(diff<=0){ document.getElementById('topTimer').innerText='EXPIRED'; document.getElementById('frontTimer').innerText='EXPIRED'; clearInterval(timerInt); return; }
+   if(diff<=0){ 
+     document.getElementById('topTimer').innerText='EXPIRED'; 
+     document.getElementById('frontTimer').innerText='EXPIRED'; 
+     document.getElementById('vpnStatusText').innerText='EXPIRED - تم إغلاق الكونفيج';
+     document.getElementById('vpnStatusText').style.color='#ff3333';
+     clearInterval(timerInt); 
+     alert('⚠️ انتهت صلاحية الكود الخاص بك! تم إغلاق الكونفيج.');
+     doLogout();
+     return; 
+   }
    let h=Math.floor(diff/3600000); let m=Math.floor((diff%3600000)/60000); let s=Math.floor((diff%60000)/1000);
    let str = h.toString().padStart(2,'0')+':'+m.toString().padStart(2,'0')+':'+s.toString().padStart(2,'0');
    document.getElementById('topTimer').innerText=str;
    document.getElementById('frontTimer').innerText=str;
-   let pt=document.getElementById('popTimer'); if(pt) pt.innerText='⏱️ '+str;
  }
  upd();
  timerInt=setInterval(upd,1000);
 }
 
-let last='';
 function generate(){
  let dVal = parseInt(document.getElementById('dur').value);
- let cost = dVal <= 24 ? 1.0 : 3.0;
+ let cost = dVal <= 24 ? prices.p1 : prices.p2;
 
  if(currentUser !== 'admin'){
    let resObj = resellers.find(r => r.name === currentUser);
    if(!resObj || resObj.balance < cost){
-     alert('❌ رصيدك غير كافٍ لتوليد هذا الكود!');
+     alert(`❌ رصيدك غير كافٍ! تكلفة هذا الكود هي $${cost}`);
      return;
    }
    resObj.balance -= cost;
@@ -307,21 +380,42 @@ function generate(){
  codes.unshift({code,dur:dVal,max:m,used:0,devices:[],exp:exp.toISOString(), creator: currentUser});
  localStorage.setItem('st_codes',JSON.stringify(codes));
  render();
- last=code;
  document.getElementById('popCode').innerText=code;
- document.getElementById('popInfo').innerText=dVal+'h | Max '+m+' devices | '+exp.toLocaleString();
+ document.getElementById('popInfo').innerText=dVal+'h | Max '+m+' devices | تكلفة: $'+cost;
  document.getElementById('codePop').classList.remove('hidden');
- startTimer(exp.toISOString());
 }
 
 function render(){
  let l=document.getElementById('list');
  document.getElementById('cnt').innerText=codes.length+' codes';
  if(!codes.length){ l.innerHTML='<p style="text-align:center;color:#555;padding:30px">No codes yet</p>'; return; }
- l.innerHTML=codes.map((c,i)=>`<div class="table-row"><div><div style="font-weight:800;font-size:13px">${c.code} <span style="font-size:9px;color:#ff3333">(${c.creator||'admin'})</span></div><div style="color:#666;font-size:11px">${c.dur}h | ${c.devices?c.devices.length:0}/${c.max} | ${new Date(c.exp).toLocaleDateString()}</div></div><div style="display:flex;gap:6px"><button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:8px 14px;font-size:11px;cursor:pointer">Copy</button><button onclick="codes.splice(${i},1);localStorage.setItem('st_codes',JSON.stringify(codes));render()" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:8px 14px;font-size:11px;cursor:pointer">Del</button></div></div>`).join('');
+ l.innerHTML=codes.map((c,i)=>`
+   <div class="table-row">
+     <div>
+       <div style="font-weight:800;font-size:13px">${c.code} <span style="font-size:9px;color:#ff3333">(${c.creator||'admin'})</span></div>
+       <div style="color:#666;font-size:11px">${c.dur}h | الأجهزة: ${c.devices?c.devices.length:0}/${c.max} | ينتهي في: ${new Date(c.exp).toLocaleDateString()}</div>
+     </div>
+     <div style="display:flex;gap:6px">
+       <button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer">Copy</button>
+       <button onclick="deleteCode(${i})" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer">حذف</button>
+     </div>
+   </div>
+ `).join('');
 }
 
-function copyPop(){ navigator.clipboard.writeText(last); document.getElementById('popCode').innerText='Copied! ✓'; setTimeout(()=>document.getElementById('popCode').innerText=last,1200); }
+function deleteCode(i) {
+  if(confirm('هل تريد حذف هذا الكود نهائياً؟')) {
+    codes.splice(i, 1);
+    localStorage.setItem('st_codes', JSON.stringify(codes));
+    render();
+  }
+}
+
+function copyPop(){ 
+ let codeTxt = document.getElementById('popCode').innerText;
+ navigator.clipboard.writeText(codeTxt); 
+ alert('✓ تم نسخ الكود بنجاح!');
+}
 function closePop(){ document.getElementById('codePop').classList.add('hidden'); }
 </script>
 </body>
