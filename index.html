@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V3.3</title>
+<title>SHADOW TEAM - VIP Hub V3.4</title>
 
 <style>
 :root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
@@ -74,7 +74,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div class="card">
 <div class="header" style="justify-content:center;flex-direction:column">
 <div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V3.3</div></div>
+<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V3.4</div></div>
 </div>
 <div class="tabs">
 <div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
@@ -97,7 +97,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="featPage" class="hidden">
 <div class="card">
 <div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V3.3</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V3.4</div></div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -114,7 +114,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
 <div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
 </div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V3.3</div>
+<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V3.4</div>
 </div>
 
 <!-- ADMIN & RESELLER PANEL -->
@@ -156,7 +156,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="balanceDisplay" style="color:#ff3333; font-weight:bold; margin-bottom:10px; font-size:13px;"></div>
 <div class="label">CODE PREFIX</div>
 <input id="pref" class="input" value="SHDW-">
-<div class="label">DURATION (1 Hour to 30 Days)</div>
+<div class="label">DURATION (Select Duration)</div>
 <select id="dur" class="select">
   <option value="1">1 Hour</option>
   <option value="6">6 Hours</option>
@@ -168,9 +168,14 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div class="label">MAX DEVICES (1-10)</div>
 <input id="maxD" type="number" class="input" value="1" min="1" max="10">
 <button class="btn" onclick="generate()">Generate Key</button>
+
+<!-- زر عرض المفاتيح للأدمن فقط -->
+<button id="btnKeysToggle" class="btn" style="margin-top:10px; background:linear-gradient(100deg,#333333,#111111); display:none;" onclick="toggleKeysView()">🔑 MY GENERATED KEYS</button>
 </div>
-<div class="card">
-<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">CODES TABLE</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
+
+<!-- قسم جدول الأكواد (يظهر للأدمن فقط عند تفعيله) -->
+<div id="codesSectionCard" class="card hidden">
+<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">ALL GENERATED KEYS</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
 <div id="list"></div>
 </div>
 </div>
@@ -199,6 +204,7 @@ let timerInt = null;
 let currentUser = null; 
 let prices = { p1: 1.0, p2: 3.0 };
 let maintenanceMode = false;
+let keysViewVisible = false;
 
 window.addEventListener('firebase-ready', async () => {
   await loadCloudData();
@@ -252,6 +258,12 @@ async function loginUser(){
 
    if(!codeObj){ alert('❌ Invalid or not found key!'); return; }
 
+   // التحقق مما إذا كان الكود مقفلاً من قبل الأدمن
+   if(codeObj.locked){
+     alert('🔒 This key is locked by administrator!');
+     return;
+   }
+
    let now = new Date();
    if(new Date(codeObj.exp) < now){ 
      alert('❌ This key has expired! Config is closed.'); 
@@ -289,7 +301,6 @@ async function loginAdmin(){
  if(!u) return;
 
  try {
-   // تسجيل دخول الأدمن باستخدام الرمز 05060708090
    if(u === '05060708090'){
      currentUser = 'admin';
      document.getElementById('panelSubTitle').innerText = 'ADMIN CONTROL PANEL';
@@ -298,15 +309,14 @@ async function loginAdmin(){
      document.getElementById('resellerMgmtSection').style.display = 'block';
      document.getElementById('maintenanceSection').style.display = 'block';
      document.getElementById('pricingSection').style.display = 'block';
+     document.getElementById('btnKeysToggle').style.display = 'block'; // إظهار زر عرض المفاتيح للأدمن فقط
      document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED';
      document.getElementById('price1').value = prices.p1;
      document.getElementById('price2').value = prices.p2;
      await renderResellers();
-     await renderCodes();
      return;
    }
 
-   // التحقق من حسابات الموزعين سحابياً وعرض رصيدهم فوراً
    let resellersSnap = await window.firebaseFns.getDocs(window.colResellers);
    let foundRes = null;
    resellersSnap.forEach(d => {
@@ -324,9 +334,9 @@ async function loginAdmin(){
      document.getElementById('resellerMgmtSection').style.display = 'none';
      document.getElementById('maintenanceSection').style.display = 'none';
      document.getElementById('pricingSection').style.display = 'none';
-     // عرض رصيد الموزع بشكل دائم ومحدث
+     document.getElementById('btnKeysToggle').style.display = 'none'; // إخفاء زر الأكواد عن البائعين
+     document.getElementById('codesSectionCard').classList.add('hidden'); // إخفاء جدول الأكواد عن البائعين تماماً
      document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${foundRes.balance.toFixed(2)}`;
-     await renderCodes();
      return;
    }
 
@@ -334,6 +344,21 @@ async function loginAdmin(){
  } catch(e) {
    alert('Error: ' + e.message);
  }
+}
+
+// دالة التحكم بإظهار وإخفاء قائمة المفاتيح للأدمن عند الضغط على زر Keys
+async function toggleKeysView(){
+  if(currentUser !== 'admin') return;
+  keysViewVisible = !keysViewVisible;
+  let section = document.getElementById('codesSectionCard');
+  if(keysViewVisible){
+    section.classList.remove('hidden');
+    document.getElementById('btnKeysToggle').innerText = '🔑 HIDE GENERATED KEYS';
+    await renderCodes();
+  } else {
+    section.classList.add('hidden');
+    document.getElementById('btnKeysToggle').innerText = '🔑 MY GENERATED KEYS';
+  }
 }
 
 async function toggleMaintenance() {
@@ -422,6 +447,9 @@ async function renderResellers(){
 function doLogout(){ 
  if(timerInt) clearInterval(timerInt);
  currentUser = null;
+ keysViewVisible = false;
+ document.getElementById('codesSectionCard').classList.add('hidden');
+ document.getElementById('btnKeysToggle').innerText = '🔑 MY GENERATED KEYS';
  document.getElementById('loginPage').classList.remove('hidden'); 
  document.getElementById('featPage').classList.add('hidden'); 
  document.getElementById('adminPage').classList.add('hidden'); 
@@ -479,7 +507,6 @@ async function generate(){
 
      let newBal = resData.balance - cost;
      await window.firebaseFns.updateDoc(resRef, { balance: newBal });
-     // تحديث رصيد الموزع فوري في واجهته بعد الخصم
      document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${newBal.toFixed(2)}`;
    }
 
@@ -497,13 +524,16 @@ async function generate(){
      used: 0,
      devices: [],
      exp: exp.toISOString(),
-     creator: currentUser
+     creator: currentUser,
+     locked: false // حالة الكود الافتراضية غير مقفل
    };
 
    let newCodeRef = window.firebaseFns.doc(window.colKeys);
    await window.firebaseFns.setDoc(newCodeRef, codeData);
 
-   await renderCodes();
+   if(keysViewVisible && currentUser === 'admin') {
+     await renderCodes();
+   }
    
    document.getElementById('popCode').innerText = code;
    document.getElementById('popInfo').innerText = dVal + 'h | Max ' + m + ' devices | Cost: $' + cost;
@@ -514,6 +544,7 @@ async function generate(){
 }
 
 async function renderCodes(){
+ if(currentUser !== 'admin') return; // حصر عرض الأكواد للأدمن فقط
  let l = document.getElementById('list');
  try {
    let snap = await window.firebaseFns.getDocs(window.colKeys);
@@ -524,15 +555,17 @@ async function renderCodes(){
    snap.forEach(d => {
      let c = d.data();
      let docId = d.id;
+     let isLocked = c.locked || false;
      html += `
        <div class="table-row">
          <div>
-           <div style="font-weight:800;font-size:12px">${c.code} <span style="font-size:9px;color:#ff3333">(${c.creator||'admin'})</span></div>
-           <div style="color:#666;font-size:11px">${c.dur}h | Devices: ${c.devices?c.devices.length:0}/${c.max} | Expires: ${new Date(c.exp).toLocaleDateString()}</div>
+           <div style="font-weight:800;font-size:12px">${c.code} <span style="font-size:9px;color:${isLocked?'#ff2222':'#2ecc71'}">(${isLocked ? 'LOCKED 🔒' : 'ACTIVE 🟢'})</span></div>
+           <div style="color:#666;font-size:11px">By: ${c.creator||'admin'} | ${c.dur}h | Devices: ${c.devices?c.devices.length:0}/${c.max}</div>
          </div>
-         <div style="display:flex;gap:6px">
-           <button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer">Copy</button>
-           <button onclick="deleteCode('${docId}')" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer">Delete</button>
+         <div style="display:flex;gap:4px">
+           <button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:10px;cursor:pointer">Copy</button>
+           <button onclick="toggleLockCode('${docId}', ${isLocked})" style="background:${isLocked?'#113311':'#333311'};color:${isLocked?'#2ecc71':'#f1c40f'};border:none;border-radius:999px;padding:5px 10px;font-size:10px;cursor:pointer">${isLocked?'Unlock':'Lock'}</button>
+           <button onclick="deleteCode('${docId}')" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:5px 10px;font-size:10px;cursor:pointer">Delete</button>
          </div>
        </div>
      `;
@@ -541,7 +574,19 @@ async function renderCodes(){
  } catch(e) { console.error(e); }
 }
 
+// ميزة قفل أو فتح الكود
+async function toggleLockCode(docId, currentStatus) {
+  if(currentUser !== 'admin') return;
+  try {
+    await window.firebaseFns.updateDoc(window.firebaseFns.doc(window.db, "codes", docId), {
+      locked: !currentStatus
+    });
+    await renderCodes();
+  } catch(e) { alert('Error updating lock status: ' + e.message); }
+}
+
 async function deleteCode(docId) {
+  if(currentUser !== 'admin') return;
   if(confirm('Delete this key?')) {
     try {
       await window.firebaseFns.deleteDoc(window.firebaseFns.doc(window.db, "codes", docId));
