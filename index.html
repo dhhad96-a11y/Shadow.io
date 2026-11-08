@@ -13,7 +13,7 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            background-color: #040406;
+            background-color: #040406; /* أسود ملكي غامق */
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -338,24 +338,6 @@
             box-shadow: 0 4px 15px rgba(230, 25, 25, 0.3);
             margin-bottom: 10px;
         }
-        .maint-btn {
-            width: 100%;
-            background: #2a1010;
-            border: 1px solid #661111;
-            color: #ff5555;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: 0.2s;
-        }
-        .maint-btn.active-mode {
-            background: #ff3333;
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(255,51,51,0.5);
-        }
         .reseller-list {
             max-height: 120px;
             overflow-y: auto;
@@ -445,7 +427,7 @@
     <!-- ربط فايربيس السحابي (bbbdhr-cfb74) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC1h9PKwJ98fDDVbV5dxLScJZjXMyz-2k4",
@@ -466,11 +448,8 @@
         window.deleteDoc = deleteDoc;
         window.doc = doc;
         window.updateDoc = updateDoc;
-        window.setDoc = setDoc;
-        window.onSnapshot = onSnapshot;
 
         window.loadCloudData();
-        window.listenMaintenance();
     </script>
 </head>
 <body>
@@ -527,7 +506,7 @@
                 </div>
             </div>
 
-            <button class="sub-btn" onclick="copyHappVpnConfig()">＋ ADD SUBSCRIPTION</button>
+            <button class="sub-btn" onclick="openHappVpnDirectly()">＋ ADD SUBSCRIPTION</button>
         </div>
     </div>
 
@@ -565,11 +544,6 @@
                 <span class="balance-badge" id="accountBalance">UNLIMITED</span>
             </div>
 
-            <!-- زر التحكم بالصيانة (للأدمن) -->
-            <div id="adminMaintToggleSection" style="display:none;">
-                <button class="maint-btn" id="maintBtnToggle" onclick="toggleMaintenanceCloud()">🛠️ MAINTENANCE MODE: OFF</button>
-            </div>
-
             <!-- قسم البائعين -->
             <div id="adminResellerSection">
                 <div class="section-title">👥 Manage Resellers</div>
@@ -591,9 +565,9 @@
             </select>
             <label class="form-label">⏳ Validity & Price:</label>
             <select class="select-box" id="validity">
-                <option value="0.50">1 Day - $0.50</option>
-                <option value="3.00">7 Days - $3.00</option>
-                <option value="10.00">30 Days - $10.00</option>
+                <option value="0.50" data-days="1">1 Day - $0.50</option>
+                <option value="3.00" data-days="7">7 Days - $3.00</option>
+                <option value="10.00" data-days="30">30 Days - $10.00</option>
             </select>
             <button class="action-btn" id="buyBtn" onclick="buyAndGenerateKey()">🛒 BUY & GENERATE 1 KEY</button>
 
@@ -608,90 +582,13 @@
     </div>
 
     <script>
-        const happVpnConfig = `{
-  "remarks": "Shadow v3",
-  "inbounds": [
-    {
-      "listen": "127.0.0.1",
-      "port": 10808,
-      "protocol": "socks",
-      "settings": {
-        "auth": "noauth",
-        "udp": true
-      },
-      "sniffing": {
-        "destOverride": ["http", "tls", "quic"],
-        "enabled": true,
-        "routeOnly": false
-      },
-      "tag": "socks"
-    },
-    {
-      "listen": "127.0.0.1",
-      "port": 10809,
-      "protocol": "http",
-      "sniffing": {
-        "destOverride": ["http", "tls", "quic"],
-        "enabled": true,
-        "routeOnly": false
-      },
-      "tag": "http"
-    }
-  ],
-  "outbounds": [
-    {
-      "protocol": "hysteria",
-      "settings": {
-        "address": "proxy-eu.dripwire.cc",
-        "port": 443,
-        "version": 2
-      },
-      "streamSettings": {
-        "hysteriaSettings": {
-          "auth": "2292878901",
-          "version": 2
-        },
-        "network": "hysteria",
-        "security": "tls",
-        "tlsSettings": {
-          "alpn": ["h3"],
-          "serverName": "proxy-eu.dripwire.cc",
-          "show": false
-        },
-        "finalmask": {
-          "quicParams": {
-            "disableChromeParrot": true
-          }
-        }
-      },
-      "tag": "proxy"
-    },
-    {
-      "protocol": "freedom",
-      "tag": "direct"
-    }
-  ],
-  "routing": {
-    "domainStrategy": "AsIs",
-    "rules": [
-      {
-        "network": "tcp",
-        "outboundTag": "proxy"
-      },
-      {
-        "network": "udp",
-        "outboundTag": "proxy",
-        "port": "10000-10999"
-      }
-    ]
-  }
-}`;
+        // الكونفينج المشفر الخاص بك
+        const encryptedHappConfig = "Happ://crypt5/fzvdRJKmE5aHB5kakRmL3wr1151anw6dlTDzAdiZCq1MkWEm+G1zf/HZ+X4SZjXLTF9usz8DTaLG2GaJYRYe42jQxEwiBYyn14GfnZS+QWOcMF4rvd/zHPBnId5TBN6As/TWiWB2eMn2M68YMZaBwElvOR5Vm7rCngmeQbUN07LRoi6QcHsKSGmcK0g=oryOlaANwX1cUMApu3prGqf8PfGQQJOXO21vb8pPAptGcGM6FHN2tRiLFi5nGxw0khO0Zt38pMGEFK9EWDDj28Jp6Lvq/7nzhFZqeHrlP6F0BRyR51WjroWvVn/7cOV58jibKokUFZTVZaDsfHYeOijmJQzQ9Sa8hE9PkqgGL+fBVVHDCVcJgi0lMNAN4l9MkRFJaEQBNePUKEBGkdZ1HkKod2n5V2mb3JWJOPP1vo4yi4TDRRT5AtEj2gLF/AG68KIIZzr6R721E212sMwBb8puB62VMFb+43wxAj9D2oh/2Bf+earK67A/kPOJdq704fi+dCd5aoDhKuHB0wUZkJzGem+4hNuPQz30hC7iR11tlB0EEzx0AGAC/TjqpHppIsm0RCxmtcC8ABTsP9YDxlx/C39FdvP40DFkrfV2i2uAU5Mi5zM822E6KZxvL/pJfk5BFwYyZyzrczy2H/c+ZnDnXJOzRBH4Rc8CnPUwvyzFkLg2uyiITVqGhJKoOnRuGbvOvHNe9p6bTRlHmvNsj9LBh316kGt/RY+Z6t+WWZHCZF2xN9myYteNXBkpK0qy75ZXcPHKLy0MfS8UR460Z3iCRNOZqxq9YrVA81n7Lwrk7iQ7all6FiU83ssDZ7PkfiXvmkVSMsLCIk9ZKZASVb9lGgeHUZOX49UIiIhwfos=ff";
 
         let cloudResellers = [];
         let currentUserType = "admin";
         let currentResellerId = null;
         let currentResellerData = null;
-        let isMaintenanceMode = false;
 
         function showToast(msg) {
             let toast = document.getElementById('toast');
@@ -699,42 +596,6 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
-
-        window.listenMaintenance = function() {
-            window.onSnapshot(window.doc(window.db, "settings", "status"), (docSnap) => {
-                if (docSnap.exists()) {
-                    isMaintenanceMode = docSnap.data().maintenance || false;
-                } else {
-                    isMaintenanceMode = false;
-                }
-                applyMaintenanceUI();
-            });
-        };
-
-        function applyMaintenanceUI() {
-            let btn = document.getElementById('maintBtnToggle');
-            if (isMaintenanceMode) {
-                if(btn) {
-                    btn.innerText = "🛠️ MAINTENANCE MODE: ON";
-                    btn.classList.add('active-mode');
-                }
-            } else {
-                if(btn) {
-                    btn.innerText = "🛠️ MAINTENANCE MODE: OFF";
-                    btn.classList.remove('active-mode');
-                }
-            }
-        }
-
-        window.toggleMaintenanceCloud = async function() {
-            try {
-                let newState = !isMaintenanceMode;
-                await window.setDoc(window.doc(window.db, "settings", "status"), { maintenance: newState });
-                showToast(newState ? "🛠️ Maintenance Turned ON!" : "✓ System is LIVE!");
-            } catch(e) {
-                alert("Error updating maintenance: " + e.message);
-            }
-        };
 
         window.loadCloudData = async function() {
             try {
@@ -786,7 +647,6 @@
                 document.getElementById('panelTitle').innerText = "👑 Control Panel";
                 document.getElementById('accountBalance').innerText = "UNLIMITED";
                 document.getElementById('adminResellerSection').style.display = 'block';
-                document.getElementById('adminMaintToggleSection').style.display = 'block';
                 closeModal('adminModal');
                 showDashboard();
             } else {
@@ -805,7 +665,6 @@
                 document.getElementById('panelTitle').innerText = `👤 Seller: ${found.name}`;
                 document.getElementById('accountBalance').innerText = `$${Number(found.balance).toFixed(2)}`;
                 document.getElementById('adminResellerSection').style.display = 'none';
-                document.getElementById('adminMaintToggleSection').style.display = 'none';
                 closeModal('resellerModal');
                 showDashboard();
             } else {
@@ -861,8 +720,12 @@
             }
         };
 
+        // توليد الكود مع تحديد وقت الصلاحية وتخزينه في Firebase
         window.buyAndGenerateKey = async function() {
-            let price = parseFloat(document.getElementById('validity').value);
+            let priceSelect = document.getElementById('validity');
+            let price = parseFloat(priceSelect.value);
+            let selectedOption = priceSelect.options[priceSelect.selectedIndex];
+            let daysToAdd = parseInt(selectedOption.getAttribute('data-days')) || 1;
 
             if (currentUserType === "reseller") {
                 if (currentResellerData.balance < price) {
@@ -887,12 +750,18 @@
                 if (j === 3 || j === 7) key += '-';
             }
 
+            // حساب وقت الانتهاء بالمللي ثانية
+            let expiryTimestamp = new Date().getTime() + (daysToAdd * 24 * 60 * 60 * 1000);
+
             try {
-                await window.addDoc(window.collection(window.db, "keys"), { code: key });
+                await window.addDoc(window.collection(window.db, "keys"), { 
+                    code: key,
+                    expiresAt: expiryTimestamp 
+                });
 
                 document.getElementById('generatedKeyText').innerText = key;
                 document.getElementById('singleKeyBox').style.display = 'block';
-                showToast("✓ Key generated & saved to Cloud!");
+                showToast("✓ Key generated & saved with Expiry!");
             } catch (e) {
                 alert("Error saving key: " + e.message);
             }
@@ -903,20 +772,38 @@
             navigator.clipboard.writeText(text).then(() => showToast("Key Copied!"));
         }
 
+        // التحقق من الصلاحية (Expired) عند تسجيل الدخول
         window.validateKeyLogin = async function() {
-            if (isMaintenanceMode) {
-                return alert("🛠️ System is under maintenance. Login is temporarily disabled.");
-            }
-
             let inputKey = document.getElementById('userKeyInput').value.trim();
             if (!inputKey) return alert("Please enter Access Key!");
 
             try {
                 const keysSnap = await window.getDocs(window.collection(window.db, "keys"));
-                let liveKeys = keysSnap.docs.map(d => d.data().code);
-                liveKeys.push("SHDW-VIP-PASS-2026");
+                let matchedKeyDoc = null;
+                
+                keysSnap.forEach(d => {
+                    let data = d.data();
+                    if (data.code === inputKey) {
+                        matchedKeyDoc = data;
+                    }
+                });
 
-                if (liveKeys.includes(inputKey)) {
+                // مفتاح ماستر دائم الصلاحية (اختياري للاختبار)
+                if (inputKey === "SHDW-VIP-PASS-2026") {
+                    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                    document.getElementById('userHubScreen').classList.add('active');
+                    return;
+                }
+
+                if (matchedKeyDoc) {
+                    let now = new Date().getTime();
+                    // فحص ما إذا كان الكود منتهياً
+                    if (matchedKeyDoc.expiresAt && now > matchedKeyDoc.expiresAt) {
+                        alert("❌ Expired! هذا الكود منتهي الصلاحية، يرجى إدخال كود صالح جديد.");
+                        return;
+                    }
+
+                    // الكود سليم وصالح
                     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                     document.getElementById('userHubScreen').classList.add('active');
                 } else {
@@ -927,13 +814,16 @@
             }
         };
 
-        function copyHappVpnConfig() {
-            navigator.clipboard.writeText(happVpnConfig).then(() => {
-                showToast("✓ Happ VPN (Shadow v3) Copied!");
-            }).catch(() => {
-                prompt("Copy Happ VPN Config:", happVpnConfig);
-            });
-        }
+        // الانتقال التلقائي المباشر لتشغيل الكونفينج في تطبيق Happ VPN
+        window.openHappVpnDirectly = function() {
+            window.location.href = encryptedHappConfig;
+            
+            setTimeout(() => {
+                navigator.clipboard.writeText(encryptedHappConfig).then(() => {
+                    showToast("✓ تم فتح تطبيق Happ VPN (وتم النسخ كاحتياط)");
+                });
+            }, 500);
+        };
     </script>
 </body>
 </html>
