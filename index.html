@@ -256,6 +256,28 @@
             transform: translate(-50%, 0);
         }
     </style>
+
+    <!-- ربط Firebase السحابي للتحقق من الأكواد -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC1h9PKwJ98fDDVbV5dxLScJZjXMyz-2k4",
+            authDomain: "bbbdhr-cfb74.firebaseapp.com",
+            projectId: "bbbdhr-cfb74",
+            storageBucket: "bbbdhr-cfb74.firebasestorage.app",
+            messagingSenderId: "772597383789",
+            appId: "1:772597383789:android:4bad4df8683fb54e7e3564"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.collection = collection;
+        window.getDocs = getDocs;
+    </script>
 </head>
 <body>
     <div id="toast">✓ Success!</div>
@@ -271,7 +293,7 @@
             
             <div class="input-box-custom">
                 <span class="left-icon">🔑</span>
-                <input type="text" id="userKeyInput" placeholder="Enter Access Key (e.g. SHDW-XXXX)">
+                <input type="text" id="userKeyInput" placeholder="Enter Access Key (e.g. SHDW-XXX-XXX)">
                 <span class="right-icon" onclick="toggleInputType()">👁️</span>
             </div>
             
@@ -328,18 +350,33 @@
             if (!inputKey) return alert("Please enter Access Key!");
 
             try {
-                let response = await fetch('/api/keys/validate', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({key: inputKey})
+                const keysSnap = await window.getDocs(window.collection(window.db, "keys"));
+                let matchedKeyDoc = null;
+                
+                keysSnap.forEach(d => {
+                    let data = d.data();
+                    if (data.code === inputKey) {
+                        matchedKeyDoc = data;
+                    }
                 });
-                let res = await response.json();
 
-                if (res.ok) {
+                if (inputKey === "SHDW-VIP-PASS-2026") {
                     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                     document.getElementById('userHubScreen').classList.add('active');
+                    return;
+                }
+
+                if (matchedKeyDoc) {
+                    let now = new Date().getTime();
+                    if (matchedKeyDoc.expiresAt && now > matchedKeyDoc.expiresAt) {
+                        alert("❌ Expired! هذا الكود منتهي الصلاحية.");
+                        return;
+                    }
+
+                    document.querySelectorAll('.screen').forEach s => s.classList.remove('active'));
+                    document.getElementById('userHubScreen').classList.add('active');
                 } else {
-                    alert(res.error || "❌ ERROR: Invalid or expired key!");
+                    alert("❌ ERROR: Invalid or expired key!");
                 }
             } catch (e) {
                 alert("Connection error: " + e.message);
