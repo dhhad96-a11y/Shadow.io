@@ -1,3 +1,4 @@
+𝖠𝘥𝘩𝘢𝘮 <\>:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            background-color: #040406; /* أسود ملكي غامق */
+            background-color: #040406;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -134,7 +135,8 @@
         /* 2. شاشة المشتركين (VIP Dashboard) */
         .user-hub-card {
             background: rgba(13, 13, 18, 0.95);
-            border: 1px solid rgba(255, 51, 51, 0.2);
+
+border: 1px solid rgba(255, 51, 51, 0.2);
             border-radius: 28px;
             padding: 28px 22px;
             width: 100%;
@@ -267,7 +269,8 @@
             outline: none;
         }
         .dashboard-card {
-            background: #0d0d12;
+
+background: #0d0d12;
             border: 1px solid #1a1a24;
             border-radius: 16px;
             padding: 20px;
@@ -400,7 +403,7 @@
             text-decoration: underline;
         }
 
-        #toast {
+#toast {
             position: fixed;
             left: 50%;
             bottom: 30px;
@@ -424,7 +427,7 @@
         }
     </style>
 
-    <!-- ربط فايربيس السحابي (bbbdhr-cfb74) -->
+    <!-- ربط فايربيس السحابي (المشروع الجديد: bbbdhr-cfb74) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -506,11 +509,11 @@
                 </div>
             </div>
 
-            <button class="sub-btn" onclick="openHappVpnDirectly()">＋ ADD SUBSCRIPTION</button>
+            <button class="sub-btn" onclick="copyHappVpnConfig()">＋ ADD SUBSCRIPTION</button>
         </div>
     </div>
 
-    <!-- 3. نافذة الأدمن -->
+<!-- 3. نافذة الأدمن -->
     <div class="admin-modal" id="adminModal">
         <div class="admin-box">
             <div style="font-size: 15px; font-weight: bold; color: #fff;">🔒 Admin Access</div>
@@ -565,9 +568,9 @@
             </select>
             <label class="form-label">⏳ Validity & Price:</label>
             <select class="select-box" id="validity">
-                <option value="0.50" data-days="1">1 Day - $0.50</option>
-                <option value="3.00" data-days="7">7 Days - $3.00</option>
-                <option value="10.00" data-days="30">30 Days - $10.00</option>
+                <option value="0.50">1 Day - $0.50</option>
+                <option value="3.00">7 Days - $3.00</option>
+                <option value="10.00">30 Days - $10.00</option>
             </select>
             <button class="action-btn" id="buyBtn" onclick="buyAndGenerateKey()">🛒 BUY & GENERATE 1 KEY</button>
 
@@ -577,13 +580,89 @@
                 <button class="copy-btn" onclick="copyGeneratedKey()">📋 Copy Key</button>
             </div>
 
-            <div class="back-link" onclick="lockSystem()">🔒 Lock & Back to Portal</div>
+<div class="back-link" onclick="lockSystem()">🔒 Lock & Back to Portal</div>
         </div>
     </div>
 
     <script>
-        // الكونفينج المشفر الخاص بك
-        const encryptedHappConfig = "Happ://crypt5/fzvdRJKmE5aHB5kakRmL3wr1151anw6dlTDzAdiZCq1MkWEm+G1zf/HZ+X4SZjXLTF9usz8DTaLG2GaJYRYe42jQxEwiBYyn14GfnZS+QWOcMF4rvd/zHPBnId5TBN6As/TWiWB2eMn2M68YMZaBwElvOR5Vm7rCngmeQbUN07LRoi6QcHsKSGmcK0g=oryOlaANwX1cUMApu3prGqf8PfGQQJOXO21vb8pPAptGcGM6FHN2tRiLFi5nGxw0khO0Zt38pMGEFK9EWDDj28Jp6Lvq/7nzhFZqeHrlP6F0BRyR51WjroWvVn/7cOV58jibKokUFZTVZaDsfHYeOijmJQzQ9Sa8hE9PkqgGL+fBVVHDCVcJgi0lMNAN4l9MkRFJaEQBNePUKEBGkdZ1HkKod2n5V2mb3JWJOPP1vo4yi4TDRRT5AtEj2gLF/AG68KIIZzr6R721E212sMwBb8puB62VMFb+43wxAj9D2oh/2Bf+earK67A/kPOJdq704fi+dCd5aoDhKuHB0wUZkJzGem+4hNuPQz30hC7iR11tlB0EEzx0AGAC/TjqpHppIsm0RCxmtcC8ABTsP9YDxlx/C39FdvP40DFkrfV2i2uAU5Mi5zM822E6KZxvL/pJfk5BFwYyZyzrczy2H/c+ZnDnXJOzRBH4Rc8CnPUwvyzFkLg2uyiITVqGhJKoOnRuGbvOvHNe9p6bTRlHmvNsj9LBh316kGt/RY+Z6t+WWZHCZF2xN9myYteNXBkpK0qy75ZXcPHKLy0MfS8UR460Z3iCRNOZqxq9YrVA81n7Lwrk7iQ7all6FiU83ssDZ7PkfiXvmkVSMsLCIk9ZKZASVb9lGgeHUZOX49UIiIhwfos=ff";
+        const happVpnConfig = {
+  "remarks": "Shadow v3",
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 10808,
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      },
+      "sniffing": {
+        "destOverride": ["http", "tls", "quic"],
+        "enabled": true,
+        "routeOnly": false
+      },
+      "tag": "socks"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 10809,
+      "protocol": "http",
+      "sniffing": {
+        "destOverride": ["http", "tls", "quic"],
+        "enabled": true,
+        "routeOnly": false
+      },
+      "tag": "http"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "hysteria",
+      "settings": {
+        "address": "proxy-eu.dripwire.cc",
+        "port": 443,
+        "version": 2
+      },
+      "streamSettings": {
+        "hysteriaSettings": {
+          "auth": "2292878901",
+          "version": 2
+        },
+        "network": "hysteria",
+        "security": "tls",
+        "tlsSettings": {
+          "alpn": ["h3"],
+          "serverName": "proxy-eu.dripwire.cc",
+          "show": false
+        },
+        "finalmask": {
+          "quicParams": {
+            "disableChromeParrot": true
+          }
+        }
+      },
+      "tag": "proxy"
+    },
+    {
+      "protocol": "freedom",
+      "tag": "direct"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "network": "tcp",
+        "outboundTag": "proxy"
+      },
+      {
+        "network": "udp",
+        "outboundTag": "proxy",
+        "port": "10000-10999"
+      }
+    ]
+  }
+};
 
         let cloudResellers = [];
         let currentUserType = "admin";
@@ -613,13 +692,13 @@
             cloudResellers.forEach((r) => {
                 let div = document.createElement('div');
                 div.className = 'list-item';
-                div.innerHTML = `
+                div.innerHTML = 
                     <span><b>${r.name}</b></span>
                     <div>
                         <span style="color:#2ecc71; margin-right:8px;">$${Number(r.balance).toFixed(2)}</span>
                         <button class="delete-btn" onclick="deleteResellerCloud('${r.firestoreId}')">🗑️ Delete</button>
                     </div>
-                `;
+                ;
                 container.appendChild(div);
             });
         }
@@ -640,7 +719,7 @@
             document.getElementById(id).classList.remove('active');
         }
 
-        function verifyAdmin() {
+function verifyAdmin() {
             let val = document.getElementById('adminPassInput').value.trim();
             if (val === "SHADOW V2" || val === "shadow v2") {
                 currentUserType = "admin";
@@ -662,8 +741,8 @@
                 currentUserType = "reseller";
                 currentResellerId = found.firestoreId;
                 currentResellerData = found;
-                document.getElementById('panelTitle').innerText = `👤 Seller: ${found.name}`;
-                document.getElementById('accountBalance').innerText = `$${Number(found.balance).toFixed(2)}`;
+                document.getElementById('panelTitle').innerText = 👤 Seller: ${found.name};
+                document.getElementById('accountBalance').innerText = $${Number(found.balance).toFixed(2)};
                 document.getElementById('adminResellerSection').style.display = 'none';
                 closeModal('resellerModal');
                 showDashboard();
@@ -701,7 +780,7 @@
                 cloudResellers.push({ firestoreId: docRef.id, name: name, balance: balance || 0 });
                 renderResellersUI();
                 document.getElementById('resellerName').value = '';
-                showToast(`✓ Reseller ${name} saved to Cloud!`);
+                showToast(✓ Reseller ${name} saved to Cloud!);
             } catch (e) {
                 alert("Error saving to Firebase: " + e.message);
             }
@@ -720,14 +799,10 @@
             }
         };
 
-        // توليد الكود مع تحديد وقت الصلاحية وتخزينه في Firebase
         window.buyAndGenerateKey = async function() {
-            let priceSelect = document.getElementById('validity');
-            let price = parseFloat(priceSelect.value);
-            let selectedOption = priceSelect.options[priceSelect.selectedIndex];
-            let daysToAdd = parseInt(selectedOption.getAttribute('data-days')) || 1;
+            let price = parseFloat(document.getElementById('validity').value);
 
-            if (currentUserType === "reseller") {
+if (currentUserType === "reseller") {
                 if (currentResellerData.balance < price) {
                     return alert("❌ Insufficient balance!");
                 }
@@ -737,7 +812,7 @@
                     await window.updateDoc(window.doc(window.db, "resellers", currentResellerId), {
                         balance: currentResellerData.balance
                     });
-                    document.getElementById('accountBalance').innerText = `$${Number(currentResellerData.balance).toFixed(2)}`;
+                    document.getElementById('accountBalance').innerText = $${Number(currentResellerData.balance).toFixed(2)};
                 } catch (e) {
                     return alert("Error updating balance: " + e.message);
                 }
@@ -750,18 +825,12 @@
                 if (j === 3 || j === 7) key += '-';
             }
 
-            // حساب وقت الانتهاء بالمللي ثانية
-            let expiryTimestamp = new Date().getTime() + (daysToAdd * 24 * 60 * 60 * 1000);
-
             try {
-                await window.addDoc(window.collection(window.db, "keys"), { 
-                    code: key,
-                    expiresAt: expiryTimestamp 
-                });
+                await window.addDoc(window.collection(window.db, "keys"), { code: key });
 
                 document.getElementById('generatedKeyText').innerText = key;
                 document.getElementById('singleKeyBox').style.display = 'block';
-                showToast("✓ Key generated & saved with Expiry!");
+                showToast("✓ Key generated & saved to Cloud!");
             } catch (e) {
                 alert("Error saving key: " + e.message);
             }
@@ -772,38 +841,16 @@
             navigator.clipboard.writeText(text).then(() => showToast("Key Copied!"));
         }
 
-        // التحقق من الصلاحية (Expired) عند تسجيل الدخول
         window.validateKeyLogin = async function() {
             let inputKey = document.getElementById('userKeyInput').value.trim();
             if (!inputKey) return alert("Please enter Access Key!");
 
             try {
                 const keysSnap = await window.getDocs(window.collection(window.db, "keys"));
-                let matchedKeyDoc = null;
-                
-                keysSnap.forEach(d => {
-                    let data = d.data();
-                    if (data.code === inputKey) {
-                        matchedKeyDoc = data;
-                    }
-                });
+                let liveKeys = keysSnap.docs.map(d => d.data().code);
+                liveKeys.push("SHDW-VIP-PASS-2026");
 
-                // مفتاح ماستر دائم الصلاحية (اختياري للاختبار)
-                if (inputKey === "SHDW-VIP-PASS-2026") {
-                    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                    document.getElementById('userHubScreen').classList.add('active');
-                    return;
-                }
-
-                if (matchedKeyDoc) {
-                    let now = new Date().getTime();
-                    // فحص ما إذا كان الكود منتهياً
-                    if (matchedKeyDoc.expiresAt && now > matchedKeyDoc.expiresAt) {
-                        alert("❌ Expired! هذا الكود منتهي الصلاحية، يرجى إدخال كود صالح جديد.");
-                        return;
-                    }
-
-                    // الكود سليم وصالح
+                if (liveKeys.includes(inputKey)) {
                     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                     document.getElementById('userHubScreen').classList.add('active');
                 } else {
@@ -814,16 +861,13 @@
             }
         };
 
-        // الانتقال التلقائي المباشر لتشغيل الكونفينج في تطبيق Happ VPN
-        window.openHappVpnDirectly = function() {
-            window.location.href = encryptedHappConfig;
-            
-            setTimeout(() => {
-                navigator.clipboard.writeText(encryptedHappConfig).then(() => {
-                    showToast("✓ تم فتح تطبيق Happ VPN (وتم النسخ كاحتياط)");
-                });
-            }, 500);
-        };
+        function copyHappVpnConfig() {
+            navigator.clipboard.writeText(happVpnConfig).then(() => {
+                showToast("✓ Happ VPN (Shadow v3) Copied!");
+            }).catch(() => {
+                prompt("Copy Happ VPN Config:", happVpnConfig);
+            });
+        }
     </script>
 </body>
 </html>
