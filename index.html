@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V2.7</title>
+<title>SHADOW TEAM - VIP Hub V2.8</title>
 
 <style>
 :root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
@@ -32,7 +32,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 .toggle.on .toggle-dot{transform:translateX(25px)}
 .popup{position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:999}
 .popup-card{background:linear-gradient(145deg,#0d0d12,#13131a);border:1px solid #ff3333;border-radius:28px;padding:30px;width:100%;max-width:380px;text-align:center;box-shadow:0 0 60px rgba(255,51,51,.3)}
-.code-big{background:#050508;border:1px solid #ff3333;border-radius:16px;padding:18px;font-size:18px;font-weight:900;word-break:break-all;margin:16px 0;color:#ff4d4d}
+.code-big{background:#050508;border:1px solid #ff3333;border-radius:16px;padding:18px;font-size:16px;font-weight:900;word-break:break-all;margin:16px 0;color:#ff4d4d}
 .timer-bar{background:linear-gradient(90deg,#050508,#0d0d12);border:1px solid #ff3333;border-radius:999px;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .timer-text{color:#ff4d4d;font-weight:900;font-size:15px}
 .hidden{display:none!important}
@@ -48,7 +48,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div class="card">
 <div class="header" style="justify-content:center;flex-direction:column">
 <div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.7</div></div>
+<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.8</div></div>
 </div>
 <div class="tabs">
 <div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
@@ -71,7 +71,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="featPage" class="hidden">
 <div class="card">
 <div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.7</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.8</div></div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -88,7 +88,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
 <div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
 </div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.7</div>
+<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.8</div>
 </div>
 
 <!-- ADMIN & RESELLER PANEL -->
@@ -147,7 +147,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="codePop" class="popup hidden">
 <div class="popup-card">
 <div style="color:#ff3333;font-size:11px;letter-spacing:4px">CODE GENERATED</div>
-<div id="popCode" class="code-big">SHDW-XXXX-XXXX</div>
+<div id="popCode" class="code-big">SHDW-XXXX-XXXX-XXXX</div>
 <div id="popInfo" style="color:#666;font-size:12px;margin-bottom:8px"></div>
 <div id="popTimer" style="color:#ff3333;font-weight:800;font-size:14px;margin-bottom:20px">⏱️ --:--:--</div>
 <button class="btn" style="margin:0" onclick="copyPop()">📋 COPY CODE</button>
@@ -225,7 +225,6 @@ function loginUser(){
 function loginAdmin(){
  let u = document.getElementById('userIn').value.trim();
 
- // تغيير حساب الأدمن إلى ADHAM05030 بدون كلمة مرور
  if(u.toUpperCase() === 'ADHAM05030'){
    currentUser = 'admin';
    document.getElementById('loginPage').classList.add('hidden');
@@ -233,7 +232,7 @@ function loginAdmin(){
    document.getElementById('resellerMgmtSection').style.display = 'block';
    document.getElementById('maintenanceSection').style.display = 'block';
    document.getElementById('pricingSection').style.display = 'block';
-   document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED';
+   document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED (Unlimited generation)';
    document.getElementById('price1').value = prices.p1;
    document.getElementById('price2').value = prices.p2;
    renderResellers();
@@ -354,42 +353,66 @@ function startTimer(expIso){
  timerInt=setInterval(upd,1000);
 }
 
+// دالة لتوليد مقاطع عشوائية من حروف وأرقام بنمط SHDW-XXXX-XXXX-XXXX
+function generateRandomPart() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+  for (let i = 0; i < 4; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
 function generate(){
  let dVal = parseInt(document.getElementById('dur').value);
  let cost = dVal <= 24 ? prices.p1 : prices.p2;
 
  if(currentUser !== 'admin'){
    let resObj = resellers.find(r => r.name === currentUser);
-   if(!resObj || resObj.balance < cost){
-     alert(`❌ Insufficient balance! Required: $${cost}`);
+   if(!resObj){
+     alert('❌ Reseller account not found!');
      return;
    }
+   // التحقق مما إذا نفد رصيد الموزع
+   if(resObj.balance < cost){
+     alert(`❌ Insufficient balance! Your balance is $${resObj.balance.toFixed(2)} and required is $${cost}. Please contact admin to refill your balance.`);
+     return;
+   }
+   // خصم التكلفة تلقائياً من الموزع
    resObj.balance -= cost;
    localStorage.setItem('st_resellers', JSON.stringify(resellers));
    document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${resObj.balance.toFixed(2)}`;
  }
 
- let pre=document.getElementById('pref').value||'SHDW-';
- let m=parseInt(document.getElementById('maxD').value)||1;
- let r=Math.random().toString(36).substr(2,4).toUpperCase()+'-'+Math.random().toString(36).substr(2,4).toUpperCase();
- let code=pre+r;
- let exp=new Date(); exp.setHours(exp.getHours()+dVal);
- codes.unshift({code,dur:dVal,max:m,used:0,devices:[],exp:exp.toISOString(), creator: currentUser});
- localStorage.setItem('st_codes',JSON.stringify(codes));
+ let pre = document.getElementById('pref').value || 'SHDW-';
+ let m = parseInt(document.getElementById('maxD').value) || 1;
+ 
+ // توليد الأجزاء العشوائية من الحروف والأرقام لتبدو مثل SHDW-XXXX-XXXX-XXXX
+ let part1 = generateRandomPart();
+ let part2 = generateRandomPart();
+ let part3 = generateRandomPart();
+ 
+ let code = pre + part1 + '-' + part2 + '-' + part3;
+ let exp = new Date(); 
+ exp.setHours(exp.getHours() + dVal);
+ 
+ codes.unshift({code, dur: dVal, max: m, used: 0, devices: [], exp: exp.toISOString(), creator: currentUser});
+ localStorage.setItem('st_codes', JSON.stringify(codes));
  render();
- document.getElementById('popCode').innerText=code;
- document.getElementById('popInfo').innerText=dVal+'h | Max '+m+' devices | Cost: $'+cost;
+ 
+ document.getElementById('popCode').innerText = code;
+ document.getElementById('popInfo').innerText = dVal + 'h | Max ' + m + ' devices | Cost: $' + cost;
  document.getElementById('codePop').classList.remove('hidden');
 }
 
 function render(){
- let l=document.getElementById('list');
- document.getElementById('cnt').innerText=codes.length+' codes';
- if(!codes.length){ l.innerHTML='<p style="text-align:center;color:#555;padding:30px">No codes yet</p>'; return; }
- l.innerHTML=codes.map((c,i)=>`
+ let l = document.getElementById('list');
+ document.getElementById('cnt').innerText = codes.length + ' codes';
+ if(!codes.length){ l.innerHTML = '<p style="text-align:center;color:#555;padding:30px">No codes yet</p>'; return; }
+ l.innerHTML = codes.map((c,i)=>`
    <div class="table-row">
      <div>
-       <div style="font-weight:800;font-size:13px">${c.code} <span style="font-size:9px;color:#ff3333">(${c.creator||'admin'})</span></div>
+       <div style="font-weight:800;font-size:12px">${c.code} <span style="font-size:9px;color:#ff3333">(${c.creator||'admin'})</span></div>
        <div style="color:#666;font-size:11px">${c.dur}h | Devices: ${c.devices?c.devices.length:0}/${c.max} | Expires: ${new Date(c.exp).toLocaleDateString()}</div>
      </div>
      <div style="display:flex;gap:6px">
