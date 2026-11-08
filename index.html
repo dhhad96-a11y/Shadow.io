@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V2.5</title>
+<title>SHADOW TEAM - VIP Hub V2.6</title>
 
 <style>
 :root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
@@ -48,16 +48,16 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div class="card">
 <div class="header" style="justify-content:center;flex-direction:column">
 <div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.5</div></div>
+<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.6</div></div>
 </div>
 <div class="tabs">
 <div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
 <div id="tabA" class="tab inactive" onclick="switchTab('a')">ADMIN & RESELLER</div>
 </div>
 <div id="formU">
-<div class="label">ACCESS CODE</div>
+<div class="label">Login key</div>
 <input id="codeIn" class="input" placeholder="SHDW-XXXX-XXXX">
-<button class="btn" onclick="loginUser()">LOGIN • دخول وتفعيل الكونفिग</button>
+<button class="btn" onclick="loginUser()">LOGIN</button>
 </div>
 <div id="formA" class="hidden">
 <div class="label">USERNAME ONLY</div>
@@ -71,7 +71,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="featPage" class="hidden">
 <div class="card">
 <div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.5</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.6</div></div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -88,7 +88,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
 <div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
 </div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.5</div>
+<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.6</div>
 </div>
 
 <!-- ADMIN & RESELLER PANEL -->
@@ -101,28 +101,28 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 
 <!-- صيانة الموقع (للأدمن فقط) -->
 <div id="maintenanceSection" style="background:#13131a;border:1px solid #ff3333;padding:12px;border-radius:14px;margin-bottom:15px;display:none;">
-<div class="label" style="color:#ff3333; margin-top:0;">🔧 وضع الصيانة (MAINTENANCE MODE)</div>
+<div class="label" style="color:#ff3333; margin-top:0;">🔧 MAINTENANCE MODE</div>
 <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
-<span style="font-size:12px; color:#fff;" id="maintStatusText">الموقع مفعل حالياً</span>
-<button class="btn" style="margin:0; padding:8px 14px; font-size:11px;" onclick="toggleMaintenance()">تبديل الوضع</button>
+<span style="font-size:12px; color:#fff;" id="maintStatusText">System is active</span>
+<button class="btn" style="margin:0; padding:8px 14px; font-size:11px;" onclick="toggleMaintenance()">Toggle Status</button>
 </div>
 </div>
 
 <!-- إدارة أسعار الأكواد (للأدمن فقط) -->
 <div id="pricingSection" style="background:#13131a;border:1px solid #222230;padding:12px;border-radius:14px;margin-bottom:15px;display:none;">
-<div class="label" style="color:#ff3333; margin-top:0;">💰 إدارة أسعار الأكواد ($)</div>
+<div class="label" style="color:#ff3333; margin-top:0;">💰 PRICING MANAGEMENT ($)</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
-<div><span style="font-size:10px;color:#888;">1 ساعة / يوم:</span><input id="price1" type="number" class="input" style="padding:8px;font-size:12px;" value="1.0"></div>
-<div><span style="font-size:10px;color:#888;">أكثر من يوم:</span><input id="price2" type="number" class="input" style="padding:8px;font-size:12px;" value="3.0"></div>
+<div><span style="font-size:10px;color:#888;">Short Duration:</span><input id="price1" type="number" class="input" style="padding:8px;font-size:12px;" value="1.0"></div>
+<div><span style="font-size:10px;color:#888;">Long Duration:</span><input id="price2" type="number" class="input" style="padding:8px;font-size:12px;" value="3.0"></div>
 </div>
-<button class="btn" style="margin-top:8px; padding:8px; font-size:11px;" onclick="savePrices()">حفظ الأسعار الجديدة</button>
+<button class="btn" style="margin-top:8px; padding:8px; font-size:11px;" onclick="savePrices()">Save Prices</button>
 </div>
 
 <div id="resellerMgmtSection">
-<div class="label" style="color:#ff3333; font-weight:bold;">👥 إدارة الموزعين وحساباتهم</div>
+<div class="label" style="color:#ff3333; font-weight:bold;">👥 RESELLERS MANAGEMENT</div>
 <input id="resellerUser" class="input" placeholder="Reseller Username" style="margin-bottom:8px">
 <input id="resellerBal" type="number" class="input" placeholder="Initial Balance ($)" value="20" style="margin-bottom:8px">
-<button class="btn" style="margin-top:5px; background:linear-gradient(100deg,#ff3333,#990000);" onclick="addReseller()">إضافة موزّع جديد</button>
+<button class="btn" style="margin-top:5px; background:linear-gradient(100deg,#ff3333,#990000);" onclick="addReseller()">Add Reseller</button>
 <div id="resellersList" style="margin-top:15px; max-height:120px; overflow-y:auto;"></div>
 <hr style="border-color:#222230; margin:20px 0;">
 </div>
@@ -134,10 +134,10 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <select id="dur" class="select"><option value="1">1 Hour</option><option value="6">6 Hours</option><option value="24">1 Day</option><option value="72">3 Days</option><option value="168">7 Days</option><option value="720">30 Days</option><option value="8760">Lifetime</option></select>
 <div class="label">MAX DEVICES (1-10)</div>
 <input id="maxD" type="number" class="input" value="1" min="1" max="10">
-<button class="btn" onclick="generate()">توليد الكود وخفض الرصيد</button>
+<button class="btn" onclick="generate()">Generate Key</button>
 </div>
 <div class="card">
-<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">إدارة الأكواد • CODES TABLE</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">CODES TABLE</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
 <div id="list"></div>
 </div>
 </div>
@@ -150,7 +150,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="popCode" class="code-big">SHDW-XXXX-XXXX</div>
 <div id="popInfo" style="color:#666;font-size:12px;margin-bottom:8px"></div>
 <div id="popTimer" style="color:#ff3333;font-weight:800;font-size:14px;margin-bottom:20px">⏱️ --:--:--</div>
-<button class="btn" style="margin:0" onclick="copyPop()">📋 COPY CODE • نسخ الكود</button>
+<button class="btn" style="margin:0" onclick="copyPop()">📋 COPY CODE</button>
 <button style="width:100%;background:#222;color:#fff;border:none;border-radius:999px;padding:14px;margin-top:10px;font-weight:700;cursor:pointer" onclick="closePop()">Close</button>
 </div>
 </div>
@@ -170,10 +170,9 @@ let activeCode = null;
 let timerInt = null;
 let currentUser = null; 
 
-// التحقق من حالة الصيانة عند الفتح
 window.onload = function() {
   if(maintenanceMode) {
-    document.getElementById('formU').innerHTML = '<div style="color:#ff3333;text-align:center;padding:20px;font-weight:bold;">🛠️ الموقع تحتف الصيانة حالياً. يرجى العودة لاحقاً.</div>';
+    document.getElementById('formU').innerHTML = '<div style="color:#ff3333;text-align:center;padding:20px;font-weight:bold;">🛠️ System under maintenance. Please try again later.</div>';
   }
 };
 
@@ -189,24 +188,23 @@ function openHappVpnDirectly() {
 }
 
 function loginUser(){
- if(maintenanceMode) { alert('الموقع تحت الصيانة حالياً!'); return; }
+ if(maintenanceMode) { alert('System under maintenance!'); return; }
  let c = document.getElementById('codeIn').value.trim();
  if(!c) return;
  let idx = codes.findIndex(x=>x.code===c);
- if(idx===-1){ alert('❌ كود غير صحيح أو غير موجود!'); return; }
+ if(idx===-1){ alert('❌ Invalid or not found key!'); return; }
  let codeObj = codes[idx];
  let now = new Date();
  
- // فحص انتهاء الصلاحية وإغلاق الكونفिग تلقائياً
  if(new Date(codeObj.exp) < now){ 
-   alert('❌ هذا الكود منتهي الصلاحية! تم إغلاق الكونفिग.'); 
+   alert('❌ This key has expired! Config is closed.'); 
    return; 
  }
 
  if(!codeObj.devices) codeObj.devices=[];
  let already = codeObj.devices.includes(deviceId);
  if(!already){
-   if(codeObj.devices.length >= codeObj.max){ alert('❌ تم الوصول للحد الأقصى للأجهزة لهذا الكود!'); return; }
+   if(codeObj.devices.length >= codeObj.max){ alert('❌ Device limit reached for this key!'); return; }
    codeObj.devices.push(deviceId);
    codeObj.used = codeObj.devices.length;
    codes[idx]=codeObj;
@@ -221,8 +219,6 @@ function loginUser(){
  document.getElementById('expireDate').innerText = new Date(codeObj.exp).toLocaleString();
  
  startTimer(codeObj.exp);
-
- // فتح تفعيل Happ VPN تلقائياً فور تسجيل الدخول الصحيح
  openHappVpnDirectly();
 }
 
@@ -236,7 +232,7 @@ function loginAdmin(){
    document.getElementById('resellerMgmtSection').style.display = 'block';
    document.getElementById('maintenanceSection').style.display = 'block';
    document.getElementById('pricingSection').style.display = 'block';
-   document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED (صلاحيات كاملة)';
+   document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED';
    document.getElementById('price1').value = prices.p1;
    document.getElementById('price2').value = prices.p2;
    renderResellers();
@@ -257,15 +253,15 @@ function loginAdmin(){
    return;
  }
 
- alert('❌ اسم المستخدم غير صحيح!');
+ alert('❌ Incorrect username!');
 }
 
 function toggleMaintenance() {
   if(currentUser !== 'admin') return;
   maintenanceMode = !maintenanceMode;
   localStorage.setItem('st_maint', JSON.stringify(maintenanceMode));
-  document.getElementById('maintStatusText').innerText = maintenanceMode ? 'الموقع في وضع الصيانة الآن 🔴' : 'الموقع مفعل حالياً 🟢';
-  alert('تم تغيير حالة الصيانة بنجاح!');
+  document.getElementById('maintStatusText').innerText = maintenanceMode ? 'Maintenance ON 🔴' : 'System is active 🟢';
+  alert('Maintenance status updated!');
 }
 
 function savePrices() {
@@ -273,26 +269,26 @@ function savePrices() {
   prices.p1 = parseFloat(document.getElementById('price1').value) || 1.0;
   prices.p2 = parseFloat(document.getElementById('price2').value) || 3.0;
   localStorage.setItem('st_prices', JSON.stringify(prices));
-  alert('✓ تم حفظ الأسعار الجديدة بنجاح!');
+  alert('✓ Prices saved successfully!');
 }
 
 function addReseller(){
  if(currentUser !== 'admin') return;
  let name = document.getElementById('resellerUser').value.trim();
  let bal = parseFloat(document.getElementById('resellerBal').value) || 0;
- if(!name) { alert('أدخل اسم الموزع'); return; }
- if(resellers.some(r => r.name.toLowerCase() === name.toLowerCase())) { alert('الموزع موجود مسبقاً'); return; }
+ if(!name) { alert('Enter reseller username'); return; }
+ if(resellers.some(r => r.name.toLowerCase() === name.toLowerCase())) { alert('Reseller already exists!'); return; }
  
  resellers.push({ name: name, balance: bal });
  localStorage.setItem('st_resellers', JSON.stringify(resellers));
  document.getElementById('resellerUser').value = '';
  renderResellers();
- alert(`✓ تم إضافة الموزع ${name} برصيد $${bal} بنجاح`);
+ alert(`✓ Reseller ${name} added with $${bal}`);
 }
 
 function deleteReseller(index){
  if(currentUser !== 'admin') return;
- if(confirm('هل تريد حذف حساب هذا الموزع نهائياً؟')) {
+ if(confirm('Delete this reseller account?')) {
    resellers.splice(index, 1);
    localStorage.setItem('st_resellers', JSON.stringify(resellers));
    renderResellers();
@@ -301,24 +297,24 @@ function deleteReseller(index){
 
 function updateResellerBalance(index) {
  if(currentUser !== 'admin') return;
- let newBal = prompt('أدخل الرصيد الجديد للموزع:', resellers[index].balance);
+ let newBal = prompt('Enter new balance:', resellers[index].balance);
  if(newBal !== null) {
    resellers[index].balance = parseFloat(newBal) || 0;
    localStorage.setItem('st_resellers', JSON.stringify(resellers));
    renderResellers();
-   alert('✓ تم تحديث الرصيد!');
+   alert('✓ Balance updated!');
  }
 }
 
 function renderResellers(){
  let container = document.getElementById('resellersList');
- if(!resellers.length){ container.innerHTML = '<div style="color:#666;font-size:11px">لا يوجد موزعين حالياً</div>'; return; }
+ if(!resellers.length){ container.innerHTML = '<div style="color:#666;font-size:11px">No resellers found</div>'; return; }
  container.innerHTML = resellers.map((r, i) => `
    <div style="background:#050508;border:1px solid #222230;padding:8px 12px;border-radius:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
      <span style="font-size:12px"><b>${r.name}</b> ($${r.balance.toFixed(2)})</span>
      <div style="display:flex;gap:4px;">
-       <button onclick="updateResellerBalance(${i})" style="background:#113311;color:#2ecc71;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">تعديل الرصيد</button>
-       <button onclick="deleteReseller(${i})" style="background:#331111;color:#ff5555;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">حذف</button>
+       <button onclick="updateResellerBalance(${i})" style="background:#113311;color:#2ecc71;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">Edit Balance</button>
+       <button onclick="deleteReseller(${i})" style="background:#331111;color:#ff5555;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">Delete</button>
      </div>
    </div>
  `).join('');
@@ -341,10 +337,10 @@ function startTimer(expIso){
    if(diff<=0){ 
      document.getElementById('topTimer').innerText='EXPIRED'; 
      document.getElementById('frontTimer').innerText='EXPIRED'; 
-     document.getElementById('vpnStatusText').innerText='EXPIRED - تم إغلاق الكونفيج';
+     document.getElementById('vpnStatusText').innerText='EXPIRED - Config Closed';
      document.getElementById('vpnStatusText').style.color='#ff3333';
      clearInterval(timerInt); 
-     alert('⚠️ انتهت صلاحية الكود الخاص بك! تم إغلاق الكونفيج.');
+     alert('⚠️ Key has expired! Config closed.');
      doLogout();
      return; 
    }
@@ -364,7 +360,7 @@ function generate(){
  if(currentUser !== 'admin'){
    let resObj = resellers.find(r => r.name === currentUser);
    if(!resObj || resObj.balance < cost){
-     alert(`❌ رصيدك غير كافٍ! تكلفة هذا الكود هي $${cost}`);
+     alert(`❌ Insufficient balance! Required: $${cost}`);
      return;
    }
    resObj.balance -= cost;
@@ -381,7 +377,7 @@ function generate(){
  localStorage.setItem('st_codes',JSON.stringify(codes));
  render();
  document.getElementById('popCode').innerText=code;
- document.getElementById('popInfo').innerText=dVal+'h | Max '+m+' devices | تكلفة: $'+cost;
+ document.getElementById('popInfo').innerText=dVal+'h | Max '+m+' devices | Cost: $'+cost;
  document.getElementById('codePop').classList.remove('hidden');
 }
 
@@ -393,18 +389,18 @@ function render(){
    <div class="table-row">
      <div>
        <div style="font-weight:800;font-size:13px">${c.code} <span style="font-size:9px;color:#ff3333">(${c.creator||'admin'})</span></div>
-       <div style="color:#666;font-size:11px">${c.dur}h | الأجهزة: ${c.devices?c.devices.length:0}/${c.max} | ينتهي في: ${new Date(c.exp).toLocaleDateString()}</div>
+       <div style="color:#666;font-size:11px">${c.dur}h | Devices: ${c.devices?c.devices.length:0}/${c.max} | Expires: ${new Date(c.exp).toLocaleDateString()}</div>
      </div>
      <div style="display:flex;gap:6px">
        <button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer">Copy</button>
-       <button onclick="deleteCode(${i})" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer">حذف</button>
+       <button onclick="deleteCode(${i})" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer">Delete</button>
      </div>
    </div>
  `).join('');
 }
 
 function deleteCode(i) {
-  if(confirm('هل تريد حذف هذا الكود نهائياً؟')) {
+  if(confirm('Delete this key?')) {
     codes.splice(i, 1);
     localStorage.setItem('st_codes', JSON.stringify(codes));
     render();
@@ -414,7 +410,7 @@ function deleteCode(i) {
 function copyPop(){ 
  let codeTxt = document.getElementById('popCode').innerText;
  navigator.clipboard.writeText(codeTxt); 
- alert('✓ تم نسخ الكود بنجاح!');
+ alert('✓ Key copied successfully!');
 }
 function closePop(){ document.getElementById('codePop').classList.add('hidden'); }
 </script>
