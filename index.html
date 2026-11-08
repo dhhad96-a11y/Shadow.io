@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V3.4</title>
+<title>SHADOW TEAM - VIP Hub V3.5</title>
 
 <style>
 :root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
@@ -74,7 +74,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div class="card">
 <div class="header" style="justify-content:center;flex-direction:column">
 <div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V3.4</div></div>
+<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V3.5</div></div>
 </div>
 <div class="tabs">
 <div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
@@ -97,7 +97,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="featPage" class="hidden">
 <div class="card">
 <div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V3.4</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V3.5</div></div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -114,7 +114,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
 <div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
 </div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V3.4</div>
+<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V3.5</div>
 </div>
 
 <!-- ADMIN & RESELLER PANEL -->
@@ -134,12 +134,15 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 </div>
 </div>
 
-<!-- إدارة أسعار الأكواد -->
+<!-- إدارة أسعار الأكواد الجديدة -->
 <div id="pricingSection" style="background:#13131a;border:1px solid #222230;padding:12px;border-radius:14px;margin-bottom:15px;display:none;">
-<div class="label" style="color:#ff3333; margin-top:0;">💰 PRICING MANAGEMENT ($)</div>
+<div class="label" style="color:#ff3333; margin-top:0;">💰 PRICES ($)</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
-<div><span style="font-size:10px;color:#888;">Short Duration:</span><input id="price1" type="number" class="input" style="padding:8px;font-size:12px;" value="1.0"></div>
-<div><span style="font-size:10px;color:#888;">Long Duration:</span><input id="price2" type="number" class="input" style="padding:8px;font-size:12px;" value="3.0"></div>
+<div><span style="font-size:9px;color:#888;">1h:</span><input id="p_1h" type="number" class="input" style="padding:6px;font-size:11px;" value="0.50"></div>
+<div><span style="font-size:9px;color:#888;">6h:</span><input id="p_6h" type="number" class="input" style="padding:6px;font-size:11px;" value="3.50"></div>
+<div><span style="font-size:9px;color:#888;">1d:</span><input id="p_1d" type="number" class="input" style="padding:6px;font-size:11px;" value="5.00"></div>
+<div><span style="font-size:9px;color:#888;">7d:</span><input id="p_7d" type="number" class="input" style="padding:6px;font-size:11px;" value="7.50"></div>
+<div style="grid-column: span 2;"><span style="font-size:9px;color:#888;">30d:</span><input id="p_30d" type="number" class="input" style="padding:6px;font-size:11px;" value="10.00"></div>
 </div>
 <button class="btn" style="margin-top:8px; padding:8px; font-size:11px;" onclick="savePrices()">Save Prices</button>
 </div>
@@ -156,14 +159,13 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="balanceDisplay" style="color:#ff3333; font-weight:bold; margin-bottom:10px; font-size:13px;"></div>
 <div class="label">CODE PREFIX</div>
 <input id="pref" class="input" value="SHDW-">
-<div class="label">DURATION (Select Duration)</div>
+<div class="label">DURATION</div>
 <select id="dur" class="select">
-  <option value="1">1 Hour</option>
-  <option value="6">6 Hours</option>
-  <option value="24">1 Day (24 Hours)</option>
-  <option value="72">3 Days</option>
-  <option value="168">7 Days</option>
-  <option value="720">30 Days</option>
+  <option value="1">1 Hour ($0.50)</option>
+  <option value="6">6 Hours ($3.50)</option>
+  <option value="24">1 Day ($5.00)</option>
+  <option value="168">7 Days ($7.50)</option>
+  <option value="720">30 Days ($10.00)</option>
 </select>
 <div class="label">MAX DEVICES (1-10)</div>
 <input id="maxD" type="number" class="input" value="1" min="1" max="10">
@@ -173,7 +175,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <button id="btnKeysToggle" class="btn" style="margin-top:10px; background:linear-gradient(100deg,#333333,#111111); display:none;" onclick="toggleKeysView()">🔑 MY GENERATED KEYS</button>
 </div>
 
-<!-- قسم جدول الأكواد (يظهر للأدمن فقط عند تفعيله) -->
+<!-- قسم جدول الأكواد -->
 <div id="codesSectionCard" class="card hidden">
 <div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">ALL GENERATED KEYS</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
 <div id="list"></div>
@@ -202,7 +204,8 @@ localStorage.setItem('devId', deviceId);
 let activeCode = null;
 let timerInt = null;
 let currentUser = null; 
-let prices = { p1: 1.0, p2: 3.0 };
+// الأسعار الجديدة المطلوبة
+let prices = { '1': 0.50, '6': 3.50, '24': 5.00, '168': 7.50, '720': 10.00 };
 let maintenanceMode = false;
 let keysViewVisible = false;
 
@@ -258,7 +261,6 @@ async function loginUser(){
 
    if(!codeObj){ alert('❌ Invalid or not found key!'); return; }
 
-   // التحقق مما إذا كان الكود مقفلاً من قبل الأدمن
    if(codeObj.locked){
      alert('🔒 This key is locked by administrator!');
      return;
@@ -309,10 +311,16 @@ async function loginAdmin(){
      document.getElementById('resellerMgmtSection').style.display = 'block';
      document.getElementById('maintenanceSection').style.display = 'block';
      document.getElementById('pricingSection').style.display = 'block';
-     document.getElementById('btnKeysToggle').style.display = 'block'; // إظهار زر عرض المفاتيح للأدمن فقط
+     document.getElementById('btnKeysToggle').style.display = 'block';
      document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED';
-     document.getElementById('price1').value = prices.p1;
-     document.getElementById('price2').value = prices.p2;
+     
+     // تعبئة حقول الأسعار في لوحة الأدمن
+     document.getElementById('p_1h').value = prices['1'] || 0.50;
+     document.getElementById('p_6h').value = prices['6'] || 3.50;
+     document.getElementById('p_1d').value = prices['24'] || 5.00;
+     document.getElementById('p_7d').value = prices['168'] || 7.50;
+     document.getElementById('p_30d').value = prices['720'] || 10.00;
+
      await renderResellers();
      return;
    }
@@ -334,8 +342,8 @@ async function loginAdmin(){
      document.getElementById('resellerMgmtSection').style.display = 'none';
      document.getElementById('maintenanceSection').style.display = 'none';
      document.getElementById('pricingSection').style.display = 'none';
-     document.getElementById('btnKeysToggle').style.display = 'none'; // إخفاء زر الأكواد عن البائعين
-     document.getElementById('codesSectionCard').classList.add('hidden'); // إخفاء جدول الأكواد عن البائعين تماماً
+     document.getElementById('btnKeysToggle').style.display = 'none';
+     document.getElementById('codesSectionCard').classList.add('hidden');
      document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${foundRes.balance.toFixed(2)}`;
      return;
    }
@@ -346,7 +354,6 @@ async function loginAdmin(){
  }
 }
 
-// دالة التحكم بإظهار وإخفاء قائمة المفاتيح للأدمن عند الضغط على زر Keys
 async function toggleKeysView(){
   if(currentUser !== 'admin') return;
   keysViewVisible = !keysViewVisible;
@@ -373,8 +380,12 @@ async function toggleMaintenance() {
 
 async function savePrices() {
   if(currentUser !== 'admin') return;
-  prices.p1 = parseFloat(document.getElementById('price1').value) || 1.0;
-  prices.p2 = parseFloat(document.getElementById('price2').value) || 3.0;
+  prices['1'] = parseFloat(document.getElementById('p_1h').value) || 0.50;
+  prices['6'] = parseFloat(document.getElementById('p_6h').value) || 3.50;
+  prices['24'] = parseFloat(document.getElementById('p_1d').value) || 5.00;
+  prices['168'] = parseFloat(document.getElementById('p_7d').value) || 7.50;
+  prices['720'] = parseFloat(document.getElementById('p_30d').value) || 10.00;
+
   try {
     await window.firebaseFns.setDoc(window.docSettings, { maintenance: maintenanceMode, prices: prices }, { merge: true });
     alert('✓ Prices saved successfully!');
@@ -489,9 +500,19 @@ function generateRandomPart() {
   return result;
 }
 
+// دالة لتحويل الساعات إلى صيغة مختصرة (مثل 1h, 6h, 1d, 7d, 30d)
+function formatDurationLabel(hours) {
+  if (hours === 1) return '1h';
+  if (hours === 6) return '6h';
+  if (hours === 24) return '1d';
+  if (hours === 168) return '7d';
+  if (hours === 720) return '30d';
+  return hours + 'h';
+}
+
 async function generate(){
  let dVal = parseInt(document.getElementById('dur').value);
- let cost = dVal <= 24 ? prices.p1 : prices.p2;
+ let cost = prices[dVal.toString()] || 1.0;
 
  try {
    if(currentUser !== 'admin'){
@@ -525,7 +546,7 @@ async function generate(){
      devices: [],
      exp: exp.toISOString(),
      creator: currentUser,
-     locked: false // حالة الكود الافتراضية غير مقفل
+     locked: false
    };
 
    let newCodeRef = window.firebaseFns.doc(window.colKeys);
@@ -535,8 +556,9 @@ async function generate(){
      await renderCodes();
    }
    
+   let durLabel = formatDurationLabel(dVal);
    document.getElementById('popCode').innerText = code;
-   document.getElementById('popInfo').innerText = dVal + 'h | Max ' + m + ' devices | Cost: $' + cost;
+   document.getElementById('popInfo').innerText = durLabel + ' | Max ' + m + ' devices | Cost: $' + cost.toFixed(2);
    document.getElementById('codePop').classList.remove('hidden');
  } catch(e) {
    alert('Generation error: ' + e.message);
@@ -544,7 +566,7 @@ async function generate(){
 }
 
 async function renderCodes(){
- if(currentUser !== 'admin') return; // حصر عرض الأكواد للأدمن فقط
+ if(currentUser !== 'admin') return;
  let l = document.getElementById('list');
  try {
    let snap = await window.firebaseFns.getDocs(window.colKeys);
@@ -556,11 +578,12 @@ async function renderCodes(){
      let c = d.data();
      let docId = d.id;
      let isLocked = c.locked || false;
+     let durFormatted = formatDurationLabel(c.dur);
      html += `
        <div class="table-row">
          <div>
            <div style="font-weight:800;font-size:12px">${c.code} <span style="font-size:9px;color:${isLocked?'#ff2222':'#2ecc71'}">(${isLocked ? 'LOCKED 🔒' : 'ACTIVE 🟢'})</span></div>
-           <div style="color:#666;font-size:11px">By: ${c.creator||'admin'} | ${c.dur}h | Devices: ${c.devices?c.devices.length:0}/${c.max}</div>
+           <div style="color:#666;font-size:11px">By: ${c.creator||'admin'} | ${durFormatted} | Devices: ${c.devices?c.devices.length:0}/${c.max}</div>
          </div>
          <div style="display:flex;gap:4px">
            <button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:10px;cursor:pointer">Copy</button>
@@ -574,7 +597,6 @@ async function renderCodes(){
  } catch(e) { console.error(e); }
 }
 
-// ميزة قفل أو فتح الكود
 async function toggleLockCode(docId, currentStatus) {
   if(currentUser !== 'admin') return;
   try {
