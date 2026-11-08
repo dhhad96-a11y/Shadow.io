@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V3.2 (Secure Cloud)</title>
+<title>SHADOW TEAM - VIP Hub V3.3</title>
 
 <style>
 :root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
@@ -41,7 +41,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 .site-footer b{color:#ff3333}
 </style>
 
-<!-- Firebase SDK with your project configuration -->
+<!-- Firebase SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -74,7 +74,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div class="card">
 <div class="header" style="justify-content:center;flex-direction:column">
 <div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V3.2</div></div>
+<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V3.3</div></div>
 </div>
 <div class="tabs">
 <div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
@@ -97,7 +97,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="featPage" class="hidden">
 <div class="card">
 <div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V3.2</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V3.3</div></div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -114,14 +114,14 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
 <div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
 </div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V3.2</div>
+<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V3.3</div>
 </div>
 
 <!-- ADMIN & RESELLER PANEL -->
 <div id="adminPage" class="hidden">
 <div class="card">
 <div class="header">
-<div><div style="font-weight:900;font-size:18px">SHADOW TEAM</div><div class="sub">ADMIN & RESELLER CONTROL</div></div>
+<div><div style="font-weight:900;font-size:18px">SHADOW TEAM</div><div class="sub" id="panelSubTitle">CONTROL PANEL</div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -156,8 +156,15 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="balanceDisplay" style="color:#ff3333; font-weight:bold; margin-bottom:10px; font-size:13px;"></div>
 <div class="label">CODE PREFIX</div>
 <input id="pref" class="input" value="SHDW-">
-<div class="label">DURATION</div>
-<select id="dur" class="select"><option value="1">1 Hour</option><option value="6">6 Hours</option><option value="24">1 Day</option><option value="72">3 Days</option><option value="168">7 Days</option><option value="720">30 Days</option><option value="8760">Lifetime</option></select>
+<div class="label">DURATION (1 Hour to 30 Days)</div>
+<select id="dur" class="select">
+  <option value="1">1 Hour</option>
+  <option value="6">6 Hours</option>
+  <option value="24">1 Day (24 Hours)</option>
+  <option value="72">3 Days</option>
+  <option value="168">7 Days</option>
+  <option value="720">30 Days</option>
+</select>
 <div class="label">MAX DEVICES (1-10)</div>
 <input id="maxD" type="number" class="input" value="1" min="1" max="10">
 <button class="btn" onclick="generate()">Generate Key</button>
@@ -282,9 +289,10 @@ async function loginAdmin(){
  if(!u) return;
 
  try {
-   // التحقق من أن اسم المستخدم المدخل هو اسم الأدمن الجديد (05060708090)
+   // تسجيل دخول الأدمن باستخدام الرمز 05060708090
    if(u === '05060708090'){
      currentUser = 'admin';
+     document.getElementById('panelSubTitle').innerText = 'ADMIN CONTROL PANEL';
      document.getElementById('loginPage').classList.add('hidden');
      document.getElementById('adminPage').classList.remove('hidden');
      document.getElementById('resellerMgmtSection').style.display = 'block';
@@ -298,7 +306,7 @@ async function loginAdmin(){
      return;
    }
 
-   // التحقق من حسابات الموزعين سحابياً عبر قاعدة البيانات
+   // التحقق من حسابات الموزعين سحابياً وعرض رصيدهم فوراً
    let resellersSnap = await window.firebaseFns.getDocs(window.colResellers);
    let foundRes = null;
    resellersSnap.forEach(d => {
@@ -310,11 +318,13 @@ async function loginAdmin(){
 
    if(foundRes){
      currentUser = foundRes.name;
+     document.getElementById('panelSubTitle').innerText = 'RESELLER PANEL: ' + foundRes.name;
      document.getElementById('loginPage').classList.add('hidden');
      document.getElementById('adminPage').classList.remove('hidden');
      document.getElementById('resellerMgmtSection').style.display = 'none';
      document.getElementById('maintenanceSection').style.display = 'none';
      document.getElementById('pricingSection').style.display = 'none';
+     // عرض رصيد الموزع بشكل دائم ومحدث
      document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${foundRes.balance.toFixed(2)}`;
      await renderCodes();
      return;
@@ -469,6 +479,7 @@ async function generate(){
 
      let newBal = resData.balance - cost;
      await window.firebaseFns.updateDoc(resRef, { balance: newBal });
+     // تحديث رصيد الموزع فوري في واجهته بعد الخصم
      document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${newBal.toFixed(2)}`;
    }
 
