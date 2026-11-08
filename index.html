@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V2.6</title>
+<title>SHADOW TEAM - VIP Hub V2.7</title>
 
 <style>
 :root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
@@ -48,7 +48,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div class="card">
 <div class="header" style="justify-content:center;flex-direction:column">
 <div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.6</div></div>
+<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V2.7</div></div>
 </div>
 <div class="tabs">
 <div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
@@ -56,12 +56,12 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 </div>
 <div id="formU">
 <div class="label">Login key</div>
-<input id="codeIn" class="input" placeholder="SHDW-XXXX-XXXX">
+<input id="codeIn" class="input" placeholder="">
 <button class="btn" onclick="loginUser()">LOGIN</button>
 </div>
 <div id="formA" class="hidden">
 <div class="label">USERNAME ONLY</div>
-<input id="userIn" class="input" placeholder="ADHAM SHADOW">
+<input id="userIn" class="input" placeholder="">
 <button class="btn" onclick="loginAdmin()">ACCESS PANEL</button>
 </div>
 </div>
@@ -71,7 +71,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <div id="featPage" class="hidden">
 <div class="card">
 <div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.6</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V2.7</div></div></div>
 <button class="logout" onclick="doLogout()">LOGOUT</button>
 </div>
 
@@ -88,7 +88,7 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 <button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
 <div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
 </div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.6</div>
+<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V2.7</div>
 </div>
 
 <!-- ADMIN & RESELLER PANEL -->
@@ -225,7 +225,8 @@ function loginUser(){
 function loginAdmin(){
  let u = document.getElementById('userIn').value.trim();
 
- if(u.toUpperCase() === 'ADHAM SHADOW'){
+ // تغيير حساب الأدمن إلى ADHAM05030 بدون كلمة مرور
+ if(u.toUpperCase() === 'ADHAM05030'){
    currentUser = 'admin';
    document.getElementById('loginPage').classList.add('hidden');
    document.getElementById('adminPage').classList.remove('hidden');
