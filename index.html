@@ -156,12 +156,12 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
   <button class="tool-btn" id="btnFreeze" onclick="toggleTool('Freeze')">⚡ Fteeze</button>
 </div>
 
-<button class="sub-btn" onclick="copySavedConfig()">
+<button class="sub-btn" onclick="launchHappVpn()">
   <div>
-    <div>COPY ENCRYPTED CONFIG</div>
-    <div class="sub-subtxt">Copy Config to Clipboard</div>
+    <div>OPEN IN HAPP VPN</div>
+    <div class="sub-subtxt">Direct Launch to Happ (No Copy)</div>
   </div>
-  <div class="arrow-icon">📋</div>
+  <div class="arrow-icon">→</div>
 </button>
 </div>
 
@@ -193,10 +193,10 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 </div>
 
 <script>
-let activeEncryptedConfig = "";
+let activeHappUrl = "";
 let timerInterval = null;
 
-// الكونفيغ الجديد الذي أرسلته (ADHAMDev-eu)
+// الكونفيغ الأصلي غير المشفر (ADHAMDev-eu)
 let baseConfig = {
     "remarks": "ADHAMDev-eu",
     "inbounds": [
@@ -257,15 +257,11 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// دالة نسخ الكونفيغ المشفر للحافظة فقط
-function copySavedConfig(){
-    if(!activeEncryptedConfig) return alert("No active config!");
-    
-    navigator.clipboard.writeText(activeEncryptedConfig).then(() => {
-        showToast("✓ Encrypted Config Copied to Clipboard!");
-    }).catch(() => {
-        showToast("❌ Copy failed.");
-    });
+// الانتقال التلقائي لتطبيق Happ دون نسخ النص
+function launchHappVpn(){
+    if(!activeHappUrl) return alert("No active config!");
+    showToast("✓ Launching Happ VPN...");
+    window.location.href = activeHappUrl;
 }
 
 // التحقق من الكود وربطه بالمدة الزمنية
@@ -291,9 +287,9 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // تشفير الكونفيغ بالكامل بصيغة happ://add/ ليكون جاهزاً للنسخ
+        // تجهيز الرابط الموجه لتطبيق Happ مع الكونفيغ (بدون نسخ للحافظة)
         let jsonString = JSON.stringify(baseConfig);
-        activeEncryptedConfig = "happ://add/" + btoa(unescape(encodeURIComponent(jsonString)));
+        activeHappUrl = "happ://add/" + btoa(unescape(encodeURIComponent(jsonString)));
 
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
         document.getElementById('expireDateText').innerText = new Date(foundKeyData.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -302,7 +298,7 @@ async function verifyAndActivateKey(){
         document.getElementById('homePage').classList.remove('hidden');
 
         startAppTimer(foundKeyData.expiresAt);
-        copySavedConfig(); // نسخ تلقائي للحافظة فور التفعيل
+        launchHappVpn(); // الانتقال التلقائي فور التفعيل
     } catch(e) {
         alert("Connection Error: " + e.message);
     }
@@ -333,7 +329,7 @@ function copyActiveKey(){
 
 function doLogout(){
     if(timerInterval) clearInterval(timerInterval);
-    activeEncryptedConfig = "";
+    activeHappUrl = "";
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
