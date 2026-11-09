@@ -47,7 +47,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 .info-label{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px}
 .info-val{font-size:11px;font-weight:bold;color:#fff}
 
-.key-row{background:#040407;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:between;margin-top:8px}
+.key-row{background:#040407;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:space-between;margin-top:8px}
 .key-txt{font-size:11px;color:var(--muted);letter-spacing:1px}
 .icon-btn{background:#11111a;border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px}
 
@@ -159,7 +159,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 <button class="sub-btn" onclick="launchSavedConfig()">
   <div>
     <div>OPEN IN HAPP VPN</div>
-    <div class="sub-subtxt">Direct Launch to Happ</div>
+    <div class="sub-subtxt">Copy & Launch Happ</div>
   </div>
   <div class="arrow-icon">→</div>
 </button>
@@ -196,7 +196,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeHappUrl = "";
 let timerInterval = null;
 
-// قالب الكونفيغ المحدث باسم Shadow v3.3
+// قاعدة الكونفيغ باسم Shadow v3.3
 let baseConfig = {
     "remarks": "Shadow v3.3",
     "inbounds": [
@@ -257,13 +257,20 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
+// دالة النسخ التلقائي للكونفيغ المشفر والنقل الفوري لتطبيق Happ
 function launchSavedConfig(){
     if(!activeHappUrl) return alert("No active config!");
-    showToast("✓ Launching Happ VPN...");
+    
+    navigator.clipboard.writeText(activeHappUrl).then(() => {
+        showToast("✓ Copied & Launching Happ VPN...");
+    }).catch(() => {
+        showToast("✓ Launching Happ VPN...");
+    });
+
     window.location.href = activeHappUrl;
 }
 
-// التحقق من الكود في قاعدة بيانات فايربيس
+// التحقق من الكود في قاعدة البيانات وربطه بالمدة الزمنية
 async function verifyAndActivateKey(){
     let codeVal = document.getElementById('codeIn').value.trim();
     if(!codeVal || codeVal === "SHWD-") return alert("Please enter a valid activation key!");
@@ -286,7 +293,7 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // تجهيز رابط Happ VPN مباشرة بدون نسخ
+        // تشفير الكونفيغ بالكامل بصيغة happ://add/
         let jsonString = JSON.stringify(baseConfig);
         activeHappUrl = "happ://add/" + btoa(unescape(encodeURIComponent(jsonString)));
 
@@ -297,7 +304,7 @@ async function verifyAndActivateKey(){
         document.getElementById('homePage').classList.remove('hidden');
 
         startAppTimer(foundKeyData.expiresAt);
-        launchSavedConfig();
+        launchSavedConfig(); // نسخ وتشغيل فوري عند التفعيل
     } catch(e) {
         alert("Connection Error: " + e.message);
     }
