@@ -156,12 +156,12 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
   <button class="tool-btn" id="btnFreeze" onclick="toggleTool('Freeze')">⚡ Fteeze</button>
 </div>
 
-<button class="sub-btn" onclick="copyRawConfig()">
+<button class="sub-btn" onclick="copyAndOpenHapp()">
   <div>
-    <div>COPY JSON CONFIG</div>
-    <div class="sub-subtxt">Copy raw JSON config to clipboard</div>
+    <div>COPY & GO HAPP</div>
+    <div class="sub-subtxt">Copy JSON & Open Happ App</div>
   </div>
-  <div class="arrow-icon">📋</div>
+  <div class="arrow-icon">→</div>
 </button>
 </div>
 
@@ -196,7 +196,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeRawJsonString = "";
 let timerInterval = null;
 
-// الكونفيغ الأصلي بالاسم المطلوب "Adham Dev x Shadow[span_0](start_span)"[span_0](end_span)
+// ملف الكونفيغ (Adham Dev x Shadow) بصيغة مصفوفة JSON سليمة 100%[span_1](start_span)[span_1](end_span)
 let baseConfig = [
     {
         "remarks": "Adham Dev x Shadow",
@@ -259,18 +259,21 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// دالة نسخ الكونفيغ الصافي (JSON) للحافظة ليعمل في Happ بدون أخطاء
-function copyRawConfig(){
-    if(!activeRawJsonString) return alert("No active config!");
+// دالة النسخ التلقائي للكونفيغ وفتح تطبيق Happ بضغطة زر واحدة
+function copyAndOpenHapp(){
+    if(!activeRawJsonString) return alert("Please activate your key first!");
     
     navigator.clipboard.writeText(activeRawJsonString).then(() => {
-        showToast("✓ JSON Config Copied to Clipboard!");
+        showToast("✓ Copied! Opening Happ VPN...");
+        setTimeout(() => {
+            window.location.href = "happ://";
+        }, 500);
     }).catch(() => {
-        showToast("❌ Copy failed.");
+        window.location.href = "happ://";
     });
 }
 
-// التحقق من الكود وتجهيز النسخ الفوري
+// التحقق من الكود في Firebase والتفعيل
 async function verifyAndActivateKey(){
     let codeVal = document.getElementById('codeIn').value.trim();
     if(!codeVal || codeVal === "SHWD-") return alert("Please enter a valid activation key!");
@@ -293,7 +296,7 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // تجهيز الكونفيغ بصيغة JSON للنسخ
+        // تجهيز الكونفيغ للنسخ
         activeRawJsonString = JSON.stringify(baseConfig, null, 4);
 
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
@@ -303,7 +306,7 @@ async function verifyAndActivateKey(){
         document.getElementById('homePage').classList.remove('hidden');
 
         startAppTimer(foundKeyData.expiresAt);
-        copyRawConfig(); // نسخ تلقائي للحافظة فور التفعيل لتسهيل إضافته لـ Happ
+        copyAndOpenHapp(); // نسخ الكونفيغ وفتح تطبيق Happ فوراً
     } catch(e) {
         alert("Connection Error: " + e.message);
     }
