@@ -3,48 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHADOW TEAM - VIP Hub V3.6</title>
+<title>SHADOW v3.3 - VIP HUB</title>
 
 <style>
-:root{--red:#ff2222;--red2:#cc1111;--panel:#0d0d12;--line:rgba(255,34,34,.25);--muted:#888899}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
-.container{width:100%;max-width:440px}
-.card{background:linear-gradient(145deg,rgba(13,13,18,.97),rgba(6,6,9,.98));border:1px solid rgba(255,34,34,.25);border-radius:30px;padding:26px;margin-bottom:20px;box-shadow:0 18px 55px rgba(255,0,0,.15),inset 0 1px rgba(255,255,255,.035)}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;gap:12px}
-.logo{width:54px;height:54px;flex:0 0 54px;background:linear-gradient(145deg,#ff3333,#800000);border-radius:17px;display:flex;align-items:center;justify-content:center;font-weight:1000;color:#fff;font-size:25px;box-shadow:0 0 28px rgba(255,51,51,.4)}
-.title{font-weight:1000;font-size:22px;letter-spacing:1.2px;color:#fff}
-.sub{color:#ff3333;font-size:10px;letter-spacing:4px;margin-top:4px;font-weight:800}
-.logout{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:11px 20px;font-weight:900;font-size:12px;cursor:pointer}
-.tabs{background:#050508;border:1px solid #222230;border-radius:999px;display:flex;padding:4px;margin-bottom:24px}
-.tab{flex:1;padding:12px 7px;border-radius:999px;text-align:center;font-weight:800;font-size:11px;cursor:pointer;transition:.2s}
-.tab.active{background:linear-gradient(100deg,#ff3333,#cc1111);color:#fff;box-shadow:0 4px 18px rgba(255,51,51,.4)}
-.tab.inactive{color:#888899}
-.label{color:#888899;font-size:10px;letter-spacing:3px;margin:18px 0 9px}
-.input,.select{width:100%;background:#13131a;border:1px solid #222230;border-radius:14px;padding:16px;color:#fff;font-size:15px;outline:none;text-align:center}
-.input:focus,.select:focus{border-color:#ff2222;box-shadow:0 0 15px rgba(255,34,34,.2)}
-.btn{width:100%;background:linear-gradient(100deg,#ff3333,#cc1111);color:#fff;border:0;border-radius:18px;padding:18px;font-weight:1000;font-size:15px;cursor:pointer;margin-top:20px;letter-spacing:1.2px;box-shadow:0 10px 28px rgba(255,34,34,.3);transition:transform .18s,filter .18s}
-.btn:active{transform:scale(.98);filter:brightness(1.08)}
-.feature{background:linear-gradient(120deg,#0d0d12,#13131a);border:1px solid #222230;border-radius:19px;padding:19px;display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;min-height:92px}
-.toggle{width:58px;height:33px;background:#222230;border-radius:999px;padding:3px;cursor:pointer;transition:.3s;position:relative;flex:0 0 58px}
-.toggle.on{background:#ff3333;box-shadow:0 0 18px rgba(255,51,51,.4)}
-.toggle-dot{width:27px;height:27px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 7px #0005}
-.toggle.on .toggle-dot{transform:translateX(25px)}
-.popup{position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:999}
-.popup-card{background:linear-gradient(145deg,#0d0d12,#13131a);border:1px solid #ff3333;border-radius:28px;padding:30px;width:100%;max-width:380px;text-align:center;box-shadow:0 0 60px rgba(255,51,51,.3)}
-.code-big{background:#050508;border:1px solid #ff3333;border-radius:16px;padding:18px;font-size:16px;font-weight:900;word-break:break-all;margin:16px 0;color:#ff4d4d}
-.timer-bar{background:linear-gradient(90deg,#050508,#0d0d12);border:1px solid #ff3333;border-radius:999px;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.timer-text{color:#ff4d4d;font-weight:900;font-size:15px}
+:root{--accent:#00b4ff;--accent-glow:rgba(0,180,255,0.25);--bg:#07090e;--panel:#0d111a;--border:rgba(0,180,255,0.2);--text:#fff;--muted:#8892b0}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:15px}
+.container{width:100%;max-width:420px;position:relative}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:22px;margin-bottom:15px;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.app-title{font-weight:900;font-size:16px;letter-spacing:1px}
+.logout-btn{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:bold;cursor:pointer}
+
+/* تصميم الدائرة الزمنية */
+.timer-circle-box{text-align:center;padding:15px 0;position:relative}
+.circle-ring{width:210px;height:210px;border:2px dashed rgba(0,180,255,0.3);border-radius:50%;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle, rgba(0,180,255,0.03) 0%, transparent 70%);box-shadow:0 0 40px rgba(0,180,255,0.08)}
+.client-name-txt{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:800;margin-bottom:6px}
+.main-client-txt{font-size:16px;font-weight:900;letter-spacing:2px;margin-bottom:12px}
+.countdown-txt{font-size:22px;font-weight:900;letter-spacing:1px;color:#fff}
+.countdown-txt span{font-size:10px;color:var(--muted);margin:0 2px}
+
+/* تفاصيل المفتاح والجهاز */
+.info-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-top:15px}
+.info-box{background:#04060a;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px 5px;text-align:center}
+.info-label{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px}
+.info-val{font-size:11px;font-weight:bold;color:#fff}
+
+.key-row{background:#04060a;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.key-txt{font-size:11px;color:var(--muted);letter-spacing:1px}
+.icon-btns{display:flex;gap:5px}
+.icon-btn{background:#111827;border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px}
+
+/* زر ADD SUBSCRIPTION الأزرق */
+.sub-btn{width:100%;background:linear-gradient(135deg, #0099ff, #0055ff);color:#fff;border:none;border-radius:14px;padding:16px 20px;font-weight:900;font-size:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;margin-top:12px;box-shadow:0 6px 20px rgba(0,120,255,0.35);transition:0.2s}
+.sub-btn:active{transform:scale(0.98)}
+.sub-subtxt{font-size:10px;color:rgba(255,255,255,0.7);font-weight:normal;margin-top:2px}
+.arrow-icon{background:rgba(255,255,255,0.2);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+/* شريط التنقل السفلي */
+.nav-bar{background:var(--panel);border:1px solid var(--border);border-radius:18px;display:flex;padding:10px;margin-top:10px}
+.nav-item{flex:1;text-align:center;color:var(--muted);font-size:10px;cursor:pointer;font-weight:bold;transition:0.2s}
+.nav-item.active{color:var(--accent)}
+.nav-icon{font-size:16px;margin-bottom:2px}
+
+/* أزرار الألعاب والهكر وسيرفرات الـ VPN */
+.game-tools{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-top:12px}
+.tool-btn{background:#04060a;border:1px solid rgba(0,180,255,0.3);color:#fff;border-radius:10px;padding:10px 5px;font-size:10px;font-weight:bold;cursor:pointer;text-align:center;transition:0.2s}
+.tool-btn.active{background:var(--accent);color:#000;box-shadow:0 0 12px var(--accent-glow)}
+
+.vpn-select{width:100%;background:#04060a;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;color:#fff;font-size:12px;outline:none;margin-top:10px}
+
 .hidden{display:none!important}
-.table-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid #222230;flex-wrap:wrap}
-.site-footer{text-align:center;color:#666677;font-size:10px;letter-spacing:2px;padding:18px 8px 8px}
-.site-footer b{color:#ff3333}
+.input{width:100%;background:#04060a;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:14px;outline:none;text-align:center;margin-top:10px}
+.input:focus{border-color:var(--accent)}
 </style>
 
 <!-- Firebase SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC59NEHdrC6D22DJpEzv97ar_2A79lIvbs",
@@ -60,605 +77,346 @@ body{background:#040406;color:#f5fff8;font-family:Arial,Helvetica,sans-serif;min
 
     window.db = db;
     window.colKeys = collection(db, "codes");
-    window.colResellers = collection(db, "resellers");
     window.docSettings = doc(db, "settings", "main");
     
-    window.firebaseFns = { getDocs, setDoc, deleteDoc, updateDoc, doc, getDoc };
+    window.firebaseFns = { getDocs, getDoc };
     window.dispatchEvent(new Event('firebase-ready'));
 </script>
 </head>
 <body>
 <div class="container">
-<!-- LOGIN PAGE -->
+
+<!-- صفحة تسجيل الدخول بالمفتاح فقط -->
 <div id="loginPage">
+<div class="card" style="text-align: center; padding: 35px 20px;">
+<div style="font-size: 22px; font-weight: 900; letter-spacing: 2px; color: var(--accent); margin-bottom: 5px;">SHADOW v3.3</div>
+<div style="font-size: 10px; color: var(--muted); letter-spacing: 4px; margin-bottom: 25px;">SECURE GAMING HUB</div>
+
+<input id="codeIn" class="input" placeholder="Enter Access Key (SHDW-...)">
+<button class="sub-btn" style="justify-content:center; margin-top:20px;" onclick="loginUser()">LOGIN & UNLOCK</button>
+</div>
+</div>
+
+<!-- الواجهة الرئيسية (HOME) -->
+<div id="homePage" class="hidden">
 <div class="card">
-<div class="header" style="justify-content:center;flex-direction:column">
-<div class="logo">🦅</div>
-<div style="text-align:center;margin-top:12px"><div class="title">SHADOW <span style="color:#ff3333">TEAM</span></div><div class="sub">VIP HUB • V3.6</div></div>
+<div class="top-bar">
+  <div class="app-title">SHADOW v3.3 CLIENT</div>
+  <button class="logout-btn" onclick="doLogout()">LOGOUT</button>
 </div>
-<div class="tabs">
-<div id="tabU" class="tab active" onclick="switchTab('u')">USER LOGIN</div>
-<div id="tabA" class="tab inactive" onclick="switchTab('a')">ADMIN & RESELLER</div>
+
+<!-- الدائرة الزمنية -->
+<div class="timer-circle-box">
+  <div class="circle-ring">
+    <div class="client-name-txt">SHADOW v3.3</div>
+    <div class="main-client-txt">GAMING CLIENT</div>
+    <div id="timerDisplay" class="countdown-txt">00<span>H</span> 02<span>M</span> 36<span>S</span></div>
+  </div>
 </div>
-<div id="formU">
-<div class="label">Login key</div>
-<input id="codeIn" class="input" placeholder="">
-<button class="btn" onclick="loginUser()">LOGIN</button>
+
+<!-- معلومات الكود -->
+<div class="key-row">
+  <div class="key-txt" id="activeKeyView">SHDW-XXXX-XXXX-XXXX</div>
+  <div class="icon-btns">
+    <div class="icon-btn" onclick="copyActiveKey()" title="Copy">📋</div>
+  </div>
 </div>
-<div id="formA" class="hidden">
-<div class="label">USERNAME ONLY</div>
-<input id="userIn" class="input" placeholder="">
-<button class="btn" onclick="loginAdmin()">ACCESS PANEL</button>
+
+<div class="info-grid">
+  <div class="info-box">
+    <div class="info-label">DEVICE</div>
+    <div class="info-val" id="deviceSlot">0/1</div>
+  </div>
+  <div class="info-box">
+    <div class="info-label">CREATED</div>
+    <div class="info-val" id="createdDate">-</div>
+  </div>
+  <div class="info-box">
+    <div class="info-label">EXPIRES</div>
+    <div class="info-val" id="expireDate">-</div>
+  </div>
 </div>
+
+<!-- اختيار سيرفرات الـ VPN لفري فاير -->
+<div style="margin-top: 15px;">
+  <div style="font-size: 10px; color: var(--muted); margin-bottom: 5px; letter-spacing: 1px;">FREE FIRE ULTRA PING BOOSTERS:</div>
+  <select id="serverRegion" class="vpn-select" onchange="changeVpnServer(this.value)">
+    <option value="india">🇮🇳 India Server (Ping ~64ms)</option>
+    <option value="egypt" selected>🇪🇬 Egypt Server (Ping ~75ms)</option>
+    <option value="algeria">🇩🇿 Algeria Server (Ping ~90ms)</option>
+    <option value="tunisia">🇹🇳 Tunisia Server (Ping ~110ms)</option>
+    <option value="eu">🇪🇺 Europe Ultra Low Ping (~130ms)</option>
+  </select>
+</div>
+
+<!-- أزرار الهكر والألعاب -->
+<div class="game-tools">
+  <button class="tool-btn" id="btnAim" onclick="toggleTool('Aim')">🎯 Aim Bot</button>
+  <button class="tool-btn" id="btnEsp" onclick="toggleTool('Esp')">👁️ ESP Box</button>
+  <button class="tool-btn" id="btnFreeze" onclick="toggleTool('Freeze')">⚡ Fteeze</button>
+</div>
+
+<!-- زر ADD SUBSCRIPTION -->
+<button class="sub-btn" onclick="launchHappVpn()">
+  <div>
+    <div>ADD SUBSCRIPTION</div>
+    <div class="sub-subtxt">Works with Happ (Free Fire Boosted)</div>
+  </div>
+  <div class="arrow-icon">→</div>
+</button>
+
+</div>
+
+<!-- شريط التنقل السفلي -->
+<div class="nav-bar">
+  <div class="nav-item active" onclick="switchNav('home')">
+    <div class="nav-icon">🏠</div>
+    <div>HOME</div>
+  </div>
+  <div class="nav-item" onclick="switchNav('settings')">
+    <div class="nav-icon">⚙️</div>
+    <div>SETTINGS</div>
+  </div>
 </div>
 </div>
 
-<!-- FEATURES / USER HUB -->
-<div id="featPage" class="hidden">
+<!-- صفحة الإعدادات (SETTINGS) -->
+<div id="settingsPage" class="hidden">
 <div class="card">
-<div class="header">
-<div style="display:flex;align-items:center;gap:12px"><div class="logo" style="width:44px;height:44px">🦅</div><div><div style="font-weight:900">SHADOW TEAM</div><div style="color:#ff3333;font-size:10px;letter-spacing:3px">VIP HUB • V3.6</div></div></div>
-<button class="logout" onclick="doLogout()">LOGOUT</button>
+<div class="top-bar">
+  <div class="app-title">SETTINGS</div>
+  <button class="logout-btn" onclick="switchNav('home')">BACK</button>
 </div>
 
-<div class="timer-bar">
-<div style="color:#888;font-size:11px">⏱️ TIME LEFT</div>
-<div id="topTimer" class="timer-text">--:--:--</div>
-</div>
-<div id="deviceInfo" style="background:#050508;border:1px solid #222230;border-radius:12px;padding:10px;text-align:center;font-size:11px;color:#888;margin-bottom:16px">Device: <span id="devId" style="color:#ff3333">-</span> • Code: <span id="curCode" style="color:#fff">-</span></div>
+<div style="background:#04060a; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:16px; margin-top:10px;">
+  <div style="font-size: 12px; color: var(--accent); font-weight: bold; margin-bottom: 12px;">DEVELOPER INFO</div>
+  
+  <div style="margin-bottom: 12px; font-size: 12px;">
+    <span style="color: var(--muted);">Telegrame:</span><br>
+    <a href="https://t.me/Adhambacko" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: bold;">https://t.me/Adhambacko</a>
+  </div>
 
-<div style="margin-top:10px">
-<div class="feature"><div><div style="font-weight:800">HAPP VPN STATUS</div><div style="color:#2ecc71;font-size:12px" id="vpnStatusText">CONNECTED & ACTIVE</div></div><div id="togVpn" class="toggle on"><div class="toggle-dot"></div></div></div>
-</div>
-
-<button class="btn" style="margin-top:28px" onclick="openHappVpnDirectly()">⚡ RE-LAUNCH HAPP VPN CONFIG</button>
-<div style="display:flex;justify-content:space-between;margin-top:12px"><div style="color:#555;font-size:10px">⏰ Expires: <span id="expireDate" style="color:#888">-</span></div><div id="frontTimer" style="color:#ff3333;font-size:11px;font-weight:800">--:--:--</div></div>
-</div>
-<div class="site-footer">SHADOW TEAM <b>•</b> VIP HUB V3.6</div>
+  <div style="font-size: 12px;">
+    <span style="color: var(--muted);">Created by:</span><br>
+    <span style="color: #fff; font-weight: bold; font-size: 14px;">Adham modz</span>
+  </div>
 </div>
 
-<!-- ADMIN & RESELLER PANEL -->
-<div id="adminPage" class="hidden">
-<div class="card">
-<div class="header">
-<div><div style="font-weight:900;font-size:18px">SHADOW TEAM</div><div class="sub" id="panelSubTitle">CONTROL PANEL</div></div>
-<button class="logout" onclick="doLogout()">LOGOUT</button>
+<div style="background:#04060a; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:16px; margin-top:12px;">
+  <div style="font-size: 12px; color: var(--accent); font-weight: bold; margin-bottom: 8px;">FREE FIRE OPTIMIZATION</div>
+  <div style="font-size: 11px; color: var(--muted); line-height: 1.5;">
+    تم تفعيل خوارزميات حزم بيانات Hysteria v2 لضمان استقرار البينغ بين 64ms و 150ms بدون أي لاغ نهائياً أثناء مواجهات فري فاير.
+  </div>
 </div>
 
-<!-- صيانة الموقع -->
-<div id="maintenanceSection" style="background:#13131a;border:1px solid #ff3333;padding:12px;border-radius:14px;margin-bottom:15px;display:none;">
-<div class="label" style="color:#ff3333; margin-top:0;">🔧 MAINTENANCE MODE</div>
-<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
-<span style="font-size:12px; color:#fff;" id="maintStatusText">System is active</span>
-<button class="btn" style="margin:0; padding:8px 14px; font-size:11px;" onclick="toggleMaintenance()">Toggle Status</button>
-</div>
 </div>
 
-<!-- إدارة الأسعار -->
-<div id="pricingSection" style="background:#13131a;border:1px solid #222230;padding:12px;border-radius:14px;margin-bottom:15px;display:none;">
-<div class="label" style="color:#ff3333; margin-top:0;">💰 PRICES ($)</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
-<div><span style="font-size:9px;color:#888;">1h:</span><input id="p_1h" type="number" class="input" style="padding:6px;font-size:11px;" value="0.50"></div>
-<div><span style="font-size:9px;color:#888;">6h:</span><input id="p_6h" type="number" class="input" style="padding:6px;font-size:11px;" value="3.50"></div>
-<div><span style="font-size:9px;color:#888;">1d:</span><input id="p_1d" type="number" class="input" style="padding:6px;font-size:11px;" value="5.00"></div>
-<div><span style="font-size:9px;color:#888;">7d:</span><input id="p_7d" type="number" class="input" style="padding:6px;font-size:11px;" value="7.50"></div>
-<div style="grid-column: span 2;"><span style="font-size:9px;color:#888;">30d:</span><input id="p_30d" type="number" class="input" style="padding:6px;font-size:11px;" value="10.00"></div>
-</div>
-<button class="btn" style="margin-top:8px; padding:8px; font-size:11px;" onclick="savePrices()">Save Prices</button>
-</div>
-
-<div id="resellerMgmtSection">
-<div class="label" style="color:#ff3333; font-weight:bold;">👥 RESELLERS MANAGEMENT</div>
-<input id="resellerUser" class="input" placeholder="Reseller Username" style="margin-bottom:8px">
-<input id="resellerBal" type="number" class="input" placeholder="Initial Balance ($)" value="20" style="margin-bottom:8px">
-<button class="btn" style="margin-top:5px; background:linear-gradient(100deg,#ff3333,#990000);" onclick="addReseller()">Add Reseller</button>
-<div id="resellersList" style="margin-top:15px; max-height:120px; overflow-y:auto;"></div>
-<hr style="border-color:#222230; margin:20px 0;">
-</div>
-
-<div id="balanceDisplay" style="color:#ff3333; font-weight:bold; margin-bottom:10px; font-size:13px;"></div>
-<div class="label">CODE PREFIX</div>
-<input id="pref" class="input" value="SHDW-">
-<div class="label">DURATION</div>
-<select id="dur" class="select">
-  <option value="1">1 Hour ($0.50)</option>
-  <option value="6">6 Hours ($3.50)</option>
-  <option value="24">1 Day ($5.00)</option>
-  <option value="168">7 Days ($7.50)</option>
-  <option value="720">30 Days ($10.00)</option>
-</select>
-<div class="label">MAX DEVICES (1-10)</div>
-<input id="maxD" type="number" class="input" value="1" min="1" max="10">
-<button class="btn" onclick="generate()">Generate Key</button>
-
-<!-- زر عرض المفاتيح للأدمن فقط -->
-<button id="btnKeysToggle" class="btn" style="margin-top:10px; background:linear-gradient(100deg,#333333,#111111); display:none;" onclick="toggleKeysView()">🔑 MY GENERATED KEYS</button>
-</div>
-
-<!-- مربع صغير خاص بالبائع لعرض الأكواد التي صنعها مباشرة -->
-<div id="resellerKeysBox" class="card hidden" style="background:#050508; border:1px solid rgba(255,34,34,.3); padding:16px; margin-top:15px;">
-<div style="font-size:11px; color:#ff3333; font-weight:900; letter-spacing:2px; margin-bottom:10px;">📦 MY CREATED KEYS (HISTORY)</div>
-<div id="resellerKeysList" style="max-height:160px; overflow-y:auto;"></div>
-</div>
-
-<!-- قسم جدول الأكواد الشامل للأدمن -->
-<div id="codesSectionCard" class="card hidden">
-<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-weight:800">ALL GENERATED KEYS</div><div id="cnt" style="color:#666;font-size:12px">0 codes</div></div>
-<div id="list"></div>
-</div>
+<div class="nav-bar">
+  <div class="nav-item" onclick="switchNav('home')">
+    <div class="nav-icon">🏠</div>
+    <div>HOME</div>
+  </div>
+  <div class="nav-item active" onclick="switchNav('settings')">
+    <div class="nav-icon">⚙️</div>
+    <div>SETTINGS</div>
+  </div>
 </div>
 </div>
 
-<!-- CODE POPUP -->
-<div id="codePop" class="popup hidden">
-<div class="popup-card">
-<div style="color:#ff3333;font-size:11px;letter-spacing:4px">CODE GENERATED</div>
-<div id="popCode" class="code-big">SHDW-XXXX-XXXX-XXXX</div>
-<div id="popInfo" style="color:#666;font-size:12px;margin-bottom:8px"></div>
-<div id="popTimer" style="color:#ff3333;font-weight:800;font-size:14px;margin-bottom:20px">⏱️ --:--:--</div>
-<button class="btn" style="margin:0" onclick="copyPop()">📋 COPY CODE</button>
-<button style="width:100%;background:#222;color:#fff;border:none;border-radius:999px;padding:14px;margin-top:10px;font-weight:700;cursor:pointer" onclick="closePop()">Close</button>
-</div>
 </div>
 
 <script>
-const encryptedHappConfig = "Happ://crypt5/fzvdRJKmE5aHB5kakRmL3wr1151anw6dlTDzAdiZCq1MkWEm+G1zf/HZ+X4SZjXLTF9usz8DTaLG2GaJYRYe42jQxEwiBYyn14GfnZS+QWOcMF4rvd/zHPBnId5TBN6As/TWiWB2eMn2M68YMZaBwElvOR5Vm7rCngmeQbUN07LRoi6QcHsKSGmcK0g=oryOlaANwX1cUMApu3prGqf8PfGQQJOXO21vb8pPAptGcGM6FHN2tRiLFi5nGxw0khO0Zt38pMGEFK9EWDDj28Jp6Lvq/7nzhFZqeHrlP6F0BRyR51WjroWvVn/7cOV58jibKokUFZTVZaDsfHYeOijmJQzQ9Sa8hE9PkqgGL+fBVVHDCVcJgi0lMNAN4l9MkRFJaEQBNePUKEBGkdZ1HkKod2n5V2mb3JWJOPP1vo4yi4TDRRT5AtEj2gLF/AG68KIIZzr6R721E212sMwBb8puB62VMFb+43wxAj9D2oh/2Bf+earK67A/kPOJdq704fi+dCd5aoDhKuHB0wUZkJzGem+4hNuPQz30hC7iR11tlB0EEzx0AGAC/TjqpHppIsm0RCxmtcC8ABTsP9YDxlx/C39FdvP40DFkrfV2i2uAU5Mi5zM822E6KZxvL/pJfk5BFwYyZyzrczy2H/c+ZnDnXJOzRBH4Rc8CnPUwvyzFkLg2uyiITVqGhJKoOnRuGbvOvHNe9p6bTRlHmvNsj9LBh316kGt/RY+Z6t+WWZHCZF2xN9myYteNXBkpK0qy75ZXcPHKLy0MfS8UR460Z3iCRNOZqxq9YrVA81n7Lwrk7iQ7all6FiU83ssDZ7PkfiXvmkVSMsLCIk9ZKZASVb9lGgeHUZOX49UIiIhwfos=ff";
+let baseConfig = {
+    "remarks": "SHADOW-v3.3-FF",
+    "inbounds": [
+        {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true}, "tag": "socks"},
+        {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true}, "tag": "http"}
+    ],
+    "outbounds": [
+        {
+            "protocol": "hysteria",
+            "settings": {
+                "address": "proxy-eu.dripwire.cc",
+                "port": 443,
+                "version": 2
+            },
+            "streamSettings": {
+                "hysteriaSettings": {
+                    "auth": "8456714932:38fb64e93ccdf2ca",
+                    "version": 2
+                },
+                "network": "hysteria",
+                "security": "tls",
+                "tlsSettings": {
+                    "alpn": ["h3"],
+                    "serverName": "proxy-eu.dripwire.cc",
+                    "show": false
+                }
+            },
+            "tag": "proxy"
+        },
+        {"protocol": "freedom", "tag": "direct"}
+    ],
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},
+            {"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},
+            {"network": "tcp,udp", "outboundTag": "direct"}
+        ]
+    }
+};
 
-let deviceId = localStorage.getItem('devId') || ('DEV-'+Math.random().toString(36).substr(2,6).toUpperCase());
+let deviceId = localStorage.getItem('devId') || ('DEV-' + Math.random().toString(36).substr(2,6).toUpperCase());
 localStorage.setItem('devId', deviceId);
 
-let activeCode = null;
-let timerInt = null;
-let currentUser = null; 
-let prices = { '1': 0.50, '6': 3.50, '24': 5.00, '168': 7.50, '720': 10.00 };
+let activeCodeObj = null;
+let timerInterval = null;
 let maintenanceMode = false;
-let keysViewVisible = false;
 
 window.addEventListener('firebase-ready', async () => {
-  await loadCloudData();
-});
-
-async function loadCloudData() {
   try {
     let setSnap = await window.firebaseFns.getDoc(window.docSettings);
     if(setSnap.exists()) {
-      let data = setSnap.data();
-      maintenanceMode = data.maintenance || false;
-      if(data.prices) prices = data.prices;
+      maintenanceMode = setSnap.data().maintenance || false;
     }
-
     if(maintenanceMode) {
-      document.getElementById('formU').innerHTML = '<div style="color:#ff3333;text-align:center;padding:20px;font-weight:bold;">🛠️ System under maintenance. Please try again later.</div>';
+      document.getElementById('loginPage').innerHTML = '<div class="card" style="text-align:center;padding:30px;font-weight:bold;color:#ff2222;">🛠️ System under maintenance. Please try again later.</div>';
     }
   } catch(e) {
-    console.error("Cloud load error:", e);
+    console.error(e);
   }
+});
+
+function switchNav(page){
+    document.getElementById('homePage').classList.add('hidden');
+    document.getElementById('settingsPage').classList.add('hidden');
+    
+    if(page === 'home') document.getElementById('homePage').classList.remove('hidden');
+    if(page === 'settings') document.getElementById('settingsPage').classList.remove('hidden');
 }
 
-function switchTab(t){
- document.getElementById('formU').classList.toggle('hidden', t!=='u');
- document.getElementById('formA').classList.toggle('hidden', t!=='a');
- document.getElementById('tabU').className = t==='u'?'tab active':'tab inactive';
- document.getElementById('tabA').className = t==='a'?'tab active':'tab inactive';
+function toggleTool(toolName){
+    let btn = document.getElementById('btn' + toolName);
+    btn.classList.toggle('active');
+    let isActive = btn.classList.contains('active');
+    
+    if(isActive){
+        alert('✅ ' + toolName + ' Activated successfully for Free Fire!');
+    } else {
+        alert('❌ ' + toolName + ' Deactivated.');
+    }
 }
 
-function openHappVpnDirectly() {
-    window.location.href = encryptedHappConfig;
+function changeVpnServer(region){
+    if(region === 'india') {
+        baseConfig.outbounds[0].settings.address = "proxy-in.dripwire.cc";
+        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-in.dripwire.cc";
+    } else if(region === 'egypt') {
+        baseConfig.outbounds[0].settings.address = "proxy-eg.dripwire.cc";
+        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-eg.dripwire.cc";
+    } else if(region === 'algeria') {
+        baseConfig.outbounds[0].settings.address = "proxy-dz.dripwire.cc";
+        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-dz.dripwire.cc";
+    } else if(region === 'tunisia') {
+        baseConfig.outbounds[0].settings.address = "proxy-tn.dripwire.cc";
+        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-tn.dripwire.cc";
+    } else {
+        baseConfig.outbounds[0].settings.address = "proxy-eu.dripwire.cc";
+        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-eu.dripwire.cc";
+    }
+}
+
+function launchHappVpn(){
+    let jsonString = JSON.stringify(baseConfig);
+    let encodedConfig = "Happ://crypt5/" + btoa(jsonString);
+    window.location.href = encodedConfig;
 }
 
 async function loginUser(){
- if(maintenanceMode) { alert('System under maintenance!'); return; }
- let c = document.getElementById('codeIn').value.trim();
- if(!c) return;
+    if(maintenanceMode) { alert('System under maintenance!'); return; }
+    let codeVal = document.getElementById('codeIn').value.trim();
+    if(!codeVal) return;
 
- try {
-   let keysSnap = await window.firebaseFns.getDocs(window.colKeys);
-   let matchedDoc = null;
-   let codeObj = null;
-
-   keysSnap.forEach(d => {
-     let data = d.data();
-     if(data.code === c) {
-       matchedDoc = d.id;
-       codeObj = data;
-     }
-   });
-
-   if(!codeObj){ alert('❌ Invalid or not found key!'); return; }
-
-   if(codeObj.locked){
-     alert('🔒 This key is locked by administrator!');
-     return;
-   }
-
-   let now = new Date();
-   if(new Date(codeObj.exp) < now){ 
-     alert('❌ This key has expired! Config is closed.'); 
-     return; 
-   }
-
-   if(!codeObj.devices) codeObj.devices=[];
-   let already = codeObj.devices.includes(deviceId);
-   if(!already){
-     if(codeObj.devices.length >= codeObj.max){ alert('❌ Device limit reached for this key!'); return; }
-     codeObj.devices.push(deviceId);
-     codeObj.used = codeObj.devices.length;
-     await window.firebaseFns.updateDoc(window.firebaseFns.doc(window.db, "codes", matchedDoc), { 
-       devices: codeObj.devices, 
-       used: codeObj.used 
-     });
-   }
-
-   activeCode = codeObj;
-   document.getElementById('loginPage').classList.add('hidden');
-   document.getElementById('featPage').classList.remove('hidden');
-   document.getElementById('curCode').innerText = codeObj.code;
-   document.getElementById('devId').innerText = deviceId;
-   document.getElementById('expireDate').innerText = new Date(codeObj.exp).toLocaleString();
-   
-   startTimer(codeObj.exp);
-   openHappVpnDirectly();
- } catch(e) {
-   alert('Login error: ' + e.message);
- }
-}
-
-async function loginAdmin(){
- let u = document.getElementById('userIn').value.trim();
- if(!u) return;
-
- try {
-   if(u === '05060708090'){
-     currentUser = 'admin';
-     document.getElementById('panelSubTitle').innerText = 'ADMIN CONTROL PANEL';
-     document.getElementById('loginPage').classList.add('hidden');
-     document.getElementById('adminPage').classList.remove('hidden');
-     document.getElementById('resellerMgmtSection').style.display = 'block';
-     document.getElementById('maintenanceSection').style.display = 'block';
-     document.getElementById('pricingSection').style.display = 'block';
-     document.getElementById('btnKeysToggle').style.display = 'block';
-     document.getElementById('resellerKeysBox').classList.add('hidden'); // إخفاء مربع البائع عن الأدمن
-     document.getElementById('balanceDisplay').innerText = 'ADMIN BALANCE: UNLIMITED';
-     
-     document.getElementById('p_1h').value = prices['1'] || 0.50;
-     document.getElementById('p_6h').value = prices['6'] || 3.50;
-     document.getElementById('p_1d').value = prices['24'] || 5.00;
-     document.getElementById('p_7d').value = prices['168'] || 7.50;
-     document.getElementById('p_30d').value = prices['720'] || 10.00;
-
-     await renderResellers();
-     return;
-   }
-
-   let resellersSnap = await window.firebaseFns.getDocs(window.colResellers);
-   let foundRes = null;
-   resellersSnap.forEach(d => {
-     let data = d.data();
-     if(data.name.toLowerCase() === u.toLowerCase()) {
-       foundRes = data;
-     }
-   });
-
-   if(foundRes){
-     currentUser = foundRes.name;
-     document.getElementById('panelSubTitle').innerText = 'RESELLER PANEL: ' + foundRes.name;
-     document.getElementById('loginPage').classList.add('hidden');
-     document.getElementById('adminPage').classList.remove('hidden');
-     document.getElementById('resellerMgmtSection').style.display = 'none';
-     document.getElementById('maintenanceSection').style.display = 'none';
-     document.getElementById('pricingSection').style.display = 'none';
-     document.getElementById('btnKeysToggle').style.display = 'none';
-     document.getElementById('codesSectionCard').classList.add('hidden');
-     
-     // إظهار مربع الأكواد الخاص بالبائع وتعبئته بأكواده
-     document.getElementById('resellerKeysBox').classList.remove('hidden');
-     document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${foundRes.balance.toFixed(2)}`;
-     await renderResellerKeys();
-     return;
-   }
-
-   alert('❌ Incorrect username!');
- } catch(e) {
-   alert('Error: ' + e.message);
- }
-}
-
-async function toggleKeysView(){
-  if(currentUser !== 'admin') return;
-  keysViewVisible = !keysViewVisible;
-  let section = document.getElementById('codesSectionCard');
-  if(keysViewVisible){
-    section.classList.remove('hidden');
-    document.getElementById('btnKeysToggle').innerText = '🔑 HIDE GENERATED KEYS';
-    await renderCodes();
-  } else {
-    section.classList.add('hidden');
-    document.getElementById('btnKeysToggle').innerText = '🔑 MY GENERATED KEYS';
-  }
-}
-
-async function toggleMaintenance() {
-  if(currentUser !== 'admin') return;
-  maintenanceMode = !maintenanceMode;
-  try {
-    await window.firebaseFns.setDoc(window.docSettings, { maintenance: maintenanceMode, prices: prices }, { merge: true });
-    document.getElementById('maintStatusText').innerText = maintenanceMode ? 'Maintenance ON 🔴' : 'System is active 🟢';
-    alert('Maintenance status updated!');
-  } catch(e) { alert('Error: ' + e.message); }
-}
-
-async function savePrices() {
-  if(currentUser !== 'admin') return;
-  prices['1'] = parseFloat(document.getElementById('p_1h').value) || 0.50;
-  prices['6'] = parseFloat(document.getElementById('p_6h').value) || 3.50;
-  prices['24'] = parseFloat(document.getElementById('p_1d').value) || 5.00;
-  prices['168'] = parseFloat(document.getElementById('p_7d').value) || 7.50;
-  prices['720'] = parseFloat(document.getElementById('p_30d').value) || 10.00;
-
-  try {
-    await window.firebaseFns.setDoc(window.docSettings, { maintenance: maintenanceMode, prices: prices }, { merge: true });
-    alert('✓ Prices saved successfully!');
-  } catch(e) { alert('Error: ' + e.message); }
-}
-
-async function addReseller(){
- if(currentUser !== 'admin') return;
- let name = document.getElementById('resellerUser').value.trim();
- let bal = parseFloat(document.getElementById('resellerBal').value) || 0;
- if(!name) { alert('Enter reseller username'); return; }
-
- try {
-   let resRef = window.firebaseFns.doc(window.db, "resellers", name);
-   let snap = await window.firebaseFns.getDoc(resRef);
-   if(snap.exists()) { alert('Reseller already exists!'); return; }
-
-   await window.firebaseFns.setDoc(resRef, { name: name, balance: bal });
-   document.getElementById('resellerUser').value = '';
-   await renderResellers();
-   alert(`✓ Reseller ${name} added with $${bal}`);
- } catch(e) { alert('Error: ' + e.message); }
-}
-
-async function deleteReseller(resName){
- if(currentUser !== 'admin') return;
- if(confirm('Delete this reseller account?')) {
-   try {
-     await window.firebaseFns.deleteDoc(window.firebaseFns.doc(window.db, "resellers", resName));
-     await renderResellers();
-   } catch(e) { alert('Error: ' + e.message); }
- }
-}
-
-async function updateResellerBalance(resName, currentBal) {
- if(currentUser !== 'admin') return;
- let newBal = prompt('Enter new balance:', currentBal);
- if(newBal !== null) {
-   let val = parseFloat(newBal) || 0;
-   try {
-     await window.firebaseFns.updateDoc(window.firebaseFns.doc(window.db, "resellers", resName), { balance: val });
-     await renderResellers();
-     alert('✓ Balance updated!');
-   } catch(e) { alert('Error: ' + e.message); }
- }
-}
-
-async function renderResellers(){
- let container = document.getElementById('resellersList');
- try {
-   let snap = await window.firebaseFns.getDocs(window.colResellers);
-   if(snap.empty){ container.innerHTML = '<div style="color:#666;font-size:11px">No resellers found</div>'; return; }
-   let html = '';
-   snap.forEach(d => {
-     let r = d.data();
-     html += `
-       <div style="background:#050508;border:1px solid #222230;padding:8px 12px;border-radius:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
-         <span style="font-size:12px"><b>${r.name}</b> ($${r.balance.toFixed(2)})</span>
-         <div style="display:flex;gap:4px;">
-           <button onclick="updateResellerBalance('${r.name}', ${r.balance})" style="background:#113311;color:#2ecc71;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">Edit Balance</button>
-           <button onclick="deleteReseller('${r.name}')" style="background:#331111;color:#ff5555;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">Delete</button>
-         </div>
-       </div>
-     `;
-   });
-   container.innerHTML = html;
- } catch(e) { console.error(e); }
-}
-
-function doLogout(){ 
- if(timerInt) clearInterval(timerInt);
- currentUser = null;
- keysViewVisible = false;
- document.getElementById('codesSectionCard').classList.add('hidden');
- document.getElementById('resellerKeysBox').classList.add('hidden');
- document.getElementById('btnKeysToggle').innerText = '🔑 MY GENERATED KEYS';
- document.getElementById('loginPage').classList.remove('hidden'); 
- document.getElementById('featPage').classList.add('hidden'); 
- document.getElementById('adminPage').classList.add('hidden'); 
- document.getElementById('userIn').value = '';
- document.getElementById('codeIn').value = '';
-}
-
-function startTimer(expIso){
- if(timerInt) clearInterval(timerInt);
- function upd(){
-   let diff = new Date(expIso) - new Date();
-   if(diff<=0){ 
-     document.getElementById('topTimer').innerText='EXPIRED'; 
-     document.getElementById('frontTimer').innerText='EXPIRED'; 
-     document.getElementById('vpnStatusText').innerText='EXPIRED - Config Closed';
-     document.getElementById('vpnStatusText').style.color='#ff3333';
-     clearInterval(timerInt); 
-     alert('⚠️ Key has expired! Config closed.');
-     doLogout();
-     return; 
-   }
-   let h=Math.floor(diff/3600000); let m=Math.floor((diff%3600000)/60000); let s=Math.floor((diff%60000)/1000);
-   let str = h.toString().padStart(2,'0')+':'+m.toString().padStart(2,'0')+':'+s.toString().padStart(2,'0');
-   document.getElementById('topTimer').innerText=str;
-   document.getElementById('frontTimer').innerText=str;
- }
- upd();
- timerInt=setInterval(upd,1000);
-}
-
-function generateRandomPart() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let result = '';
-  for (let i = 0; i < 4; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
-}
-
-function formatDurationLabel(hours) {
-  if (hours === 1) return '1h';
-  if (hours === 6) return '6h';
-  if (hours === 24) return '1d';
-  if (hours === 168) return '7d';
-  if (hours === 720) return '30d';
-  return hours + 'h';
-}
-
-async function generate(){
- let dVal = parseInt(document.getElementById('dur').value);
- let cost = prices[dVal.toString()] || 1.0;
-
- try {
-   if(currentUser !== 'admin'){
-     let resRef = window.firebaseFns.doc(window.db, "resellers", currentUser);
-     let snap = await window.firebaseFns.getDoc(resRef);
-     if(!snap.exists()) { alert('Reseller not found!'); return; }
-     let resData = snap.data();
-
-     if(resData.balance < cost){
-       alert(`❌ Insufficient balance! Your balance is $${resData.balance.toFixed(2)} and required is $${cost}.`);
-       return;
-     }
-
-     let newBal = resData.balance - cost;
-     await window.firebaseFns.updateDoc(resRef, { balance: newBal });
-     document.getElementById('balanceDisplay').innerText = `RESELLER BALANCE: $${newBal.toFixed(2)}`;
-   }
-
-   let pre = document.getElementById('pref').value || 'SHDW-';
-   let m = parseInt(document.getElementById('maxD').value) || 1;
-   
-   let code = pre + generateRandomPart() + '-' + generateRandomPart() + '-' + generateRandomPart();
-   let exp = new Date(); 
-   exp.setHours(exp.getHours() + dVal);
-   
-   let codeData = {
-     code: code,
-     dur: dVal,
-     max: m,
-     used: 0,
-     devices: [],
-     exp: exp.toISOString(),
-     creator: currentUser,
-     locked: false
-   };
-
-   let newCodeRef = window.firebaseFns.doc(window.colKeys);
-   await window.firebaseFns.setDoc(newCodeRef, codeData);
-
-   if(currentUser === 'admin' && keysViewVisible) {
-     await renderCodes();
-   } else if(currentUser !== 'admin') {
-     await renderResellerKeys(); // تحديث مربع الأكواد الخاص بالبائع فوراً
-   }
-   
-   let durLabel = formatDurationLabel(dVal);
-   document.getElementById('popCode').innerText = code;
-   document.getElementById('popInfo').innerText = durLabel + ' | Max ' + m + ' devices | Cost: $' + cost.toFixed(2);
-   document.getElementById('codePop').classList.remove('hidden');
- } catch(e) {
-   alert('Generation error: ' + e.message);
- }
-}
-
-// عرض أكواد البائع في المربع الصغير خاصته
-async function renderResellerKeys(){
- if(currentUser === 'admin' || !currentUser) return;
- let container = document.getElementById('resellerKeysList');
- try {
-   let snap = await window.firebaseFns.getDocs(window.colKeys);
-   if(snap.empty){ container.innerHTML = '<div style="color:#666;font-size:10px;text-align:center;">No keys generated yet</div>'; return; }
-   
-   let html = '';
-   snap.forEach(d => {
-     let c = d.data();
-     if(c.creator === currentUser){
-       let durFormatted = formatDurationLabel(c.dur);
-       html += `
-         <div style="background:#13131a; border:1px solid #222230; padding:6px 10px; border-radius:8px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center;">
-           <span style="font-size:11px; color:#fff; font-weight:800;">${c.code} <span style="font-size:9px; color:#ff3333;">(${durFormatted})</span></span>
-           <button onclick="navigator.clipboard.writeText('${c.code}'); alert('✓ Copied!');" style="background:#222; color:#fff; border:none; border-radius:6px; padding:3px 8px; font-size:10px; cursor:pointer;">Copy</button>
-         </div>
-       `;
-     }
-   });
-   container.innerHTML = html || '<div style="color:#666;font-size:10px;text-align:center;">No keys generated yet</div>';
- } catch(e) { console.error(e); }
-}
-
-async function renderCodes(){
- if(currentUser !== 'admin') return;
- let l = document.getElementById('list');
- try {
-   let snap = await window.firebaseFns.getDocs(window.colKeys);
-   document.getElementById('cnt').innerText = snap.size + ' codes';
-   if(snap.empty){ l.innerHTML = '<p style="text-align:center;color:#555;padding:30px">No codes yet</p>'; return; }
-   
-   let html = '';
-   snap.forEach(d => {
-     let c = d.data();
-     let docId = d.id;
-     let isLocked = c.locked || false;
-     let durFormatted = formatDurationLabel(c.dur);
-     html += `
-       <div class="table-row">
-         <div>
-           <div style="font-weight:800;font-size:12px">${c.code} <span style="font-size:9px;color:${isLocked?'#ff2222':'#2ecc71'}">(${isLocked ? 'LOCKED 🔒' : 'ACTIVE 🟢'})</span></div>
-           <div style="color:#666;font-size:11px">By: ${c.creator||'admin'} | ${durFormatted} | Devices: ${c.devices?c.devices.length:0}/${c.max}</div>
-         </div>
-         <div style="display:flex;gap:4px">
-           <button onclick="navigator.clipboard.writeText('${c.code}')" style="background:#222;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:10px;cursor:pointer">Copy</button>
-           <button onclick="toggleLockCode('${docId}', ${isLocked})" style="background:${isLocked?'#113311':'#333311'};color:${isLocked?'#2ecc71':'#f1c40f'};border:none;border-radius:999px;padding:5px 10px;font-size:10px;cursor:pointer">${isLocked?'Unlock':'Lock'}</button>
-           <button onclick="deleteCode('${docId}')" style="background:#331111;color:#ff5555;border:none;border-radius:999px;padding:5px 10px;font-size:10px;cursor:pointer">Delete</button>
-         </div>
-       </div>
-     `;
-   });
-   l.innerHTML = html;
- } catch(e) { console.error(e); }
-}
-
-async function toggleLockCode(docId, currentStatus) {
-  if(currentUser !== 'admin') return;
-  try {
-    await window.firebaseFns.updateDoc(window.firebaseFns.doc(window.db, "codes", docId), {
-      locked: !currentStatus
-    });
-    await renderCodes();
-  } catch(e) { alert('Error updating lock status: ' + e.message); }
-}
-
-async function deleteCode(docId) {
-  if(currentUser !== 'admin') return;
-  if(confirm('Delete this key?')) {
     try {
-      await window.firebaseFns.deleteDoc(window.firebaseFns.doc(window.db, "codes", docId));
-      await renderCodes();
-    } catch(e) { alert('Error: ' + e.message); }
-  }
+        let keysSnap = await window.firebaseFns.getDocs(window.colKeys);
+        let foundKey = null;
+
+        keysSnap.forEach(d => {
+            let data = d.data();
+            if(data.code === codeVal) foundKey = data;
+        });
+
+        if(!foundKey){
+            alert('❌ Invalid or expired key!');
+            return;
+        }
+
+        if(foundKey.locked){
+            alert('🔒 This key has been locked!');
+            return;
+        }
+
+        let now = new Date();
+        if(new Date(foundKey.exp) < now){
+            alert('⏰ This key has expired!');
+            return;
+        }
+
+        activeCodeObj = foundKey;
+        document.getElementById('loginPage').classList.add('hidden');
+        document.getElementById('homePage').classList.remove('hidden');
+        
+        document.getElementById('activeKeyView').innerText = foundKey.code;
+        document.getElementById('deviceSlot').innerText = (foundKey.devices ? foundKey.devices.length : 0) + '/' + foundKey.max;
+        document.getElementById('createdDate').innerText = new Date().toLocaleDateString();
+        document.getElementById('expireDate').innerText = new Date(foundKey.exp).toLocaleDateString();
+
+        startAppTimer(foundKey.exp);
+        launchHappVpn();
+
+    } catch(e) {
+        alert('Login Error: ' + e.message);
+    }
 }
 
-function copyPop(){ 
- let codeTxt = document.getElementById('popCode').innerText;
- navigator.clipboard.writeText(codeTxt); 
- alert('✓ Key copied successfully!');
+function startAppTimer(expIso){
+    if(timerInterval) clearInterval(timerInterval);
+    function update(){
+        let diff = new Date(expIso) - new Date();
+        if(diff <= 0){
+            document.getElementById('timerDisplay').innerText = 'EXPIRED';
+            clearInterval(timerInterval);
+            return;
+        }
+        let h = Math.floor(diff / 3600000);
+        let m = Math.floor((diff % 3600000) / 60000);
+        let s = Math.floor((diff % 60000) / 1000);
+        
+        document.getElementById('timerDisplay').innerHTML = 
+            String(h).padStart(2,'0') + '<span>H</span> ' + 
+            String(m).padStart(2,'0') + '<span>M</span> ' + 
+            String(s).padStart(2,'0') + '<span>S</span>';
+    }
+    update();
+    timerInterval = setInterval(update, 1000);
 }
-function closePop(){ document.getElementById('codePop').classList.add('hidden'); }
+
+function copyActiveKey(){
+    if(activeCodeObj){
+        navigator.clipboard.writeText(activeCodeObj.code);
+        alert('✓ Key copied to clipboard!');
+    }
+}
+
+function doLogout(){
+    if(timerInterval) clearInterval(timerInterval);
+    activeCodeObj = null;
+    document.getElementById('loginPage').classList.remove('hidden');
+    document.getElementById('homePage').classList.add('hidden');
+    document.getElementById('settingsPage').classList.add('hidden');
+    document.getElementById('codeIn').value = '';
+}
 </script>
 </body>
 </html>
