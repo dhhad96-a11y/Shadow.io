@@ -95,7 +95,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 </script>
 </head>
 <body>
-<div id="toast">✓ Redirecting to Happ...</div>
+<div id="toast">✓ Success!</div>
 <div class="container">
 
 <!-- شاشة إدخال الكود (Redeem Key) -->
@@ -156,12 +156,12 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
   <button class="tool-btn" id="btnFreeze" onclick="toggleTool('Freeze')">⚡ Fteeze</button>
 </div>
 
-<button class="sub-btn" onclick="launchHappVpn()">
+<button class="sub-btn" onclick="copyRawConfig()">
   <div>
-    <div>OPEN IN HAPP VPN</div>
-    <div class="sub-subtxt">Direct Launch (No Copy)</div>
+    <div>COPY JSON CONFIG</div>
+    <div class="sub-subtxt">Copy raw JSON config to clipboard</div>
   </div>
-  <div class="arrow-icon">→</div>
+  <div class="arrow-icon">📋</div>
 </button>
 </div>
 
@@ -193,10 +193,10 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 </div>
 
 <script>
-let activeHappUrl = "";
+let activeRawJsonString = "";
 let timerInterval = null;
 
-// الملف الأصلي تماماً (Adham Dev x Shadow) بصيغة مصفوفة JSON سليمة 100% لتطبيق Happ
+// الكونفيغ الأصلي بالاسم المطلوب "Adham Dev x Shadow[span_0](start_span)"[span_0](end_span)
 let baseConfig = [
     {
         "remarks": "Adham Dev x Shadow",
@@ -259,14 +259,18 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// الانتقال التلقائي لتطبيق Happ عبر بروتوكول happ://json/ لكي يقرأه التطبيق مباشرة بدون أخطاء
-function launchHappVpn(){
-    if(!activeHappUrl) return alert("No active config!");
-    showToast("✓ Launching Happ VPN...");
-    window.location.href = activeHappUrl;
+// دالة نسخ الكونفيغ الصافي (JSON) للحافظة ليعمل في Happ بدون أخطاء
+function copyRawConfig(){
+    if(!activeRawJsonString) return alert("No active config!");
+    
+    navigator.clipboard.writeText(activeRawJsonString).then(() => {
+        showToast("✓ JSON Config Copied to Clipboard!");
+    }).catch(() => {
+        showToast("❌ Copy failed.");
+    });
 }
 
-// التحقق من الكود في Firebase والانتقال التلقائي المباشر
+// التحقق من الكود وتجهيز النسخ الفوري
 async function verifyAndActivateKey(){
     let codeVal = document.getElementById('codeIn').value.trim();
     if(!codeVal || codeVal === "SHWD-") return alert("Please enter a valid activation key!");
@@ -289,9 +293,8 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // تجهيز الرابط الصحيح المتوافق مع Happ لتمرير ملف الـ JSON كاملاً بدون نسخ
-        let jsonString = JSON.stringify(baseConfig);
-        activeHappUrl = "happ://json/" + encodeURIComponent(jsonString);
+        // تجهيز الكونفيغ بصيغة JSON للنسخ
+        activeRawJsonString = JSON.stringify(baseConfig, null, 4);
 
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
         document.getElementById('expireDateText').innerText = new Date(foundKeyData.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -300,7 +303,7 @@ async function verifyAndActivateKey(){
         document.getElementById('homePage').classList.remove('hidden');
 
         startAppTimer(foundKeyData.expiresAt);
-        launchHappVpn(); // الانتقال التلقائي الفوري لتطبيق Happ
+        copyRawConfig(); // نسخ تلقائي للحافظة فور التفعيل لتسهيل إضافته لـ Happ
     } catch(e) {
         alert("Connection Error: " + e.message);
     }
@@ -331,7 +334,7 @@ function copyActiveKey(){
 
 function doLogout(){
     if(timerInterval) clearInterval(timerInterval);
-    activeHappUrl = "";
+    activeRawJsonString = "";
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
