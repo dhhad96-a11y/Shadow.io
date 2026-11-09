@@ -95,7 +95,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 </script>
 </head>
 <body>
-<div id="toast">✓ Redirecting...</div>
+<div id="toast">✓ Redirecting to Happ...</div>
 <div class="container">
 
 <!-- شاشة إدخال الكود (Redeem Key) -->
@@ -159,7 +159,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 <button class="sub-btn" onclick="launchHappVpn()">
   <div>
     <div>OPEN IN HAPP VPN</div>
-    <div class="sub-subtxt">Direct Launch to Happ (No Copy)</div>
+    <div class="sub-subtxt">Direct Launch (No Copy)</div>
   </div>
   <div class="arrow-icon">→</div>
 </button>
@@ -196,7 +196,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeHappUrl = "";
 let timerInterval = null;
 
-// الملف المطلوب مع اسم Adham Dev xShadow وتحديث الـ remarks دون المساس بالإعدادات
+// الملف الأصلي تماماً (Adham Dev x Shadow) بصيغة مصفوفة JSON سليمة 100% لتطبيق Happ
 let baseConfig = [
     {
         "remarks": "Adham Dev x Shadow",
@@ -259,14 +259,14 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// الانتقال التلقائي لتطبيق Happ VPN بصيغة الـ Link (دون أي نسخ للحافظة)
+// الانتقال التلقائي لتطبيق Happ عبر بروتوكول happ://json/ لكي يقرأه التطبيق مباشرة بدون أخطاء
 function launchHappVpn(){
     if(!activeHappUrl) return alert("No active config!");
     showToast("✓ Launching Happ VPN...");
     window.location.href = activeHappUrl;
 }
 
-// التحقق من الكود في قاعدة البيانات (Firebase) والانتقال التلقائي
+// التحقق من الكود في Firebase والانتقال التلقائي المباشر
 async function verifyAndActivateKey(){
     let codeVal = document.getElementById('codeIn').value.trim();
     if(!codeVal || codeVal === "SHWD-") return alert("Please enter a valid activation key!");
@@ -289,9 +289,9 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // إعداد الرابط الموجه لتطبيق Happ
+        // تجهيز الرابط الصحيح المتوافق مع Happ لتمرير ملف الـ JSON كاملاً بدون نسخ
         let jsonString = JSON.stringify(baseConfig);
-        activeHappUrl = "happ://add/" + btoa(unescape(encodeURIComponent(jsonString)));
+        activeHappUrl = "happ://json/" + encodeURIComponent(jsonString);
 
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
         document.getElementById('expireDateText').innerText = new Date(foundKeyData.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
