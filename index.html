@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SHADOW v3.3 - License Portal</title>
+<title>Shadow v3.3 - License Portal</title>
 
 <style>
 :root{--accent:#ff3333;--accent-glow:rgba(255,51,51,0.3);--bg:#050508;--panel:#0d0d14;--border:rgba(255,51,51,0.25);--text:#fff;--muted:#8888a0}
@@ -11,9 +11,9 @@
 body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 10%, rgba(255,51,51,0.12) 0%, transparent 60%);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:15px;overflow-x:hidden}
 .container{width:100%;max-width:420px;position:relative}
 
-/* شاشة تسجيل الدخول بالتصميم الجديد المطلق */
+/* واجهة تسجيل الدخول الجديدة (مطابقة تماماً للصورة وباسم Shadow v3.3) */
 .auth-wrapper{width:100%;display:flex;flex-direction:column;align-items:center;animation:fadeIn 0.4s ease-in-out}
-.brand-logo-text{font-size:22px;font-weight:900;color:var(--accent);letter-spacing:3px;margin-bottom:25px;text-align:center;text-shadow:0 0 15px rgba(255,51,51,0.4)}
+.brand-logo-text{font-size:24px;font-weight:900;color:var(--accent);letter-spacing:3px;margin-bottom:25px;text-align:center;text-shadow:0 0 15px rgba(255,51,51,0.4)}
 .card{background:rgba(13,13,20,0.95);border:1px solid var(--border);border-radius:28px;padding:30px 22px;margin-bottom:15px;box-shadow:0 0 40px rgba(255,51,51,0.15);backdrop-filter:blur(20px);width:100%}
 
 .section-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
@@ -24,7 +24,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 .input-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:11px;font-weight:bold;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
 .paste-link{color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px}
 
-/* خانة إدخال الكود غير المقسمة (متصلة بالكامل) */
+/* خانة إدخال الكود (غير مقسمة، خانة واحدة متصلة) */
 .full-key-input{width:100%;background:#040407;border:1px solid #1f1f2e;border-radius:16px;padding:16px;color:#fff;font-size:14px;font-family:monospace;letter-spacing:2px;outline:none;text-align:center;margin-bottom:20px;transition:0.3s}
 .full-key-input:focus{border-color:var(--accent);background:#0a0a12;box-shadow:0 0 15px rgba(255,51,51,0.2)}
 
@@ -33,7 +33,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 
 .footer-info{text-align:center;font-size:11px;color:var(--muted);margin-top:15px;display:flex;align-items:center;justify-content:center;gap:6px}
 
-/* واجهة الداشبورد بعد الدخول */
+/* واجهة الداشبورد بعد التفعيل */
 .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
 .app-title{font-weight:900;font-size:16px;letter-spacing:1px}
 .logout-btn{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:bold;cursor:pointer}
@@ -74,35 +74,12 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
 </style>
-
-<!-- Firebase SDK المربوط بلوحة الأدمن (`zbyb-8142b`) -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCrLmFgqCL6veqA2wZ7Nv3OMiby8ZlV4TQ",
-        authDomain: "zbyb-8142b.firebaseapp.com",
-        projectId: "zbyb-8142b",
-        storageBucket: "zbyb-8142b.firebasestorage.app",
-        messagingSenderId: "562490910524",
-        appId: "1:562490910524:web:a411900b65a8abd4b5a039"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.db = db;
-    window.colKeys = collection(db, "keys");
-    window.firebaseFns = { getDocs };
-    window.dispatchEvent(new Event('firebase-ready'));
-</script>
 </head>
 <body>
 <div id="toast">✓ Success!</div>
 <div class="container">
 
-<!-- شاشة تسجيل الدخول بتصميم Portal الجديد -->
+<!-- شاشة تسجيل الدخول بالتصميم الجديد (Shadow v3.3) -->
 <div id="loginPage" class="auth-wrapper">
     <div class="brand-logo-text">SHADOW v3.3</div>
     <div class="card">
@@ -117,9 +94,10 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
             <span class="paste-link" onclick="pasteKey()">📋 Paste</span>
         </div>
 
+        <!-- خانة كود متصلة بالكامل بدون تقطيع -->
         <input type="text" id="codeIn" class="full-key-input" placeholder="SHADOW-XXXX-XXXX">
 
-        <button class="activate-btn" onclick="loginUser()">✓ Activate</button>
+        <button class="activate-btn" onclick="activateDirect()">✓ Activate</button>
 
         <div class="footer-info">
             <span>ℹ️ Use a valid key issued by Shadow v3.3 Portal.</span>
@@ -127,7 +105,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
     </div>
 </div>
 
-<!-- شاشة الداشبورد والتحكم -->
+<!-- واجهة الاستخدام والتحكم (تفتح مباشرة) -->
 <div id="homePage" class="hidden auth-wrapper" style="width:100%;">
 <div class="card" style="width:100%;">
 <div class="top-bar">
@@ -139,25 +117,25 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
   <div class="circle-ring">
     <div class="client-name-txt">SHADOW v3.3</div>
     <div class="main-client-txt">GAMING CLIENT</div>
-    <div id="timerDisplay" class="countdown-txt">00<span>H</span> 00<span>M</span> 00<span>S</span></div>
+    <div id="timerDisplay" class="countdown-txt">24<span>H</span> 00<span>M</span> 00<span>S</span></div>
   </div>
 </div>
 
 <div class="key-row">
-  <div class="key-txt" id="activeKeyView">SHADOW-XXXX-XXXX</div>
+  <div class="key-txt" id="activeKeyView">SHADOW-VIP-UNLIMITED</div>
   <div class="icon-btn" onclick="copyActiveKey()" title="Copy">📋</div>
 </div>
 
 <div class="info-grid">
   <div class="info-box"><div class="info-label">DEVICE</div><div class="info-val">1/1</div></div>
-  <div class="info-box"><div class="info-label">CREATED</div><div class="info-val" id="createdDate">-</div></div>
-  <div class="info-box"><div class="info-label">EXPIRES</div><div class="info-val" id="expireDate">-</div></div>
+  <div class="info-box"><div class="info-label">STATUS</div><div class="info-val" style="color:#2ecc71;">ONLINE</div></div>
+  <div class="info-box"><div class="info-label">SPEED</div><div class="info-val">UNLIMITED</div></div>
 </div>
 
 <div style="margin-top: 15px;">
   <div style="font-size: 10px; color: var(--muted); margin-bottom: 5px; letter-spacing: 1px;">FREE FIRE ULTRA PING BOOSTERS:</div>
   <select id="serverRegion" class="vpn-select" onchange="changeVpnServer(this.value)">
-    <option value="eu" selected>🇪🇺 ADHAMDev-eu (Hysteria v2)</option>
+    <option value="eu" selected>🇪🇺 SHADOWv3.3-eu (Hysteria v2)</option>
     <option value="india">🇮🇳 India Server (Ping ~64ms)</option>
     <option value="egypt">🇪🇬 Egypt Server (Ping ~75ms)</option>
     <option value="algeria">🇩🇿 Algeria Server (Ping ~90ms)</option>
@@ -209,7 +187,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 
 <script>
 let baseConfig = {
-    "remarks": "ADHAMDev-eu",
+    "remarks": "SHADOWv3.3-eu",
     "inbounds": [
         {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
         {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
@@ -264,7 +242,7 @@ function showToast(msg) {
 function pasteKey() {
     navigator.clipboard.readText().then(text => {
         document.getElementById('codeIn').value = text.trim();
-        showToast("✓ Pasted from clipboard!");
+        showToast("✓ Pasted successfully!");
     }).catch(() => {
         showToast("❌ Paste failed, please paste manually.");
     });
@@ -301,51 +279,16 @@ function launchHappVpn(){
     showToast("✓ Launching Happ VPN...");
 }
 
-async function loginUser(){
-    let codeVal = document.getElementById('codeIn').value.trim();
-    if(!codeVal) return alert("Please enter your license key!");
-
-    try {
-        let keysSnap = await window.firebaseFns.getDocs(window.colKeys);
-        let foundKey = null;
-
-        keysSnap.forEach(d => {
-            let data = d.data();
-            if(data.code.toLowerCase() === codeVal.toLowerCase()) foundKey = data;
-        });
-
-        if(!foundKey) return alert('❌ Invalid or expired license key!');
-        if(foundKey.locked) return alert('🔒 This key is locked!');
-
-        let now = new Date().getTime();
-        let expTime = foundKey.expiresAt || new Date(foundKey.exp).getTime();
-        if(expTime < now) return alert('⏰ This key has expired!');
-
-        document.getElementById('activeKeyView').innerText = foundKey.code;
-        document.getElementById('createdDate').innerText = new Date().toLocaleDateString();
-        document.getElementById('expireDate').innerText = new Date(expTime).toLocaleDateString();
-
-        document.getElementById('loginPage').classList.add('hidden');
-        document.getElementById('homePage').classList.remove('hidden');
-        
-        startAppTimer(expTime);
-        launchHappVpn();
-    } catch(e) {
-        alert('Login Error: ' + e.message);
-    }
-}
-
-let timerInterval = null;
-function startAppTimer(expTime){
-    if(timerInterval) clearInterval(timerInterval);
-    function update(){
-        let diff = expTime - new Date().getTime();
-        if(diff <= 0){ document.getElementById('timerDisplay').innerText = 'EXPIRED'; clearInterval(timerInterval); return; }
-        let h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('timerDisplay').innerHTML = String(h).padStart(2,'0') + '<span>H</span> ' + String(m).padStart(2,'0') + '<span>M</span> ' + String(s).padStart(2,'0') + '<span>S</span>';
-    }
-    update();
-    timerInterval = setInterval(update, 1000);
+// التفعيل والدخول المباشر بدون قيود Valid المعقدة
+function activateDirect(){
+    let val = document.getElementById('codeIn').value.trim();
+    if(!val) val = "SHADOW-VIP-KEY";
+    
+    document.getElementById('activeKeyView').innerText = val;
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('homePage').classList.remove('hidden');
+    
+    launchHappVpn();
 }
 
 function copyActiveKey(){
@@ -354,7 +297,6 @@ function copyActiveKey(){
 }
 
 function doLogout(){
-    if(timerInterval) clearInterval(timerInterval);
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
