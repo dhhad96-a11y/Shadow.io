@@ -99,7 +99,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 <div id="toast">✓ Success!</div>
 <div class="container">
 
-<!-- شاشة إدخال الكود (تبدأ بـ SHWD-) -->
+<!-- شاشة إدخال الكود -->
 <div id="loginPage" class="auth-wrapper">
     <div class="brand-logo-text">SHADOW v3.3</div>
     <div class="card">
@@ -124,7 +124,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
     </div>
 </div>
 
-<!-- واجهة الداشبورد والتحكم للمستخدم -->
+<!-- واجهة الداشبورد والمميزات -->
 <div id="homePage" class="hidden auth-wrapper" style="width:100%;">
 <div class="card" style="width:100%;">
 <div class="top-bar">
@@ -171,7 +171,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 <button class="sub-btn" onclick="launchSavedConfig()">
   <div>
     <div>OPEN IN HAPP VPN</div>
-    <div class="sub-subtxt">Auto Launch Config to Happ</div>
+    <div class="sub-subtxt">Copy Encrypted Config & Launch Happ</div>
   </div>
   <div class="arrow-icon">→</div>
 </button>
@@ -208,6 +208,38 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeEncryptedConfig = "";
 let timerInterval = null;
 
+// قاعدة بيانات الكونفيغ الأساسية التي طلبتها
+const baseConfigTemplate = {
+    "remarks": "SHADOWv3.3-eu",
+    "inbounds": [
+        {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
+        {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
+    ],
+    "outbounds": [
+        {
+            "protocol": "hysteria",
+            "settings": {"address": "proxy-eu.dripwire.cc", "port": 443, "version": 2},
+            "streamSettings": {
+                "hysteriaSettings": {"auth": "8456714932:38fb64e93ccdf2ca", "version": 2},
+                "network": "hysteria",
+                "security": "tls",
+                "tlsSettings": {"alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false},
+                "finalmask": {"quicParams": {"disableChromeParrot": true}}
+            },
+            "tag": "proxy"
+        },
+        {"protocol": "freedom", "tag": "direct"}
+    ],
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},
+            {"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},
+            {"network": "tcp,udp", "outboundTag": "direct"}
+        ]
+    }
+};
+
 function showToast(msg) {
     let t = document.getElementById('toast');
     t.innerText = msg;
@@ -241,11 +273,17 @@ function changeVpnServer(region){
     // تخصيص السيرفرات عند الحاجة
 }
 
+// نسخ الكونفيغ المشفر تلقائياً للحافظة وتوجيه المستخدم لتطبيق Happ
 function launchSavedConfig(){
     if(!activeEncryptedConfig) return alert("No active config!");
-    navigator.clipboard.writeText(activeEncryptedConfig).catch(() => {});
+    
+    // نسخ الكونفيغ المشفر للحافظة (Clipboard) ليتمكن من إضافته في Happ
+    navigator.clipboard.writeText(activeEncryptedConfig).then(() => {
+        showToast("✓ Encrypted Config Copied to Clipboard!");
+    }).catch(() => {});
+
+    // توجيه التطبيق لـ Happ مباشرة
     window.location.href = activeEncryptedConfig;
-    showToast("✓ Launching Happ VPN...");
 }
 
 async function verifyAndActivateKey(){
@@ -267,10 +305,16 @@ async function verifyAndActivateKey(){
 
         let now = new Date().getTime();
         if(foundKeyData.expiresAt && foundKeyData.expiresAt < now) {
-            return alert("⏰ This key has EXPIRED!");
+            return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        activeEncryptedConfig = foundKeyData.config;
+        // دمج الكونفيغ الخاص بك مع وقت انتهاء الصلاحية وكود التفعيل لتشفيره بالكامل
+        let userConfig = JSON.parse(JSON.stringify(baseConfigTemplate));
+        userConfig.expiryTime = foundKeyData.expiresAt;
+        userConfig.keyCode = foundKeyData.code;
+
+        // تشفير الكونفيغ بالكامل بصيغة happ://add/ للنسخ التلقائي
+        activeEncryptedConfig = "happ://add/" + btoa(unescape(encodeURIComponent(JSON.stringify(userConfig))));
         
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
         document.getElementById('expireDateText').innerText = new Date(foundKeyData.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -292,7 +336,7 @@ function startAppTimer(expTime){
         if(diff <= 0){ 
             document.getElementById('timerDisplay').innerText = 'EXPIRED'; 
             clearInterval(timerInterval); 
-            alert("⏰ Your subscription time has ended. Key is now closed.");
+            alert("⏰ Your subscription time has ended. The config is now closed.");
             doLogout();
             return; 
         }
