@@ -196,33 +196,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeRawJsonString = "";
 let timerInterval = null;
 
-// الكونفيغ مشفر بـ AES-256-GCM (مش ظاهر في السورس)
-const _encCfg = "lsa1zO27T3tOCNhJ0CsOdNxaVhrtqjf14zOI53Gm8XK6H6EowFRM64IvCvDVF/n80uobEw99151snEyBsiW2HfQjEH60Uo3MeODwiSJhURb9Bqz56W2FhiorFLo7JshjCtYckP9RQBNsfpvQXHjunhsNOcZ+1CoICPFbPtV4/DaDZlf7gShIWTiipI8ttoN1CPmQBghMjnXdPuvLR7nNvZ+kc4tSYZBNuFn8tVspTSMg3+9WbF8lgNsqlVMtPAX1s4u9183KrVqO25d1NhcMZkIj0Xhv8960zRT73ewgiDfbziU+Bicaf29iaX/pyxGlIuBjRue+jWIop6h48FfeoBC3/1MwHA+/2/mIbiFYzO9Z803jva7/6YJ8hYtnKFfCbOd1fdN7er5kgxnMOJpNNkjcZXw33HVXHFTFa9UmblCn6p/qu34bK48s15LbY+iH7nj9y2kcSayScPSJIZunLn8vcx7e/2bjFZKwZO0t8o0STUGFrZaEmxwv8Kw/77NjatU54JuB3lK1Y4mxeRRsM1oDHGl1QShgo6tK+RZSrAG2Wl7MVrnuVIhAdNfrkRIGnByzs3lQ5BZqZ1fxN+NZrPyGkPd58ocbQymusI67FMuJdoCvQ81LWX5SFKD223qjmS7u29pLfG7sMwPo1W02w0xWrk2kLQabeRcNoYNpw3nI5pYHgELTg3XNZWZCAkucehYJ+KJNkaIdJapoN/JzW1lkBPg4KZ4kIFFFxjn+VJVbaEdFFtUs3hENZB0SNPbiDZkvSX+nQ4//hJuT+sV3LmReEe+Hj0IZeiVxlqHJ3+foHg1q9nGSr9SKgw5ZbFwWDrmNujZcTO57jMUiWF222niK2f0XHggU4UcbM439nS+WABgJQ24anXVNxE4VbAIzGBksgOWj99luT3LGXuaKcQLBO4qMMdwwrl6v3BwxCUDNerx+nDTI11uCkkKQM9jnArVlHis1+EbOFVTBWrV9CIrvIBvfTzRntyoZfwNdxG+WcQM4ahDUuWQapt67gcLlR58Tj2Nzc/B0jA6kXEb+noUl7DjX/Q0UnnYgIqDa7eAOipU4sHeF9lnCPrwQTbi8RTXgHUBPsQxP9GVmwcos/fqUQADg4LnCQ0PXr9wbJkslRRl+V4CIq9Ok3GnIq4cFPEwLPtRT73/KA8uieag7ndTochAzvrXyxj9A+3IIOSvPLxQlDNrdP9ux/Ysgz+ArlTiqsZQwftA7c6HTgCPl8m/QGhir+Q4fZajZGyfQeJ4kkOs0wjZpPi8KoZl/eWUjEgmP3qXiZGQbIV/v0UCmGU6dLI4ZTdYad9IS0ddKvs1xsjXEvA5ESeSJ9ND7VKRGwMPcfJgG7pbVx45XKqUpgbql91quB4jr2w==";
-
-async function decryptConfig() {
-    const raw = Uint8Array.from(atob(_encCfg), c => c.charCodeAt(0));
-    const iv = raw.slice(0, 12);
-    const tag = raw.slice(12, 28);
-    const data = raw.slice(28);
-    // Web Crypto يتوقع الـ tag في آخر البيانات
-    const combined = new Uint8Array(data.length + tag.length);
-    combined.set(data, 0);
-    combined.set(tag, data.length);
-
-    const keyMaterial = await crypto.subtle.importKey(
-        "raw",
-        await crypto.subtle.digest("SHA-256", new TextEncoder().encode("ShadowXitClient2026SecureKey!@#")),
-        { name: "AES-GCM" },
-        false,
-        ["decrypt"]
-    );
-    const decrypted = await crypto.subtle.decrypt(
-        { name: "AES-GCM", iv, tagLength: 128 },
-        keyMaterial,
-        combined
-    );
-    return JSON.parse(new TextDecoder().decode(decrypted));
-}
+// الكونفيغ مش موجود في الصفحة خالص — بيتحمل من Firebase بعد تفعيل المفتاح فقط
 
 function showToast(msg) {
     let t = document.getElementById('toast');
@@ -303,9 +277,17 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // فك تشفير الكونفيغ وتجهيزه
-        const baseConfig = await decryptConfig();
-        activeRawJsonString = JSON.stringify(baseConfig, null, 4);
+        // الكونفيغ بيتحمل من Firebase فقط (مش موجود في الكود)
+        if (!foundKeyData.config) {
+            return alert("❌ هذا المفتاح لا يحتوي على كونفيغ. تواصل مع المطور.");
+        }
+
+        // لو الكونفيغ جاي كـ object أو string
+        let cfg = foundKeyData.config;
+        if (typeof cfg === "string") {
+            try { cfg = JSON.parse(cfg); } catch(e) {}
+        }
+        activeRawJsonString = JSON.stringify(cfg, null, 4);
 
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
         document.getElementById('expireDateText').innerText = new Date(foundKeyData.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
