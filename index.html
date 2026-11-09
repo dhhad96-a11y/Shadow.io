@@ -95,7 +95,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 </script>
 </head>
 <body>
-<div id="toast">✓ Success!</div>
+<div id="toast">✓ Redirecting...</div>
 <div class="container">
 
 <!-- شاشة إدخال الكود (Redeem Key) -->
@@ -141,7 +141,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 
 <div class="key-row">
   <div class="key-txt" id="activeKeyView">SHWD-XXX-XXX</div>
-  <div class="icon-btn" onclick="copyActiveKey()" title="Copy">📋</div>
+  <div class="icon-btn" onclick="copyActiveKey()" title="Copy Key">📋</div>
 </div>
 
 <div class="info-grid">
@@ -257,14 +257,14 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// الانتقال التلقائي لتطبيق Happ دون نسخ النص
+// الانتقال المباشر لتطبيق Happ VPN بدون نسخ أي نص للحافظة
 function launchHappVpn(){
     if(!activeHappUrl) return alert("No active config!");
     showToast("✓ Launching Happ VPN...");
     window.location.href = activeHappUrl;
 }
 
-// التحقق من الكود وربطه بالمدة الزمنية
+// التحقق من الكود وربطه بالمدة الزمنية في قاعدة البيانات
 async function verifyAndActivateKey(){
     let codeVal = document.getElementById('codeIn').value.trim();
     if(!codeVal || codeVal === "SHWD-") return alert("Please enter a valid activation key!");
@@ -287,7 +287,7 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // تجهيز الرابط الموجه لتطبيق Happ مع الكونفيغ (بدون نسخ للحافظة)
+        // تجهيز رابط Happ مع الـ JSON غير المشفر (تشفير btoa للرابط فقط ليتعرف عليه التطبيق بدون نسخه)
         let jsonString = JSON.stringify(baseConfig);
         activeHappUrl = "happ://add/" + btoa(unescape(encodeURIComponent(jsonString)));
 
@@ -298,7 +298,7 @@ async function verifyAndActivateKey(){
         document.getElementById('homePage').classList.remove('hidden');
 
         startAppTimer(foundKeyData.expiresAt);
-        launchHappVpn(); // الانتقال التلقائي فور التفعيل
+        launchHappVpn(); // الانتقال التلقائي الفوري لتطبيق Happ
     } catch(e) {
         alert("Connection Error: " + e.message);
     }
@@ -323,8 +323,9 @@ function startAppTimer(expTime){
 }
 
 function copyActiveKey(){
+    // زر نسخ الكود النصي الخاص بالترخيص فقط إذا أراد المستخدم نسخه، وليس الكونفيغ
     navigator.clipboard.writeText(document.getElementById('activeKeyView').innerText);
-    showToast('✓ Key copied!');
+    showToast('✓ License Key copied!');
 }
 
 function doLogout(){
