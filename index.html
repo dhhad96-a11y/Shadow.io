@@ -47,19 +47,22 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 .vpn-select{width:100%;background:#04060a;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;color:#fff;font-size:12px;outline:none;margin-top:10px}
 .hidden{display:none!important}
 .input{width:100%;background:#04060a;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:14px;outline:none;text-align:center;margin-top:10px}
+
+#toast { position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 20px); background: #07090e; border: 1px solid var(--accent); color: #fff; padding: 12px 26px; border-radius: 999px; font-weight: bold; font-size: 13px; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 6000; box-shadow: 0 0 30px rgba(0,180,255,0.5); }
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
 </style>
 </head>
 <body>
+<div id="toast">✓ Copied to Clipboard!</div>
 <div class="container">
 
-<!-- صفحة الدخول المباشر بدون قيود الـ Valid -->
 <div id="loginPage">
 <div class="card" style="text-align: center; padding: 35px 20px;">
 <div style="font-size: 22px; font-weight: 900; letter-spacing: 2px; color: var(--accent); margin-bottom: 5px;">SHADOW v3.3</div>
 <div style="font-size: 10px; color: var(--muted); letter-spacing: 4px; margin-bottom: 25px;">SECURE GAMING HUB</div>
 
 <input id="codeIn" class="input" placeholder="Enter Access Key or Any Text">
-<button class="sub-btn" style="justify-content:center; margin-top:20px;" onclick="loginUserDirect()">LOGIN & LAUNCH VPN</button>
+<button class="sub-btn" style="justify-content:center; margin-top:20px;" onclick="loginUserDirect()">LOGIN & UNLOCK</button>
 </div>
 </div>
 
@@ -106,12 +109,12 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
   <button class="tool-btn" id="btnFreeze" onclick="toggleTool('Freeze')">⚡ Fteeze</button>
 </div>
 
-<button class="sub-btn" onclick="launchHappVpn()">
+<button class="sub-btn" onclick="copyConfigToClipboard()">
   <div>
-    <div>ADD SUBSCRIPTION</div>
-    <div class="sub-subtxt">Works with Happ (Free Fire Boosted)</div>
+    <div>ADD SUBSCRIPTION (COPY CONFIG)</div>
+    <div class="sub-subtxt">Tap to Copy Config & Paste in Happ</div>
   </div>
-  <div class="arrow-icon">→</div>
+  <div class="arrow-icon">📋</div>
 </button>
 </div>
 
@@ -189,6 +192,13 @@ let baseConfig = {
     }
 };
 
+function showToast(msg) {
+    let t = document.getElementById('toast');
+    t.innerText = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
 function switchNav(page){
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
@@ -199,7 +209,7 @@ function switchNav(page){
 function toggleTool(toolName){
     let btn = document.getElementById('btn' + toolName);
     btn.classList.toggle('active');
-    alert(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
+    showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
 function changeVpnServer(region){
@@ -210,13 +220,16 @@ function changeVpnServer(region){
     baseConfig.remarks = "ADHAMDev-" + region;
 }
 
-function launchHappVpn(){
-    let jsonString = JSON.stringify(baseConfig);
-    let encodedConfig = "Happ://crypt5/" + btoa(jsonString);
-    window.location.href = encodedConfig;
+// نسخ الكونفيغ بشكل صحيح لتطبيق Happ (حل مشكلة URL is not valid)
+function copyConfigToClipboard(){
+    let jsonString = JSON.stringify(baseConfig, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+        showToast("✓ Config Copied! Open Happ and paste from Clipboard");
+    }).catch(err => {
+        alert("Copy failed, please try again.");
+    });
 }
 
-// تخطي التحقق من السيرفر وتشغيل الكونفيغ مباشرة
 function loginUserDirect(){
     let val = document.getElementById('codeIn').value.trim();
     if(!val) val = "SHADOW-VIP";
@@ -225,19 +238,19 @@ function loginUserDirect(){
     document.getElementById('loginPage').classList.add('hidden');
     document.getElementById('homePage').classList.remove('hidden');
     
-    launchHappVpn();
+    showToast("✓ Welcome to Shadow v3.3");
 }
 
 function copyActiveKey(){
     navigator.clipboard.writeText(document.getElementById('activeKeyView').innerText);
-    alert('✓ Key copied!');
+    showToast('✓ Key copied!');
 }
 
 function doLogout(){
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
-    document.getElementById('codeIn').value = '';
+    document.getElementById('codeIn'].value = '';
 }
 </script>
 </body>
