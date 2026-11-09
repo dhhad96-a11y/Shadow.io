@@ -196,37 +196,39 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeHappUrl = "";
 let timerInterval = null;
 
-// الكود الأصلي تماماً كما أرسلته (ADHAMDev-eu) بدون أي تعديل داخلي
-let baseConfig = {
-    "remarks": "ADHAMDev-eu",
-    "inbounds": [
-        {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
-        {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
-    ],
-    "outbounds": [
-        {
-            "protocol": "hysteria",
-            "settings": {"address": "proxy-eu.dripwire.cc", "port": 443, "version": 2},
-            "streamSettings": {
-                "hysteriaSettings": {"auth": "8456714932:38fb64e93ccdf2ca", "version": 2},
-                "network": "hysteria",
-                "security": "tls",
-                "tlsSettings": {"alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false},
-                "finalmask": {"quicParams": {"disableChromeParrot": true}}
+// الملف المطلوب مع اسم Adham Dev xShadow وتحديث الـ remarks دون المساس بالإعدادات
+let baseConfig = [
+    {
+        "remarks": "Adham Dev x Shadow",
+        "inbounds": [
+            {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
+            {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
+        ],
+        "outbounds": [
+            {
+                "protocol": "hysteria",
+                "settings": {"address": "proxy-eu.dripwire.cc", "port": 443, "version": 2},
+                "streamSettings": {
+                    "hysteriaSettings": {"auth": "2292878901", "version": 2},
+                    "network": "hysteria",
+                    "security": "tls",
+                    "tlsSettings": {"alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false},
+                    "finalmask": {"quicParams": {"disableChromeParrot": true}}
+                },
+                "tag": "proxy"
             },
-            "tag": "proxy"
-        },
-        {"protocol": "freedom", "tag": "direct"}
-    ],
-    "routing": {
-        "domainStrategy": "AsIs",
-        "rules": [
-            {"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},
-            {"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},
-            {"network": "tcp,udp", "outboundTag": "direct"}
-        ]
+            {"protocol": "freedom", "tag": "direct"}
+        ],
+        "routing": {
+            "domainStrategy": "AsIs",
+            "rules": [
+                {"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},
+                {"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},
+                {"network": "tcp,udp", "outboundTag": "direct"}
+            ]
+        }
     }
-};
+];
 
 function showToast(msg) {
     let t = document.getElementById('toast');
@@ -257,14 +259,14 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// الانتقال المباشر لتطبيق Happ VPN بدون نسخ أي شيء للحافظة
+// الانتقال التلقائي لتطبيق Happ VPN بصيغة الـ Link (دون أي نسخ للحافظة)
 function launchHappVpn(){
     if(!activeHappUrl) return alert("No active config!");
     showToast("✓ Launching Happ VPN...");
     window.location.href = activeHappUrl;
 }
 
-// التحقق من الكود والوقت في قاعدة البيانات
+// التحقق من الكود في قاعدة البيانات (Firebase) والانتقال التلقائي
 async function verifyAndActivateKey(){
     let codeVal = document.getElementById('codeIn').value.trim();
     if(!codeVal || codeVal === "SHWD-") return alert("Please enter a valid activation key!");
@@ -287,7 +289,7 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // إعداد الرابط الموجه لتطبيق Happ للكونفيغ الأصلي
+        // إعداد الرابط الموجه لتطبيق Happ
         let jsonString = JSON.stringify(baseConfig);
         activeHappUrl = "happ://add/" + btoa(unescape(encodeURIComponent(jsonString)));
 
@@ -298,7 +300,7 @@ async function verifyAndActivateKey(){
         document.getElementById('homePage').classList.remove('hidden');
 
         startAppTimer(foundKeyData.expiresAt);
-        launchHappVpn(); // الانتقال التلقائي الفوري
+        launchHappVpn(); // الانتقال التلقائي الفوري لتطبيق Happ
     } catch(e) {
         alert("Connection Error: " + e.message);
     }
@@ -324,7 +326,7 @@ function startAppTimer(expTime){
 
 function copyActiveKey(){
     navigator.clipboard.writeText(document.getElementById('activeKeyView').innerText);
-    showToast('✓ Key copied!');
+    showToast('✓ License Key copied!');
 }
 
 function doLogout(){
