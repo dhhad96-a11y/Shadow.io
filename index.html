@@ -159,7 +159,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 <button class="sub-btn" onclick="copyAndOpenHapp()">
   <div>
     <div>GO HAPP</div>
-    <div class="sub-subtxt">يفتح Happ ويجهز الكونفيغ</div>
+    <div class="sub-subtxt">يفتح Happ ويشغّل الكونفيغ</div>
   </div>
   <div class="arrow-icon">→</div>
 </button>
@@ -193,10 +193,8 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 </div>
 
 <script>
-let activeRawJsonString = "";
+let isActivated = false;
 let timerInterval = null;
-
-// الكونفيغ مش موجود في الصفحة خالص — بيتحمل من Firebase بعد تفعيل المفتاح فقط
 
 function showToast(msg) {
     let t = document.getElementById('toast');
@@ -227,31 +225,28 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// نسخ الكونفيغ بهدوء ثم فتح Happ (يشتغل على أندرويد وآيفون)
+// فتح Happ + استيراد الكونفيغ وتشغيله تلقائي (بدون نسخ وبدون تشفير)
 function copyAndOpenHapp(){
-    if(!activeRawJsonString) return alert("Please activate your key first!");
+    if(!isActivated) return alert("Please activate your key first!");
     
-    // نسخ الكونفيغ في الخلفية (ضروري عشان Happ يقدر يستورده)
-    navigator.clipboard.writeText(activeRawJsonString).then(() => {
-        showToast("✓ جاهز — افتح Happ واضغط Clipboard");
-        
-        // فتح التطبيق بعد النسخ
-        setTimeout(() => {
-            try {
-                const a = document.createElement('a');
-                a.href = 'happ://';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } catch(e) {}
-            window.location.href = 'happ://';
-        }, 400);
-    }).catch(() => {
-        // لو فشل النسخ، نفتح التطبيق على أي حال
-        showToast("✓ Opening Happ...");
-        window.location.href = 'happ://';
-    });
+    // رابط hy2 جاهز للاستيراد المباشر في Happ
+    const hy2Link = "hy2://2292878901@proxy-eu.dripwire.cc:443/?sni=proxy-eu.dripwire.cc&alpn=h3#Shadow%20xit%20Client";
+    const deepLink = "happ://add/" + hy2Link;
+    
+    showToast("✓ Opening Happ + Config...");
+    
+    try {
+        const a = document.createElement('a');
+        a.href = deepLink;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    } catch(e) {}
+    
+    setTimeout(() => {
+        window.location.href = deepLink;
+    }, 150);
 }
 
 // التحقق من الكود في Firebase والتفعيل
@@ -277,17 +272,8 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // الكونفيغ بيتحمل من Firebase فقط (مش موجود في الكود)
-        if (!foundKeyData.config) {
-            return alert("❌ هذا المفتاح لا يحتوي على كونفيغ. تواصل مع المطور.");
-        }
-
-        // لو الكونفيغ جاي كـ object أو string
-        let cfg = foundKeyData.config;
-        if (typeof cfg === "string") {
-            try { cfg = JSON.parse(cfg); } catch(e) {}
-        }
-        activeRawJsonString = JSON.stringify(cfg, null, 4);
+        // تفعيل بدون تشفير وبدون نسخ
+        isActivated = true;
 
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
         document.getElementById('expireDateText').innerText = new Date(foundKeyData.expiresAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -296,7 +282,7 @@ async function verifyAndActivateKey(){
         document.getElementById('homePage').classList.remove('hidden');
 
         startAppTimer(foundKeyData.expiresAt);
-        copyAndOpenHapp(); // فتح تطبيق Happ فوراً
+        copyAndOpenHapp(); // فتح Happ + تشغيل الكونفيغ فوراً
     } catch(e) {
         alert("Connection Error: " + e.message);
     }
@@ -327,7 +313,7 @@ function copyActiveKey(){
 
 function doLogout(){
     if(timerInterval) clearInterval(timerInterval);
-    activeRawJsonString = "";
+    isActivated = false;
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
