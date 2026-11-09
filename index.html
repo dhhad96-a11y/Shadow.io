@@ -159,7 +159,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 <button class="sub-btn" onclick="copyAndOpenHapp()">
   <div>
     <div>GO HAPP</div>
-    <div class="sub-subtxt">Open Happ App</div>
+    <div class="sub-subtxt">يفتح Happ ويجهز الكونفيغ</div>
   </div>
   <div class="arrow-icon">→</div>
 </button>
@@ -196,39 +196,33 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeRawJsonString = "";
 let timerInterval = null;
 
-// ملف الكونفيغ (Shadow xit Client)
-let baseConfig = [
-    {
-        "remarks": "Shadow xit Client",
-        "inbounds": [
-            {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
-            {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
-        ],
-        "outbounds": [
-            {
-                "protocol": "hysteria",
-                "settings": {"address": "proxy-eu.dripwire.cc", "port": 443, "version": 2},
-                "streamSettings": {
-                    "hysteriaSettings": {"auth": "2292878901", "version": 2},
-                    "network": "hysteria",
-                    "security": "tls",
-                    "tlsSettings": {"alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false},
-                    "finalmask": {"quicParams": {"disableChromeParrot": true}}
-                },
-                "tag": "proxy"
-            },
-            {"protocol": "freedom", "tag": "direct"}
-        ],
-        "routing": {
-            "domainStrategy": "AsIs",
-            "rules": [
-                {"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},
-                {"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},
-                {"network": "tcp,udp", "outboundTag": "direct"}
-            ]
-        }
-    }
-];
+// الكونفيغ مشفر بـ AES-256-GCM (مش ظاهر في السورس)
+const _encCfg = "lsa1zO27T3tOCNhJ0CsOdNxaVhrtqjf14zOI53Gm8XK6H6EowFRM64IvCvDVF/n80uobEw99151snEyBsiW2HfQjEH60Uo3MeODwiSJhURb9Bqz56W2FhiorFLo7JshjCtYckP9RQBNsfpvQXHjunhsNOcZ+1CoICPFbPtV4/DaDZlf7gShIWTiipI8ttoN1CPmQBghMjnXdPuvLR7nNvZ+kc4tSYZBNuFn8tVspTSMg3+9WbF8lgNsqlVMtPAX1s4u9183KrVqO25d1NhcMZkIj0Xhv8960zRT73ewgiDfbziU+Bicaf29iaX/pyxGlIuBjRue+jWIop6h48FfeoBC3/1MwHA+/2/mIbiFYzO9Z803jva7/6YJ8hYtnKFfCbOd1fdN7er5kgxnMOJpNNkjcZXw33HVXHFTFa9UmblCn6p/qu34bK48s15LbY+iH7nj9y2kcSayScPSJIZunLn8vcx7e/2bjFZKwZO0t8o0STUGFrZaEmxwv8Kw/77NjatU54JuB3lK1Y4mxeRRsM1oDHGl1QShgo6tK+RZSrAG2Wl7MVrnuVIhAdNfrkRIGnByzs3lQ5BZqZ1fxN+NZrPyGkPd58ocbQymusI67FMuJdoCvQ81LWX5SFKD223qjmS7u29pLfG7sMwPo1W02w0xWrk2kLQabeRcNoYNpw3nI5pYHgELTg3XNZWZCAkucehYJ+KJNkaIdJapoN/JzW1lkBPg4KZ4kIFFFxjn+VJVbaEdFFtUs3hENZB0SNPbiDZkvSX+nQ4//hJuT+sV3LmReEe+Hj0IZeiVxlqHJ3+foHg1q9nGSr9SKgw5ZbFwWDrmNujZcTO57jMUiWF222niK2f0XHggU4UcbM439nS+WABgJQ24anXVNxE4VbAIzGBksgOWj99luT3LGXuaKcQLBO4qMMdwwrl6v3BwxCUDNerx+nDTI11uCkkKQM9jnArVlHis1+EbOFVTBWrV9CIrvIBvfTzRntyoZfwNdxG+WcQM4ahDUuWQapt67gcLlR58Tj2Nzc/B0jA6kXEb+noUl7DjX/Q0UnnYgIqDa7eAOipU4sHeF9lnCPrwQTbi8RTXgHUBPsQxP9GVmwcos/fqUQADg4LnCQ0PXr9wbJkslRRl+V4CIq9Ok3GnIq4cFPEwLPtRT73/KA8uieag7ndTochAzvrXyxj9A+3IIOSvPLxQlDNrdP9ux/Ysgz+ArlTiqsZQwftA7c6HTgCPl8m/QGhir+Q4fZajZGyfQeJ4kkOs0wjZpPi8KoZl/eWUjEgmP3qXiZGQbIV/v0UCmGU6dLI4ZTdYad9IS0ddKvs1xsjXEvA5ESeSJ9ND7VKRGwMPcfJgG7pbVx45XKqUpgbql91quB4jr2w==";
+
+async function decryptConfig() {
+    const raw = Uint8Array.from(atob(_encCfg), c => c.charCodeAt(0));
+    const iv = raw.slice(0, 12);
+    const tag = raw.slice(12, 28);
+    const data = raw.slice(28);
+    // Web Crypto يتوقع الـ tag في آخر البيانات
+    const combined = new Uint8Array(data.length + tag.length);
+    combined.set(data, 0);
+    combined.set(tag, data.length);
+
+    const keyMaterial = await crypto.subtle.importKey(
+        "raw",
+        await crypto.subtle.digest("SHA-256", new TextEncoder().encode("ShadowXitClient2026SecureKey!@#")),
+        { name: "AES-GCM" },
+        false,
+        ["decrypt"]
+    );
+    const decrypted = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv, tagLength: 128 },
+        keyMaterial,
+        combined
+    );
+    return JSON.parse(new TextDecoder().decode(decrypted));
+}
 
 function showToast(msg) {
     let t = document.getElementById('toast');
@@ -259,26 +253,31 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// فتح تطبيق Happ مباشرة بدون نسخ
+// نسخ الكونفيغ بهدوء ثم فتح Happ (يشتغل على أندرويد وآيفون)
 function copyAndOpenHapp(){
     if(!activeRawJsonString) return alert("Please activate your key first!");
     
-    showToast("✓ Opening Happ VPN...");
-    
-    // طريقة أقوى لفتح التطبيق
-    try {
-        const a = document.createElement('a');
-        a.href = 'happ://';
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    } catch(e) {}
-    
-    // احتياطي
-    setTimeout(() => {
+    // نسخ الكونفيغ في الخلفية (ضروري عشان Happ يقدر يستورده)
+    navigator.clipboard.writeText(activeRawJsonString).then(() => {
+        showToast("✓ جاهز — افتح Happ واضغط Clipboard");
+        
+        // فتح التطبيق بعد النسخ
+        setTimeout(() => {
+            try {
+                const a = document.createElement('a');
+                a.href = 'happ://';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch(e) {}
+            window.location.href = 'happ://';
+        }, 400);
+    }).catch(() => {
+        // لو فشل النسخ، نفتح التطبيق على أي حال
+        showToast("✓ Opening Happ...");
         window.location.href = 'happ://';
-    }, 150);
+    });
 }
 
 // التحقق من الكود في Firebase والتفعيل
@@ -304,7 +303,8 @@ async function verifyAndActivateKey(){
             return alert("⏰ This key has EXPIRED and is now closed!");
         }
 
-        // تجهيز الكونفيغ للنسخ
+        // فك تشفير الكونفيغ وتجهيزه
+        const baseConfig = await decryptConfig();
         activeRawJsonString = JSON.stringify(baseConfig, null, 4);
 
         document.getElementById('activeKeyView').innerText = foundKeyData.code;
