@@ -48,43 +48,18 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 .hidden{display:none!important}
 .input{width:100%;background:#04060a;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:14px;outline:none;text-align:center;margin-top:10px}
 </style>
-
-<!-- Firebase SDK الجديد -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyDYQF8o9IOtt2n595JeExHP9rxEDQd6niE",
-        authDomain: "zbyb-8142b.firebaseapp.com",
-        projectId: "zbyb-8142b",
-        storageBucket: "zbyb-8142b.firebasestorage.app",
-        messagingSenderId: "562490910524",
-        appId: "1:562490910524:web:a411900b65a8abd4b5a039",
-        measurementId: "G-5W1MRZZDYE"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.db = db;
-    window.colKeys = collection(db, "keys");
-    window.docSettings = doc(db, "settings", "main");
-    
-    window.firebaseFns = { getDocs, getDoc };
-    window.dispatchEvent(new Event('firebase-ready'));
-</script>
 </head>
 <body>
 <div class="container">
 
+<!-- صفحة الدخول المباشر بدون قيود الـ Valid -->
 <div id="loginPage">
 <div class="card" style="text-align: center; padding: 35px 20px;">
 <div style="font-size: 22px; font-weight: 900; letter-spacing: 2px; color: var(--accent); margin-bottom: 5px;">SHADOW v3.3</div>
 <div style="font-size: 10px; color: var(--muted); letter-spacing: 4px; margin-bottom: 25px;">SECURE GAMING HUB</div>
 
-<input id="codeIn" class="input" placeholder="Enter Access Key (SHADOW_...)">
-<button class="sub-btn" style="justify-content:center; margin-top:20px;" onclick="loginUser()">LOGIN & UNLOCK</button>
+<input id="codeIn" class="input" placeholder="Enter Access Key or Any Text">
+<button class="sub-btn" style="justify-content:center; margin-top:20px;" onclick="loginUserDirect()">LOGIN & LAUNCH VPN</button>
 </div>
 </div>
 
@@ -99,29 +74,29 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
   <div class="circle-ring">
     <div class="client-name-txt">SHADOW v3.3</div>
     <div class="main-client-txt">GAMING CLIENT</div>
-    <div id="timerDisplay" class="countdown-txt">00<span>H</span> 02<span>M</span> 36<span>S</span></div>
+    <div id="timerDisplay" class="countdown-txt">24<span>H</span> 00<span>M</span> 00<span>S</span></div>
   </div>
 </div>
 
 <div class="key-row">
-  <div class="key-txt" id="activeKeyView">SHADOW-XXXX-XXXX</div>
+  <div class="key-txt" id="activeKeyView">SHADOW-VIP-UNLIMITED</div>
   <div class="icon-btn" onclick="copyActiveKey()" title="Copy">📋</div>
 </div>
 
 <div class="info-grid">
-  <div class="info-box"><div class="info-label">DEVICE</div><div class="info-val" id="deviceSlot">1/1</div></div>
-  <div class="info-box"><div class="info-label">CREATED</div><div class="info-val" id="createdDate">-</div></div>
-  <div class="info-box"><div class="info-label">EXPIRES</div><div class="info-val" id="expireDate">-</div></div>
+  <div class="info-box"><div class="info-label">DEVICE</div><div class="info-val">1/1</div></div>
+  <div class="info-box"><div class="info-label">STATUS</div><div class="info-val" style="color:#2ecc71;">ONLINE</div></div>
+  <div class="info-box"><div class="info-label">SPEED</div><div class="info-val">UNLIMITED</div></div>
 </div>
 
 <div style="margin-top: 15px;">
   <div style="font-size: 10px; color: var(--muted); margin-bottom: 5px; letter-spacing: 1px;">FREE FIRE ULTRA PING BOOSTERS:</div>
   <select id="serverRegion" class="vpn-select" onchange="changeVpnServer(this.value)">
+    <option value="eu" selected>🇪🇺 ADHAMDev-eu (Hysteria v2)</option>
     <option value="india">🇮🇳 India Server (Ping ~64ms)</option>
-    <option value="egypt" selected>🇪🇬 Egypt Server (Ping ~75ms)</option>
+    <option value="egypt">🇪🇬 Egypt Server (Ping ~75ms)</option>
     <option value="algeria">🇩🇿 Algeria Server (Ping ~90ms)</option>
     <option value="tunisia">🇹🇳 Tunisia Server (Ping ~110ms)</option>
-    <option value="eu">🇪🇺 Europe Ultra Low Ping (~130ms)</option>
   </select>
 </div>
 
@@ -169,23 +144,50 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 
 <script>
 let baseConfig = {
-    "remarks": "SHADOW-v3.3-FF",
+    "remarks": "ADHAMDev-eu",
     "inbounds": [
-        {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true}, "tag": "socks"},
-        {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true}, "tag": "http"}
+        {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
+        {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
     ],
     "outbounds": [
-        {"protocol": "hysteria", "settings": {"address": "proxy-eu.dripwire.cc", "port": 443, "version": 2}, "streamSettings": {"hysteriaSettings": {"auth": "8456714932:38fb64e93ccdf2ca", "version": 2}, "network": "hysteria", "security": "tls", "tlsSettings": {"alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false}}, "tag": "proxy"},
+        {
+            "protocol": "hysteria",
+            "settings": {
+                "address": "proxy-eu.dripwire.cc",
+                "port": 443,
+                "version": 2
+            },
+            "streamSettings": {
+                "hysteriaSettings": {
+                    "auth": "8456714932:38fb64e93ccdf2ca",
+                    "version": 2
+                },
+                "network": "hysteria",
+                "security": "tls",
+                "tlsSettings": {
+                    "alpn": ["h3"],
+                    "serverName": "proxy-eu.dripwire.cc",
+                    "show": false
+                },
+                "finalmask": {
+                    "quicParams": {
+                        "disableChromeParrot": true
+                    }
+                }
+            },
+            "tag": "proxy"
+        },
         {"protocol": "freedom", "tag": "direct"}
     ],
-    "routing": {"domainStrategy": "AsIs", "rules": [{"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},{"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},{"network": "tcp,udp", "outboundTag": "direct"}]}
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},
+            {"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},
+            {"network": "tcp,udp", "outboundTag": "direct"}
+        ]
+    }
 };
-
-let deviceId = localStorage.getItem('devId') || ('DEV-' + Math.random().toString(36).substr(2,6).toUpperCase());
-localStorage.setItem('devId', deviceId);
-
-let activeCodeObj = null;
-let timerInterval = null;
 
 function switchNav(page){
     document.getElementById('homePage').classList.add('hidden');
@@ -205,66 +207,33 @@ function changeVpnServer(region){
     let addr = addrs[region] || addrs["eu"];
     baseConfig.outbounds[0].settings.address = addr;
     baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = addr;
+    baseConfig.remarks = "ADHAMDev-" + region;
 }
 
 function launchHappVpn(){
-    window.location.href = "Happ://crypt5/" + btoa(JSON.stringify(baseConfig));
+    let jsonString = JSON.stringify(baseConfig);
+    let encodedConfig = "Happ://crypt5/" + btoa(jsonString);
+    window.location.href = encodedConfig;
 }
 
-async function loginUser(){
-    let codeVal = document.getElementById('codeIn').value.trim();
-    if(!codeVal) return alert("Please enter access key!");
-
-    try {
-        let keysSnap = await window.firebaseFns.getDocs(window.colKeys);
-        let foundKey = null;
-
-        keysSnap.forEach(d => {
-            let data = d.data();
-            if(data.code === codeVal) foundKey = data;
-        });
-
-        if(!foundKey) return alert('❌ Invalid or expired key!');
-        if(foundKey.locked) return alert('🔒 This key is locked!');
-
-        let now = new Date().getTime();
-        let expTime = foundKey.expiresAt || new Date(foundKey.exp).getTime();
-        if(expTime < now) return alert('⏰ This key has expired!');
-
-        activeCodeObj = foundKey;
-        document.getElementById('loginPage').classList.add('hidden');
-        document.getElementById('homePage').classList.remove('hidden');
-        
-        document.getElementById('activeKeyView').innerText = foundKey.code;
-        document.getElementById('createdDate').innerText = new Date().toLocaleDateString();
-        document.getElementById('expireDate').innerText = new Date(expTime).toLocaleDateString();
-
-        startAppTimer(expTime);
-        launchHappVpn();
-    } catch(e) {
-        alert('Login Error: ' + e.message);
-    }
-}
-
-function startAppTimer(expTime){
-    if(timerInterval) clearInterval(timerInterval);
-    function update(){
-        let diff = expTime - new Date().getTime();
-        if(diff <= 0){ document.getElementById('timerDisplay').innerText = 'EXPIRED'; clearInterval(timerInterval); return; }
-        let h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('timerDisplay').innerHTML = String(h).padStart(2,'0') + '<span>H</span> ' + String(m).padStart(2,'0') + '<span>M</span> ' + String(s).padStart(2,'0') + '<span>S</span>';
-    }
-    update();
-    timerInterval = setInterval(update, 1000);
+// تخطي التحقق من السيرفر وتشغيل الكونفيغ مباشرة
+function loginUserDirect(){
+    let val = document.getElementById('codeIn').value.trim();
+    if(!val) val = "SHADOW-VIP";
+    
+    document.getElementById('activeKeyView').innerText = val;
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('homePage').classList.remove('hidden');
+    
+    launchHappVpn();
 }
 
 function copyActiveKey(){
-    if(activeCodeObj){ navigator.clipboard.writeText(activeCodeObj.code); alert('✓ Key copied!'); }
+    navigator.clipboard.writeText(document.getElementById('activeKeyView').innerText);
+    alert('✓ Key copied!');
 }
 
 function doLogout(){
-    if(timerInterval) clearInterval(timerInterval);
-    activeCodeObj = null;
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
