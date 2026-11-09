@@ -196,9 +196,9 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 50% 1
 let activeEncryptedConfig = "";
 let timerInterval = null;
 
-// قالب الكونفيغ المحدث باسم Shadow v3.3
+// الكونفيغ الجديد الذي أرسلته (ADHAMDev-eu)
 let baseConfig = {
-    "remarks": "Shadow v3.3",
+    "remarks": "ADHAMDev-eu",
     "inbounds": [
         {"listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": {"auth": "noauth", "udp": true}, "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "socks"},
         {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false}, "tag": "http"}
@@ -208,7 +208,7 @@ let baseConfig = {
             "protocol": "hysteria",
             "settings": {"address": "proxy-eu.dripwire.cc", "port": 443, "version": 2},
             "streamSettings": {
-                "hysteriaSettings": {"auth": "2292878901", "version": 2},
+                "hysteriaSettings": {"auth": "8456714932:38fb64e93ccdf2ca", "version": 2},
                 "network": "hysteria",
                 "security": "tls",
                 "tlsSettings": {"alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false},
@@ -257,7 +257,7 @@ function toggleTool(toolName){
     showToast(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
-// دالة نسخ الكونفيغ المشفر للحافظة فقط دون الانتقال لأي تطبيق
+// دالة نسخ الكونفيغ المشفر للحافظة فقط
 function copySavedConfig(){
     if(!activeEncryptedConfig) return alert("No active config!");
     
@@ -268,7 +268,7 @@ function copySavedConfig(){
     });
 }
 
-// التحقق من الكود في قاعدة البيانات وربطه بالمدة الزمنية
+// التحقق من الكود وربطه بالمدة الزمنية
 async function verifyAndActivateKey(){
     let codeVal = document.getElementById('codeIn').value.trim();
     if(!codeVal || codeVal === "SHWD-") return alert("Please enter a valid activation key!");
