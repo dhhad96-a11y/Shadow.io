@@ -15,7 +15,6 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 .app-title{font-weight:900;font-size:16px;letter-spacing:1px}
 .logout-btn{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:bold;cursor:pointer}
 
-/* تصميم الدائرة الزمنية */
 .timer-circle-box{text-align:center;padding:15px 0;position:relative}
 .circle-ring{width:210px;height:210px;border:2px dashed rgba(0,180,255,0.3);border-radius:50%;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle, rgba(0,180,255,0.03) 0%, transparent 70%);box-shadow:0 0 40px rgba(0,180,255,0.08)}
 .client-name-txt{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:800;margin-bottom:6px}
@@ -23,7 +22,6 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 .countdown-txt{font-size:22px;font-weight:900;letter-spacing:1px;color:#fff}
 .countdown-txt span{font-size:10px;color:var(--muted);margin:0 2px}
 
-/* تفاصيل المفتاح والجهاز */
 .info-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-top:15px}
 .info-box{background:#04060a;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px 5px;text-align:center}
 .info-label{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px}
@@ -31,52 +29,46 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 
 .key-row{background:#04060a;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:space-between;margin-top:8px}
 .key-txt{font-size:11px;color:var(--muted);letter-spacing:1px}
-.icon-btns{display:flex;gap:5px}
 .icon-btn{background:#111827;border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px}
 
-/* زر ADD SUBSCRIPTION الأزرق */
-.sub-btn{width:100%;background:linear-gradient(135deg, #0099ff, #0055ff);color:#fff;border:none;border-radius:14px;padding:16px 20px;font-weight:900;font-size:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;margin-top:12px;box-shadow:0 6px 20px rgba(0,120,255,0.35);transition:0.2s}
-.sub-btn:active{transform:scale(0.98)}
+.sub-btn{width:100%;background:linear-gradient(135deg, #0099ff, #0055ff);color:#fff;border:none;border-radius:14px;padding:16px 20px;font-weight:900;font-size:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;margin-top:12px;box-shadow:0 6px 20px rgba(0,120,255,0.35)}
 .sub-subtxt{font-size:10px;color:rgba(255,255,255,0.7);font-weight:normal;margin-top:2px}
 .arrow-icon{background:rgba(255,255,255,0.2);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
 
-/* شريط التنقل السفلي */
 .nav-bar{background:var(--panel);border:1px solid var(--border);border-radius:18px;display:flex;padding:10px;margin-top:10px}
-.nav-item{flex:1;text-align:center;color:var(--muted);font-size:10px;cursor:pointer;font-weight:bold;transition:0.2s}
+.nav-item{flex:1;text-align:center;color:var(--muted);font-size:10px;cursor:pointer;font-weight:bold}
 .nav-item.active{color:var(--accent)}
 .nav-icon{font-size:16px;margin-bottom:2px}
 
-/* أزرار الألعاب والهكر وسيرفرات الـ VPN */
 .game-tools{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-top:12px}
-.tool-btn{background:#04060a;border:1px solid rgba(0,180,255,0.3);color:#fff;border-radius:10px;padding:10px 5px;font-size:10px;font-weight:bold;cursor:pointer;text-align:center;transition:0.2s}
+.tool-btn{background:#04060a;border:1px solid rgba(0,180,255,0.3);color:#fff;border-radius:10px;padding:10px 5px;font-size:10px;font-weight:bold;cursor:pointer;text-align:center}
 .tool-btn.active{background:var(--accent);color:#000;box-shadow:0 0 12px var(--accent-glow)}
 
 .vpn-select{width:100%;background:#04060a;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;color:#fff;font-size:12px;outline:none;margin-top:10px}
-
 .hidden{display:none!important}
 .input{width:100%;background:#04060a;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:14px;outline:none;text-align:center;margin-top:10px}
-.input:focus{border-color:var(--accent)}
 </style>
 
-<!-- Firebase SDK -->
+<!-- Firebase SDK الجديد -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
-        apiKey: "AIzaSyC59NEHdrC6D22DJpEzv97ar_2A79lIvbs",
-        authDomain: "shadow-53665.firebaseapp.com",
-        projectId: "shadow-53665",
-        storageBucket: "shadow-53665.firebasestorage.app",
-        messagingSenderId: "121458462023",
-        appId: "1:121458462023:android:14571bba6012e5d5011062"
+        apiKey: "AIzaSyDYQF8o9IOtt2n595JeExHP9rxEDQd6niE",
+        authDomain: "zbyb-8142b.firebaseapp.com",
+        projectId: "zbyb-8142b",
+        storageBucket: "zbyb-8142b.firebasestorage.app",
+        messagingSenderId: "562490910524",
+        appId: "1:562490910524:web:a411900b65a8abd4b5a039",
+        measurementId: "G-5W1MRZZDYE"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
     window.db = db;
-    window.colKeys = collection(db, "codes");
+    window.colKeys = collection(db, "keys");
     window.docSettings = doc(db, "settings", "main");
     
     window.firebaseFns = { getDocs, getDoc };
@@ -86,18 +78,16 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 <body>
 <div class="container">
 
-<!-- صفحة تسجيل الدخول بالمفتاح فقط -->
 <div id="loginPage">
 <div class="card" style="text-align: center; padding: 35px 20px;">
 <div style="font-size: 22px; font-weight: 900; letter-spacing: 2px; color: var(--accent); margin-bottom: 5px;">SHADOW v3.3</div>
 <div style="font-size: 10px; color: var(--muted); letter-spacing: 4px; margin-bottom: 25px;">SECURE GAMING HUB</div>
 
-<input id="codeIn" class="input" placeholder="Enter Access Key (SHDW-...)">
+<input id="codeIn" class="input" placeholder="Enter Access Key (SHADOW_...)">
 <button class="sub-btn" style="justify-content:center; margin-top:20px;" onclick="loginUser()">LOGIN & UNLOCK</button>
 </div>
 </div>
 
-<!-- الواجهة الرئيسية (HOME) -->
 <div id="homePage" class="hidden">
 <div class="card">
 <div class="top-bar">
@@ -105,7 +95,6 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
   <button class="logout-btn" onclick="doLogout()">LOGOUT</button>
 </div>
 
-<!-- الدائرة الزمنية -->
 <div class="timer-circle-box">
   <div class="circle-ring">
     <div class="client-name-txt">SHADOW v3.3</div>
@@ -114,30 +103,17 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
   </div>
 </div>
 
-<!-- معلومات الكود -->
 <div class="key-row">
-  <div class="key-txt" id="activeKeyView">SHDW-XXXX-XXXX-XXXX</div>
-  <div class="icon-btns">
-    <div class="icon-btn" onclick="copyActiveKey()" title="Copy">📋</div>
-  </div>
+  <div class="key-txt" id="activeKeyView">SHADOW-XXXX-XXXX</div>
+  <div class="icon-btn" onclick="copyActiveKey()" title="Copy">📋</div>
 </div>
 
 <div class="info-grid">
-  <div class="info-box">
-    <div class="info-label">DEVICE</div>
-    <div class="info-val" id="deviceSlot">0/1</div>
-  </div>
-  <div class="info-box">
-    <div class="info-label">CREATED</div>
-    <div class="info-val" id="createdDate">-</div>
-  </div>
-  <div class="info-box">
-    <div class="info-label">EXPIRES</div>
-    <div class="info-val" id="expireDate">-</div>
-  </div>
+  <div class="info-box"><div class="info-label">DEVICE</div><div class="info-val" id="deviceSlot">1/1</div></div>
+  <div class="info-box"><div class="info-label">CREATED</div><div class="info-val" id="createdDate">-</div></div>
+  <div class="info-box"><div class="info-label">EXPIRES</div><div class="info-val" id="expireDate">-</div></div>
 </div>
 
-<!-- اختيار سيرفرات الـ VPN لفري فاير -->
 <div style="margin-top: 15px;">
   <div style="font-size: 10px; color: var(--muted); margin-bottom: 5px; letter-spacing: 1px;">FREE FIRE ULTRA PING BOOSTERS:</div>
   <select id="serverRegion" class="vpn-select" onchange="changeVpnServer(this.value)">
@@ -149,14 +125,12 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
   </select>
 </div>
 
-<!-- أزرار الهكر والألعاب -->
 <div class="game-tools">
   <button class="tool-btn" id="btnAim" onclick="toggleTool('Aim')">🎯 Aim Bot</button>
   <button class="tool-btn" id="btnEsp" onclick="toggleTool('Esp')">👁️ ESP Box</button>
   <button class="tool-btn" id="btnFreeze" onclick="toggleTool('Freeze')">⚡ Fteeze</button>
 </div>
 
-<!-- زر ADD SUBSCRIPTION -->
 <button class="sub-btn" onclick="launchHappVpn()">
   <div>
     <div>ADD SUBSCRIPTION</div>
@@ -164,23 +138,14 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
   </div>
   <div class="arrow-icon">→</div>
 </button>
-
 </div>
 
-<!-- شريط التنقل السفلي -->
 <div class="nav-bar">
-  <div class="nav-item active" onclick="switchNav('home')">
-    <div class="nav-icon">🏠</div>
-    <div>HOME</div>
-  </div>
-  <div class="nav-item" onclick="switchNav('settings')">
-    <div class="nav-icon">⚙️</div>
-    <div>SETTINGS</div>
-  </div>
+  <div class="nav-item active" onclick="switchNav('home')"><div class="nav-icon">🏠</div><div>HOME</div></div>
+  <div class="nav-item" onclick="switchNav('settings')"><div class="nav-icon">⚙️</div><div>SETTINGS</div></div>
 </div>
 </div>
 
-<!-- صفحة الإعدادات (SETTINGS) -->
 <div id="settingsPage" class="hidden">
 <div class="card">
 <div class="top-bar">
@@ -190,36 +155,13 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;justif
 
 <div style="background:#04060a; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:16px; margin-top:10px;">
   <div style="font-size: 12px; color: var(--accent); font-weight: bold; margin-bottom: 12px;">DEVELOPER INFO</div>
-  
-  <div style="margin-bottom: 12px; font-size: 12px;">
-    <span style="color: var(--muted);">Telegrame:</span><br>
-    <a href="https://t.me/Adhambacko" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: bold;">https://t.me/Adhambacko</a>
-  </div>
-
-  <div style="font-size: 12px;">
-    <span style="color: var(--muted);">Created by:</span><br>
-    <span style="color: #fff; font-weight: bold; font-size: 14px;">Adham modz</span>
-  </div>
+  <div style="margin-bottom: 12px; font-size: 12px;"><span style="color: var(--muted);">Telegram:</span><br><a href="https://t.me/Adhambacko" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: bold;">https://t.me/Adhambacko</a></div>
+  <div style="font-size: 12px;"><span style="color: var(--muted);">Created by:</span><br><span style="color: #fff; font-weight: bold; font-size: 14px;">Adham modz</span></div>
 </div>
-
-<div style="background:#04060a; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:16px; margin-top:12px;">
-  <div style="font-size: 12px; color: var(--accent); font-weight: bold; margin-bottom: 8px;">FREE FIRE OPTIMIZATION</div>
-  <div style="font-size: 11px; color: var(--muted); line-height: 1.5;">
-    تم تفعيل خوارزميات حزم بيانات Hysteria v2 لضمان استقرار البينغ بين 64ms و 150ms بدون أي لاغ نهائياً أثناء مواجهات فري فاير.
-  </div>
 </div>
-
-</div>
-
 <div class="nav-bar">
-  <div class="nav-item" onclick="switchNav('home')">
-    <div class="nav-icon">🏠</div>
-    <div>HOME</div>
-  </div>
-  <div class="nav-item active" onclick="switchNav('settings')">
-    <div class="nav-icon">⚙️</div>
-    <div>SETTINGS</div>
-  </div>
+  <div class="nav-item" onclick="switchNav('home')"><div class="nav-icon">🏠</div><div>HOME</div></div>
+  <div class="nav-item active" onclick="switchNav('settings')"><div class="nav-icon">⚙️</div><div>SETTINGS</div></div>
 </div>
 </div>
 
@@ -233,38 +175,10 @@ let baseConfig = {
         {"listen": "127.0.0.1", "port": 10809, "protocol": "http", "sniffing": {"destOverride": ["http", "tls", "quic"], "enabled": true}, "tag": "http"}
     ],
     "outbounds": [
-        {
-            "protocol": "hysteria",
-            "settings": {
-                "address": "proxy-eu.dripwire.cc",
-                "port": 443,
-                "version": 2
-            },
-            "streamSettings": {
-                "hysteriaSettings": {
-                    "auth": "8456714932:38fb64e93ccdf2ca",
-                    "version": 2
-                },
-                "network": "hysteria",
-                "security": "tls",
-                "tlsSettings": {
-                    "alpn": ["h3"],
-                    "serverName": "proxy-eu.dripwire.cc",
-                    "show": false
-                }
-            },
-            "tag": "proxy"
-        },
+        {"protocol": "hysteria", "settings": {"address": "proxy-eu.dripwire.cc", "port": 443, "version": 2}, "streamSettings": {"hysteriaSettings": {"auth": "8456714932:38fb64e93ccdf2ca", "version": 2}, "network": "hysteria", "security": "tls", "tlsSettings": {"alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false}}, "tag": "proxy"},
         {"protocol": "freedom", "tag": "direct"}
     ],
-    "routing": {
-        "domainStrategy": "AsIs",
-        "rules": [
-            {"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},
-            {"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},
-            {"network": "tcp,udp", "outboundTag": "direct"}
-        ]
-    }
+    "routing": {"domainStrategy": "AsIs", "rules": [{"network": "tcp", "outboundTag": "proxy", "port": "39000-39999"},{"network": "udp", "outboundTag": "proxy", "port": "10000-10999"},{"network": "tcp,udp", "outboundTag": "direct"}]}
 };
 
 let deviceId = localStorage.getItem('devId') || ('DEV-' + Math.random().toString(36).substr(2,6).toUpperCase());
@@ -272,26 +186,10 @@ localStorage.setItem('devId', deviceId);
 
 let activeCodeObj = null;
 let timerInterval = null;
-let maintenanceMode = false;
-
-window.addEventListener('firebase-ready', async () => {
-  try {
-    let setSnap = await window.firebaseFns.getDoc(window.docSettings);
-    if(setSnap.exists()) {
-      maintenanceMode = setSnap.data().maintenance || false;
-    }
-    if(maintenanceMode) {
-      document.getElementById('loginPage').innerHTML = '<div class="card" style="text-align:center;padding:30px;font-weight:bold;color:#ff2222;">🛠️ System under maintenance. Please try again later.</div>';
-    }
-  } catch(e) {
-    console.error(e);
-  }
-});
 
 function switchNav(page){
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('settingsPage').classList.add('hidden');
-    
     if(page === 'home') document.getElementById('homePage').classList.remove('hidden');
     if(page === 'settings') document.getElementById('settingsPage').classList.remove('hidden');
 }
@@ -299,44 +197,23 @@ function switchNav(page){
 function toggleTool(toolName){
     let btn = document.getElementById('btn' + toolName);
     btn.classList.toggle('active');
-    let isActive = btn.classList.contains('active');
-    
-    if(isActive){
-        alert('✅ ' + toolName + ' Activated successfully for Free Fire!');
-    } else {
-        alert('❌ ' + toolName + ' Deactivated.');
-    }
+    alert(btn.classList.contains('active') ? '✅ ' + toolName + ' Activated!' : '❌ ' + toolName + ' Deactivated.');
 }
 
 function changeVpnServer(region){
-    if(region === 'india') {
-        baseConfig.outbounds[0].settings.address = "proxy-in.dripwire.cc";
-        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-in.dripwire.cc";
-    } else if(region === 'egypt') {
-        baseConfig.outbounds[0].settings.address = "proxy-eg.dripwire.cc";
-        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-eg.dripwire.cc";
-    } else if(region === 'algeria') {
-        baseConfig.outbounds[0].settings.address = "proxy-dz.dripwire.cc";
-        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-dz.dripwire.cc";
-    } else if(region === 'tunisia') {
-        baseConfig.outbounds[0].settings.address = "proxy-tn.dripwire.cc";
-        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-tn.dripwire.cc";
-    } else {
-        baseConfig.outbounds[0].settings.address = "proxy-eu.dripwire.cc";
-        baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = "proxy-eu.dripwire.cc";
-    }
+    let addrs = {india:"proxy-in.dripwire.cc", egypt:"proxy-eg.dripwire.cc", algeria:"proxy-dz.dripwire.cc", tunisia:"proxy-tn.dripwire.cc", eu:"proxy-eu.dripwire.cc"};
+    let addr = addrs[region] || addrs["eu"];
+    baseConfig.outbounds[0].settings.address = addr;
+    baseConfig.outbounds[0].streamSettings.tlsSettings.serverName = addr;
 }
 
 function launchHappVpn(){
-    let jsonString = JSON.stringify(baseConfig);
-    let encodedConfig = "Happ://crypt5/" + btoa(jsonString);
-    window.location.href = encodedConfig;
+    window.location.href = "Happ://crypt5/" + btoa(JSON.stringify(baseConfig));
 }
 
 async function loginUser(){
-    if(maintenanceMode) { alert('System under maintenance!'); return; }
     let codeVal = document.getElementById('codeIn').value.trim();
-    if(!codeVal) return;
+    if(!codeVal) return alert("Please enter access key!");
 
     try {
         let keysSnap = await window.firebaseFns.getDocs(window.colKeys);
@@ -347,66 +224,42 @@ async function loginUser(){
             if(data.code === codeVal) foundKey = data;
         });
 
-        if(!foundKey){
-            alert('❌ Invalid or expired key!');
-            return;
-        }
+        if(!foundKey) return alert('❌ Invalid or expired key!');
+        if(foundKey.locked) return alert('🔒 This key is locked!');
 
-        if(foundKey.locked){
-            alert('🔒 This key has been locked!');
-            return;
-        }
-
-        let now = new Date();
-        if(new Date(foundKey.exp) < now){
-            alert('⏰ This key has expired!');
-            return;
-        }
+        let now = new Date().getTime();
+        let expTime = foundKey.expiresAt || new Date(foundKey.exp).getTime();
+        if(expTime < now) return alert('⏰ This key has expired!');
 
         activeCodeObj = foundKey;
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('homePage').classList.remove('hidden');
         
         document.getElementById('activeKeyView').innerText = foundKey.code;
-        document.getElementById('deviceSlot').innerText = (foundKey.devices ? foundKey.devices.length : 0) + '/' + foundKey.max;
         document.getElementById('createdDate').innerText = new Date().toLocaleDateString();
-        document.getElementById('expireDate').innerText = new Date(foundKey.exp).toLocaleDateString();
+        document.getElementById('expireDate').innerText = new Date(expTime).toLocaleDateString();
 
-        startAppTimer(foundKey.exp);
+        startAppTimer(expTime);
         launchHappVpn();
-
     } catch(e) {
         alert('Login Error: ' + e.message);
     }
 }
 
-function startAppTimer(expIso){
+function startAppTimer(expTime){
     if(timerInterval) clearInterval(timerInterval);
     function update(){
-        let diff = new Date(expIso) - new Date();
-        if(diff <= 0){
-            document.getElementById('timerDisplay').innerText = 'EXPIRED';
-            clearInterval(timerInterval);
-            return;
-        }
-        let h = Math.floor(diff / 3600000);
-        let m = Math.floor((diff % 3600000) / 60000);
-        let s = Math.floor((diff % 60000) / 1000);
-        
-        document.getElementById('timerDisplay').innerHTML = 
-            String(h).padStart(2,'0') + '<span>H</span> ' + 
-            String(m).padStart(2,'0') + '<span>M</span> ' + 
-            String(s).padStart(2,'0') + '<span>S</span>';
+        let diff = expTime - new Date().getTime();
+        if(diff <= 0){ document.getElementById('timerDisplay').innerText = 'EXPIRED'; clearInterval(timerInterval); return; }
+        let h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('timerDisplay').innerHTML = String(h).padStart(2,'0') + '<span>H</span> ' + String(m).padStart(2,'0') + '<span>M</span> ' + String(s).padStart(2,'0') + '<span>S</span>';
     }
     update();
     timerInterval = setInterval(update, 1000);
 }
 
 function copyActiveKey(){
-    if(activeCodeObj){
-        navigator.clipboard.writeText(activeCodeObj.code);
-        alert('✓ Key copied to clipboard!');
-    }
+    if(activeCodeObj){ navigator.clipboard.writeText(activeCodeObj.code); alert('✓ Key copied!'); }
 }
 
 function doLogout(){
