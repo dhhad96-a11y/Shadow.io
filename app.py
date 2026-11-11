@@ -20,7 +20,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shadow - AimBot & VPN Panel</title>
+    <title>Shadow - Admin & Reseller Panel</title>
     <style>
         * {
             box-sizing: border-box;
@@ -55,7 +55,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .screen {
             display: none;
             width: 100%;
-            max-width: 390px;
+            max-width: 420px;
             position: relative;
             z-index: 1;
             animation: fadeIn 0.35s ease-in-out;
@@ -76,7 +76,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: #13151b;
             border: 1px solid #1f232d;
             border-radius: 26px;
-            padding: 36px 24px 28px;
+            padding: 30px 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
             display: flex;
             flex-direction: column;
@@ -85,29 +85,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .shield-box {
-            width: 68px;
-            height: 68px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(145deg, #1d2230, #161923);
             border: 1px solid #292f42;
-            border-radius: 18px;
+            border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
         .shield-svg {
-            width: 34px;
-            height: 34px;
+            width: 30px;
+            height: 30px;
             fill: #00e676;
         }
 
         .brand-title {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: #ffffff;
         }
         .brand-title span {
@@ -120,13 +120,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #7d8597;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 26px;
+            margin-bottom: 20px;
         }
 
         .input-wrapper {
             width: 100%;
             position: relative;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .pass-input {
@@ -134,7 +134,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: #0d0e12;
             border: 1px solid #1a1d26;
             border-radius: 14px;
-            padding: 15px 40px;
+            padding: 14px 18px;
             color: #ffffff;
             font-size: 13px;
             text-align: center;
@@ -155,8 +155,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #041a0c;
             border: none;
             border-radius: 14px;
-            padding: 15px;
-            font-size: 14px;
+            padding: 14px;
+            font-size: 13px;
             font-weight: 800;
             letter-spacing: 1px;
             cursor: pointer;
@@ -169,11 +169,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
         .green-btn:hover {
             background: #00f27d;
-            transform: translateY(-1px);
-            box-shadow: 0 8px 26px rgba(0, 230, 118, 0.5);
         }
 
-        /* زر Aim Bot المميز */
         .aimbot-panel-btn {
             width: 100%;
             background: linear-gradient(135deg, #ff3b30, #ff9500);
@@ -183,29 +180,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding: 16px;
             font-size: 15px;
             font-weight: 900;
-            letter-spacing: 1px;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             box-shadow: 0 8px 25px rgba(255, 59, 48, 0.4);
-            animation: pulseGlow 2s infinite;
-        }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(255, 59, 48, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(255, 149, 0, 0.7); }
-            100% { box-shadow: 0 0 15px rgba(255, 59, 48, 0.4); }
         }
 
         .footer-pill {
-            margin-top: 22px;
+            margin-top: 18px;
             background: rgba(0, 230, 118, 0.08);
             border: 1px solid rgba(0, 230, 118, 0.22);
             border-radius: 999px;
-            padding: 8px 18px;
-            font-size: 11px;
+            padding: 6px 16px;
+            font-size: 10px;
             font-weight: 700;
             color: #00e676;
             display: inline-flex;
@@ -214,7 +204,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .dash-card {
-            padding: 24px 20px;
+            padding: 20px;
             text-align: left;
             max-height: 92vh;
             overflow-y: auto;
@@ -225,32 +215,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 14px;
-            margin-bottom: 16px;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
             border-bottom: 1px solid #1f232d;
         }
 
         .dash-user {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
             color: #ffffff;
         }
 
         .section-heading {
             width: 100%;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             color: #00e676;
-            margin: 14px 0 8px;
+            margin: 12px 0 6px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
         .field-label {
             width: 100%;
-            font-size: 11px;
+            font-size: 10px;
             color: #7d8597;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 600;
         }
 
@@ -258,40 +248,88 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             width: 100%;
             background: #0d0e12;
             border: 1px solid #1f232d;
-            border-radius: 12px;
-            padding: 12px 14px;
+            border-radius: 10px;
+            padding: 10px 12px;
             color: #ffffff;
-            font-size: 13px;
-            margin-bottom: 12px;
+            font-size: 12px;
+            margin-bottom: 10px;
             outline: none;
         }
         .dark-input:focus, .dark-select:focus {
             border-color: #00e676;
         }
 
+        .list-container {
+            width: 100%;
+            max-height: 140px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .list-row {
+            background: #0d0e12;
+            border: 1px solid #1f232d;
+            padding: 8px 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .action-btn-danger {
+            background: rgba(255, 59, 48, 0.15);
+            border: 1px solid rgba(255, 59, 48, 0.4);
+            color: #ff453a;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .action-btn-warn {
+            background: rgba(255, 149, 0, 0.15);
+            border: 1px solid rgba(255, 149, 0, 0.4);
+            color: #ff9500;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .action-btn-success {
+            background: rgba(0, 230, 118, 0.15);
+            border: 1px solid rgba(0, 230, 118, 0.4);
+            color: #00e676;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         .result-box {
             width: 100%;
             background: #0d0e12;
             border: 1px dashed #00e676;
-            border-radius: 14px;
-            padding: 16px;
-            margin-top: 16px;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 14px;
             text-align: center;
         }
 
         .key-display {
             font-family: monospace;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
             color: #00e676;
-            margin: 6px 0 12px;
+            margin: 6px 0 10px;
             letter-spacing: 1px;
-        }
-
-        .action-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
         }
 
         .sub-btn {
@@ -299,12 +337,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: #1a1d26;
             border: 1px solid #2a2f3d;
             color: #ffffff;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
         }
         .sub-btn:hover {
             border-color: #00e676;
@@ -317,22 +354,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #041a0c;
             border: none;
             border-radius: 10px;
-            padding: 12px;
-            font-size: 13px;
+            padding: 10px;
+            font-size: 12px;
             font-weight: 900;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+            margin-top: 6px;
         }
 
         .logout-link {
-            margin-top: 18px;
+            margin-top: 14px;
             text-align: center;
             width: 100%;
-            font-size: 12px;
+            font-size: 11px;
             color: #7d8597;
             cursor: pointer;
             font-weight: 600;
@@ -343,15 +376,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         #toast {
             position: fixed;
-            bottom: 25px;
+            bottom: 20px;
             left: 50%;
             transform: translate(-50%, 20px);
             background: #13151b;
             border: 1px solid #00e676;
             color: #00e676;
-            padding: 10px 22px;
+            padding: 8px 18px;
             border-radius: 999px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             opacity: 0;
             pointer-events: none;
@@ -367,7 +400,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {{ firebase_config | tojson }};
         const app = initializeApp(firebaseConfig);
@@ -377,6 +410,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         window.collection = collection;
         window.addDoc = addDoc;
         window.getDocs = getDocs;
+        window.deleteDoc = deleteDoc;
+        window.doc = doc;
+        window.updateDoc = updateDoc;
     </script>
 </head>
 <body>
@@ -384,7 +420,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <canvas id="particleCanvas"></canvas>
     <div id="toast">✓ Done!</div>
 
-    <!-- شاشة تسجيل الدخول الرئيسية (تتعرف على باسورد الأدمن أو كود التفعيل) -->
+    <!-- شاشة تسجيل الدخول (للأدمن، الموزعين، أو المستخدمين بالأكواد) -->
     <div id="loginScreen" class="screen active">
         <div class="main-card">
             <div class="shield-box">
@@ -394,14 +430,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="brand-title">Shadow<span>XIT</span></div>
-            <div class="brand-subtitle">LOGIN & ACTIVATION</div>
+            <div class="brand-subtitle">ADMIN / RESELLER / KEY LOGIN</div>
 
             <div class="input-wrapper">
-                <input type="text" class="pass-input" id="userInput" placeholder="Enter Admin Password or Key">
+                <input type="text" class="pass-input" id="userInput" placeholder="Enter Admin Pass, Reseller Name, or Key">
             </div>
 
             <button class="green-btn" onclick="handleLogin()">
-                <span>🔓</span> LOGIN & VERIFY
+                <span>🔓</span> LOGIN TO SYSTEM
             </button>
 
             <div class="footer-pill">
@@ -410,7 +446,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- شاشة الـ Aim Bot الخاصة بالمستخدمين (عند إدخال كود تفعيل صالح) -->
+    <!-- شاشة الـ Aim Bot الخاصة بالمستخدمين والموزعين عند الدجل بكود تفعيل أو كبائع -->
     <div id="aimbotScreen" class="screen">
         <div class="main-card">
             <div class="shield-box">
@@ -421,52 +457,65 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="brand-title">AIMBOT <span>ACTIVE</span></div>
-            <div class="brand-subtitle">TAP TO ACTIVATE & CONNECT VPN</div>
+            <div class="brand-subtitle" id="userRoleSubtitle">VIP USER PANEL</div>
 
-            <!-- زر الـ Aim Bot الذي يقوم بتشغيل الصوت الرجالي والنقل لـ Happ VPN -->
             <button class="aimbot-panel-btn" onclick="triggerAimBotActivated()">
                 🎯 AIMBOT ACTIVATED
             </button>
 
-            <button class="sub-btn" style="width:100%; padding: 12px; margin-top: 10px;" onclick="copyConfigJson()">
-                📋 Copy Config (Happ VPN)
+            <button class="sub-btn" style="width:100%; padding: 12px; margin-top: 6px;" onclick="copyConfigJson()">
+                📋 Copy Config & Connect VPN
             </button>
 
-            <div class="logout-link" onclick="logout()">🔒 Back to Login</div>
+            <div class="logout-link" onclick="logout()">🔒 Logout</div>
         </div>
     </div>
 
-    <!-- شاشة لوحة تحكم الأدمن (إذا تم إدخال باسورد الأدمن) -->
+    <!-- لوحة تحكم الأدمن الشاملة -->
     <div id="dashboardScreen" class="screen">
         <div class="main-card dash-card">
             <div class="dash-top">
-                <span class="dash-user">👑 Admin Panel</span>
-                <span style="color:#00e676; font-size:12px; font-weight:bold;">UNLIMITED</span>
+                <span class="dash-user" id="panelHeaderTitle">👑 Admin Master Panel</span>
+                <span style="color:#00e676; font-size:11px; font-weight:bold;">UNLIMITED</span>
             </div>
 
-            <div class="section-heading">🛒 Generate Key & Happ Config</div>
-            <label class="field-label">Duration & Price:</label>
+            <!-- قسم إدارة البائعين (Resellers) -->
+            <div class="section-heading">👥 Manage Resellers (البائعين)</div>
+            <label class="field-label">Reseller Username / Password:</label>
+            <input type="text" class="dark-input" id="resellerUsername" placeholder="e.g. reseller_ahmed">
+            <label class="field-label">Initial Balance ($):</label>
+            <input type="number" class="dark-input" id="resellerBalance" value="20">
+            <button class="green-btn" style="padding: 10px; font-size: 12px; margin-bottom: 10px;" onclick="addReseller()">
+                ➕ Add Reseller Account
+            </button>
+            <label class="field-label">Active Resellers List:</label>
+            <div class="list-container" id="resellersContainer"></div>
+
+            <!-- قسم توليد الأكواد وإدارتها -->
+            <div class="section-heading">🛒 Generate & Manage Keys (إدارة الأكواد)</div>
+            <label class="field-label">Duration & Validity (مدة الكود):</label>
             <select class="dark-select" id="validity">
                 <option value="0.50" data-days="1">1 Day - $0.50</option>
                 <option value="3.00" data-days="7">7 Days - $3.00</option>
                 <option value="10.00" data-days="30">30 Days - $10.00</option>
             </select>
-
             <button class="green-btn" onclick="buyAndGenerateKey()">
-                ⚡ GENERATE KEY
+                ⚡ GENERATE NEW KEY
             </button>
 
             <div class="result-box" id="singleKeyBox" style="display:none;">
-                <div class="field-label" style="text-align:center;">ACTIVATION KEY</div>
+                <div class="field-label" style="text-align:center;">GENERATED KEY</div>
                 <div class="key-display" id="generatedKeyText">SHADOW_XXX_XXX</div>
-                
-                <div class="action-row">
-                    <button class="sub-btn" onclick="copyGeneratedKey()">📋 Copy Key</button>
-                    <button class="sub-btn" onclick="copyConfigJson()">📄 Copy Config</button>
+                <div style="display: flex; gap: 6px;">
+                    <button class="sub-btn" onclick="copyGeneratedKey()">📋 Copy</button>
+                    <button class="sub-btn" onclick="copyConfigJson()">📄 Config</button>
                 </div>
             </div>
 
-            <div class="logout-link" onclick="logout()">🔒 Logout from Panel</div>
+            <label class="field-label" style="margin-top: 14px;">All Generated Keys & Control (التحكم بالأكواد):</label>
+            <div class="list-container" id="keysContainer" style="max-height: 160px;"></div>
+
+            <div class="logout-link" onclick="logout()">🔒 Logout from Admin Panel</div>
         </div>
     </div>
 
@@ -518,6 +567,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         };
 
+        let currentLoggedInUser = "Admin";
+
         function showToast(msg) {
             let toast = document.getElementById('toast');
             toast.innerText = msg;
@@ -525,29 +576,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // دالة تشغيل الصوت الرجالي التفاعلي (SpeechSynthesis بصوت رجل عميق)
         function playMaleActivatedVoice() {
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance("Activated");
-                utterance.pitch = 0.5; // طبقة صوت رجالية خشنة وعميقة
+                utterance.pitch = 0.5;
                 utterance.rate = 1.0;
                 utterance.volume = 1.0;
-                
-                // اختيار صوت إنجليزي رجالي إن وُجد
-                let voices = window.speechSynthesis.getVoices();
-                let maleVoice = voices.find(v => v.name.includes('Male') || v.name.includes('David') || v.name.includes('Google US English'));
-                if (maleVoice) utterance.voice = maleVoice;
-
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        // تسجيل الدخول والتحقق (أدمن أو كود تفعيل)
+        // نظام تسجيل الدخول الشامل
         async function handleLogin() {
             let val = document.getElementById('userInput').value.trim();
             if (!val) return showToast("⚠️ Please enter password or key!");
 
-            // 1. فحص هل هو باسورد الأدمن
+            // 1. فحص إذا كان باسورد الأدمن
             try {
                 const authRes = await fetch('/api/verify-admin', {
                     method: 'POST',
@@ -555,44 +599,193 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     body: JSON.stringify({ password: val })
                 });
                 const authData = await authRes.json();
-
                 if (authData.isAdmin) {
+                    currentLoggedInUser = "Admin";
+                    loadAdminData();
                     showScreen('dashboardScreen');
                     return;
                 }
             } catch (err) {}
 
-            // 2. فحص هل هو كود تفعيل مخزن في Firebase
+            // 2. فحص البائعين والأكواد في فايربيس
             try {
-                const querySnapshot = await window.getDocs(window.collection(window.db, "keys"));
-                let keyExists = false;
-                querySnapshot.forEach((doc) => {
-                    if (doc.data().code === val) {
-                        keyExists = true;
+                const resellersSnap = await window.getDocs(window.collection(window.db, "resellers"));
+                let foundReseller = null;
+                resellersSnap.forEach((docSnap) => {
+                    if (docSnap.data().name.toLowerCase() === val.toLowerCase()) {
+                        foundReseller = docSnap.data();
                     }
                 });
 
-                if (keyExists || val.startsWith("SHADOW_")) {
+                if (foundReseller) {
+                    currentLoggedInUser = foundReseller.name;
+                    document.getElementById('userRoleSubtitle').innerText = `RESELLER: ${foundReseller.name} ($${foundReseller.balance})`;
+                    showScreen('aimbotScreen');
+                    return;
+                }
+
+                // 3. فحص الأكواد
+                const keysSnap = await window.getDocs(window.collection(window.db, "keys"));
+                let validKey = null;
+                keysSnap.forEach((docSnap) => {
+                    let kData = docSnap.data();
+                    if (kData.code === val && kData.active !== false) {
+                        validKey = kData;
+                    }
+                });
+
+                if (validKey) {
                     playMaleActivatedVoice();
-                    showToast("✓ Key Verified Successfully!");
+                    currentLoggedInUser = "VIP Key User";
+                    document.getElementById('userRoleSubtitle').innerText = `KEY USER (Created by: ${validKey.createdBy || 'Admin'})`;
                     showScreen('aimbotScreen');
                 } else {
-                    showToast("❌ Invalid Password or Key!");
+                    showToast("❌ Invalid Password, Reseller, or Disabled Key!");
                 }
             } catch (e) {
                 showToast("❌ Database Error!");
             }
         }
 
-        // عند الضغط على زر Aim Bot: صوت رجالي + نسخ + نقل تلقائي لـ Happ VPN
+        // تحميل بيانات لوحة الأدمن (البائعين والأكواد مع تفاصيل المدة ومن أنشأها)
+        async function loadAdminData() {
+            // تحميل البائعين
+            const resellersContainer = document.getElementById('resellersContainer');
+            resellersContainer.innerHTML = 'Loading...';
+            try {
+                const resellersSnap = await window.getDocs(window.collection(window.db, "resellers"));
+                resellersContainer.innerHTML = '';
+                resellersSnap.forEach((docSnap) => {
+                    let r = docSnap.data();
+                    let div = document.createElement('div');
+                    div.className = 'list-row';
+                    div.innerHTML = `
+                        <span><b>${r.name}</b> ($${r.balance})</span>
+                        <button class="action-btn-danger" onclick="deleteReseller('${docSnap.id}')">Delete</button>
+                    `;
+                    resellersContainer.appendChild(div);
+                });
+            } catch (e) { resellersContainer.innerHTML = 'Error loading'; }
+
+            // تحميل الأكواد مع إمكانية الحذف والتعطيل
+            const keysContainer = document.getElementById('keysContainer');
+            keysContainer.innerHTML = 'Loading...';
+            try {
+                const keysSnap = await window.getDocs(window.collection(window.db, "keys"));
+                keysContainer.innerHTML = '';
+                keysSnap.forEach((docSnap) => {
+                    let k = docSnap.data();
+                    let isActive = k.active !== false;
+                    let div = document.createElement('div');
+                    div.className = 'list-row';
+                    div.innerHTML = `
+                        <div style="font-family:monospace; font-size:10px;">
+                            <b>${k.code}</b><br>
+                            <span style="color:#7d8597;">By: ${k.createdBy || 'Admin'} | ${k.duration || '1 Day'}</span>
+                        </div>
+                        <div style="display:flex; gap:4px;">
+                            <button class="${isActive ? 'action-btn-warn' : 'action-btn-success'}" onclick="toggleKeyStatus('${docSnap.id}', ${isActive})">
+                                ${isActive ? 'Disable' : 'Enable'}
+                            </button>
+                            <button class="action-btn-danger" onclick="deleteKey('${docSnap.id}')">Del</button>
+                        </div>
+                    `;
+                    keysContainer.appendChild(div);
+                });
+            } catch (e) { keysContainer.innerHTML = 'Error loading keys'; }
+        }
+
+        // إضافة بائع جديد
+        async function addReseller() {
+            let name = document.getElementById('resellerUsername').value.trim();
+            let balance = parseFloat(document.getElementById('resellerBalance').value) || 0;
+            if (!name) return showToast("⚠️ Enter reseller name!");
+
+            try {
+                await window.addDoc(window.collection(window.db, "resellers"), { name, balance });
+                document.getElementById('resellerUsername').value = '';
+                showToast("✓ Reseller Added Successfully!");
+                loadAdminData();
+            } catch (e) { alert("Error: " + e.message); }
+        }
+
+        async function deleteReseller(id) {
+            if (confirm("Delete this reseller?")) {
+                await window.deleteDoc(window.doc(window.db, "resellers", id));
+                showToast("✓ Reseller Deleted!");
+                loadAdminData();
+            }
+        }
+
+        // توليد كود جديد مع حفظ اسم المنشئ والمدة
+        async function buyAndGenerateKey() {
+            let validitySelect = document.getElementById('validity');
+            let selectedOption = validitySelect.options[validitySelect.selectedIndex];
+            let durationText = selectedOption.text;
+            let daysToAdd = parseInt(selectedOption.getAttribute('data-days')) || 1;
+
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let part1 = '', part2 = '';
+            for (let i = 0; i < 3; i++) part1 += chars.charAt(Math.floor(Math.random() * chars.length));
+            for (let i = 0; i < 3; i++) part2 += chars.charAt(Math.floor(Math.random() * chars.length));
+            
+            let key = `SHADOW_${part1}_${part2}`;
+            let expiryTimestamp = new Date().getTime() + (daysToAdd * 24 * 60 * 60 * 1000);
+
+            try {
+                await window.addDoc(window.collection(window.db, "keys"), { 
+                    code: key,
+                    expiresAt: expiryTimestamp,
+                    duration: durationText,
+                    createdBy: currentLoggedInUser,
+                    active: true
+                });
+
+                document.getElementById('generatedKeyText').innerText = key;
+                document.getElementById('singleKeyBox').style.display = 'block';
+                showToast("✓ Key Generated & Saved!");
+                loadAdminData();
+            } catch (e) { alert("Error: " + e.message); }
+        }
+
+        // تعطيل أو تفعيل الكود
+        async function toggleKeyStatus(id, currentStatus) {
+            try {
+                await window.updateDoc(window.doc(window.db, "keys", id), { active: !currentStatus });
+                showToast("✓ Key status updated!");
+                loadAdminData();
+            } catch (e) { alert("Error: " + e.message); }
+        }
+
+        async function deleteKey(id) {
+            if (confirm("Delete this key?")) {
+                await window.deleteDoc(window.doc(window.db, "keys", id));
+                showToast("✓ Key Deleted!");
+                loadAdminData();
+            }
+        }
+
         function triggerAimBotActivated() {
             playMaleActivatedVoice();
             showToast("🎯 Aim Bot Activated & Connecting VPN...");
-            
             copyConfigJson();
-            setTimeout(() => {
-                openInHappVPN();
-            }, 800);
+            setTimeout(() => { openInHappVPN(); }, 800);
+        }
+
+        function openInHappVPN() {
+            const jsonString = JSON.stringify(happConfigData);
+            const base64Config = btoa(unescape(encodeURIComponent(jsonString)));
+            window.location.href = `happ://add/${base64Config}`;
+        }
+
+        function copyGeneratedKey() {
+            let text = document.getElementById('generatedKeyText').innerText;
+            navigator.clipboard.writeText(text).then(() => showToast("✓ Key Copied!"));
+        }
+
+        function copyConfigJson() {
+            const jsonString = JSON.stringify(happConfigData);
+            navigator.clipboard.writeText(jsonString).then(() => showToast("✓ Config Copied to Clipboard!"));
         }
 
         function showScreen(screenId) {
@@ -607,70 +800,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('userInput').value = '';
         }
 
-        async function buyAndGenerateKey() {
-            let validitySelect = document.getElementById('validity');
-            let selectedOption = validitySelect.options[validitySelect.selectedIndex];
-            let daysToAdd = parseInt(selectedOption.getAttribute('data-days')) || 1;
-
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let part1 = '';
-            let part2 = '';
-            for (let i = 0; i < 3; i++) part1 += chars.charAt(Math.floor(Math.random() * chars.length));
-            for (let i = 0; i < 3; i++) part2 += chars.charAt(Math.floor(Math.random() * chars.length));
-            
-            let key = `SHADOW_${part1}_${part2}`;
-            let expiryTimestamp = new Date().getTime() + (daysToAdd * 24 * 60 * 60 * 1000);
-
-            try {
-                await window.addDoc(window.collection(window.db, "keys"), { 
-                    code: key,
-                    expiresAt: expiryTimestamp,
-                    configName: "Adham x Shadow Dev"
-                });
-
-                document.getElementById('generatedKeyText').innerText = key;
-                document.getElementById('singleKeyBox').style.display = 'block';
-                showToast("✓ Key Generated & Saved!");
-            } catch (e) {
-                alert("Error saving key: " + e.message);
-            }
-        }
-
-        function openInHappVPN() {
-            const jsonString = JSON.stringify(happConfigData);
-            const base64Config = btoa(unescape(encodeURIComponent(jsonString)));
-            const happDeepLink = `happ://add/${base64Config}`;
-            
-            window.location.href = happDeepLink;
-        }
-
-        function copyGeneratedKey() {
-            let text = document.getElementById('generatedKeyText').innerText;
-            navigator.clipboard.writeText(text).then(() => showToast("✓ Key Copied!"));
-        }
-
-        function copyConfigJson() {
-            const jsonString = JSON.stringify(happConfigData);
-            navigator.clipboard.writeText(jsonString).then(() => showToast("✓ Config Copied to Clipboard!"));
-        }
-
+        // شبكة الجزيئات المتحركة
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
         for (let i = 0; i < 35; i++) {
             particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
                 color: Math.random() > 0.5 ? '#00e676' : '#1890ff'
             });
         }
@@ -679,29 +820,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < particles.length; i++) {
                 let p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-
+                p.x += p.vx; p.y += p.vy;
                 if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                 if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = p.color;
-                ctx.fill();
-
-                for (let j = i + 1; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 130) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(30, 60, 90, ${1 - dist / 130})`;
-                        ctx.lineWidth = 0.7;
-                        ctx.stroke();
-                    }
-                }
+                ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = p.color; ctx.fill();
             }
             requestAnimationFrame(animateParticles);
         }
