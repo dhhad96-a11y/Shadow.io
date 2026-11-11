@@ -6,6 +6,7 @@ app.secret_key = secrets.token_hex(32)
 
 ADMIN_PASSWORD = "ADHAM SHADOW"
 
+# إعدادات Firebase المحدثة بدقة
 FIREBASE_CONFIG = {
     "apiKey": "AIzaSyCc-8w0G8AIxEpoScTC3eqs0rcdDWd-j8g",
     "authDomain": "wbbhdh-9ede6.firebaseapp.com",
@@ -348,19 +349,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #00e676;
         }
 
-        .happ-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #00c853, #00e676);
-            color: #041a0c;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 12px;
-            font-weight: 900;
-            cursor: pointer;
-            margin-top: 6px;
-        }
-
         .logout-link {
             margin-top: 14px;
             text-align: center;
@@ -420,7 +408,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <canvas id="particleCanvas"></canvas>
     <div id="toast">✓ Done!</div>
 
-    <!-- شاشة تسجيل الدخول (للأدمن، الموزعين، أو المستخدمين بالأكواد) -->
+    <!-- شاشة تسجيل الدخول -->
     <div id="loginScreen" class="screen active">
         <div class="main-card">
             <div class="shield-box">
@@ -429,7 +417,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </svg>
             </div>
 
-            <div class="brand-title">Shadow<span>XIT</span></div>
+            <div class="brand-title">Adham<span>Dev</span></div>
             <div class="brand-subtitle">ADMIN / RESELLER / KEY LOGIN</div>
 
             <div class="input-wrapper">
@@ -441,12 +429,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </button>
 
             <div class="footer-pill">
-                <span>✈️</span> Adham x Shadow Dev • VIP Panel
+                <span>✈️</span> Adham Dev • VIP Panel
             </div>
         </div>
     </div>
 
-    <!-- شاشة الـ Aim Bot الخاصة بالمستخدمين والموزعين عند الدجل بكود تفعيل أو كبائع -->
+    <!-- شاشة الـ Aim Bot للمستخدمين -->
     <div id="aimbotScreen" class="screen">
         <div class="main-card">
             <div class="shield-box">
@@ -463,23 +451,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 🎯 AIMBOT ACTIVATED
             </button>
 
-            <button class="sub-btn" style="width:100%; padding: 12px; margin-top: 6px;" onclick="copyConfigJson()">
-                📋 Copy Config & Connect VPN
+            <button class="sub-btn" style="width:100%; padding: 12px; margin-top: 6px;" onclick="fetchAndConnectVPN()">
+                🚀 Connect VPN Directly
             </button>
 
             <div class="logout-link" onclick="logout()">🔒 Logout</div>
         </div>
     </div>
 
-    <!-- لوحة تحكم الأدمن الشاملة -->
+    <!-- لوحة تحكم الأدمن -->
     <div id="dashboardScreen" class="screen">
         <div class="main-card dash-card">
             <div class="dash-top">
-                <span class="dash-user" id="panelHeaderTitle">👑 Admin Master Panel</span>
+                <span class="dash-user" id="panelHeaderTitle">👑 Adham Dev Master Panel</span>
                 <span style="color:#00e676; font-size:11px; font-weight:bold;">UNLIMITED</span>
             </div>
 
-            <!-- قسم إدارة البائعين (Resellers) -->
             <div class="section-heading">👥 Manage Resellers (البائعين)</div>
             <label class="field-label">Reseller Username / Password:</label>
             <input type="text" class="dark-input" id="resellerUsername" placeholder="e.g. reseller_ahmed">
@@ -491,7 +478,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <label class="field-label">Active Resellers List:</label>
             <div class="list-container" id="resellersContainer"></div>
 
-            <!-- قسم توليد الأكواد وإدارتها -->
             <div class="section-heading">🛒 Generate & Manage Keys (إدارة الأكواد)</div>
             <label class="field-label">Duration & Validity (مدة الكود):</label>
             <select class="dark-select" id="validity">
@@ -507,8 +493,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <div class="field-label" style="text-align:center;">GENERATED KEY</div>
                 <div class="key-display" id="generatedKeyText">SHADOW_XXX_XXX</div>
                 <div style="display: flex; gap: 6px;">
-                    <button class="sub-btn" onclick="copyGeneratedKey()">📋 Copy</button>
-                    <button class="sub-btn" onclick="copyConfigJson()">📄 Config</button>
+                    <button class="sub-btn" onclick="copyGeneratedKey()">📋 Copy Key</button>
+                    <button class="sub-btn" onclick="fetchAndConnectVPN()">🚀 Connect VPN</button>
                 </div>
             </div>
 
@@ -520,54 +506,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <script>
-        const happConfigData = {
-            "remarks": "Adham x Shadow Dev",
-            "inbounds": [
-                {
-                    "listen": "127.0.0.1",
-                    "port": 10808,
-                    "protocol": "socks",
-                    "settings": { "auth": "noauth", "udp": true },
-                    "sniffing": { "destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false },
-                    "tag": "socks"
-                },
-                {
-                    "listen": "127.0.0.1",
-                    "port": 10809,
-                    "protocol": "http",
-                    "sniffing": { "destOverride": ["http", "tls", "quic"], "enabled": true, "routeOnly": false },
-                    "tag": "http"
-                }
-            ],
-            "outbounds": [
-                {
-                    "protocol": "hysteria",
-                    "settings": { "address": "proxy-eu.dripwire.cc", "port": 443, "version": 2 },
-                    "streamSettings": {
-                        "hysteriaSettings": { "auth": "7850232467:292dbda85d7383fa", "version": 2 },
-                        "network": "hysteria",
-                        "security": "tls",
-                        "tlsSettings": { "alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": false },
-                        "finalmask": { "quicParams": { "disableChromeParrot": true } }
-                    },
-                    "tag": "proxy"
-                },
-                {
-                    "protocol": "freedom",
-                    "tag": "direct"
-                }
-            ],
-            "routing": {
-                "domainStrategy": "AsIs",
-                "rules": [
-                    { "network": "tcp", "outboundTag": "proxy", "port": "39000-39999" },
-                    { "network": "udp", "outboundTag": "proxy", "port": "10000-10999" },
-                    { "network": "tcp,udp", "outboundTag": "direct" }
-                ]
-            }
-        };
-
-        let currentLoggedInUser = "Admin";
+        const configUrl = "https://github.com/Dev0x1exe/deev/raw/refs/heads/main/aimbot.json";
 
         function showToast(msg) {
             let toast = document.getElementById('toast');
@@ -586,12 +525,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         }
 
-        // نظام تسجيل الدخول الشامل
         async function handleLogin() {
             let val = document.getElementById('userInput').value.trim();
             if (!val) return showToast("⚠️ Please enter password or key!");
 
-            // 1. فحص إذا كان باسورد الأدمن
             try {
                 const authRes = await fetch('/api/verify-admin', {
                     method: 'POST',
@@ -600,14 +537,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 });
                 const authData = await authRes.json();
                 if (authData.isAdmin) {
-                    currentLoggedInUser = "Admin";
                     loadAdminData();
                     showScreen('dashboardScreen');
                     return;
                 }
             } catch (err) {}
 
-            // 2. فحص البائعين والأكواد في فايربيس
             try {
                 const resellersSnap = await window.getDocs(window.collection(window.db, "resellers"));
                 let foundReseller = null;
@@ -618,13 +553,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 });
 
                 if (foundReseller) {
-                    currentLoggedInUser = foundReseller.name;
                     document.getElementById('userRoleSubtitle').innerText = `RESELLER: ${foundReseller.name} ($${foundReseller.balance})`;
                     showScreen('aimbotScreen');
                     return;
                 }
 
-                // 3. فحص الأكواد
                 const keysSnap = await window.getDocs(window.collection(window.db, "keys"));
                 let validKey = null;
                 keysSnap.forEach((docSnap) => {
@@ -636,7 +569,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 if (validKey) {
                     playMaleActivatedVoice();
-                    currentLoggedInUser = "VIP Key User";
                     document.getElementById('userRoleSubtitle').innerText = `KEY USER (Created by: ${validKey.createdBy || 'Admin'})`;
                     showScreen('aimbotScreen');
                 } else {
@@ -647,9 +579,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         }
 
-        // تحميل بيانات لوحة الأدمن (البائعين والأكواد مع تفاصيل المدة ومن أنشأها)
         async function loadAdminData() {
-            // تحميل البائعين
             const resellersContainer = document.getElementById('resellersContainer');
             resellersContainer.innerHTML = 'Loading...';
             try {
@@ -667,7 +597,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 });
             } catch (e) { resellersContainer.innerHTML = 'Error loading'; }
 
-            // تحميل الأكواد مع إمكانية الحذف والتعطيل
             const keysContainer = document.getElementById('keysContainer');
             keysContainer.innerHTML = 'Loading...';
             try {
@@ -695,7 +624,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             } catch (e) { keysContainer.innerHTML = 'Error loading keys'; }
         }
 
-        // إضافة بائع جديد
         async function addReseller() {
             let name = document.getElementById('resellerUsername').value.trim();
             let balance = parseFloat(document.getElementById('resellerBalance').value) || 0;
@@ -717,7 +645,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         }
 
-        // توليد كود جديد مع حفظ اسم المنشئ والمدة
         async function buyAndGenerateKey() {
             let validitySelect = document.getElementById('validity');
             let selectedOption = validitySelect.options[validitySelect.selectedIndex];
@@ -737,7 +664,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     code: key,
                     expiresAt: expiryTimestamp,
                     duration: durationText,
-                    createdBy: currentLoggedInUser,
+                    createdBy: "Admin",
                     active: true
                 });
 
@@ -748,7 +675,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             } catch (e) { alert("Error: " + e.message); }
         }
 
-        // تعطيل أو تفعيل الكود
         async function toggleKeyStatus(id, currentStatus) {
             try {
                 await window.updateDoc(window.doc(window.db, "keys", id), { active: !currentStatus });
@@ -765,27 +691,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         }
 
+        async function fetchAndConnectVPN() {
+            try {
+                showToast("⏳ Fetching Adham Dev Config...");
+                const response = await fetch(configUrl);
+                const configJson = await response.json();
+                
+                configJson.remarks = "Adham Dev";
+
+                const jsonString = JSON.stringify(configJson);
+                const base64Config = btoa(unescape(encodeURIComponent(jsonString)));
+                
+                showToast("✓ Opening Happ VPN...");
+                
+                setTimeout(() => {
+                    window.location.href = `happ://add/${base64Config}`;
+                }, 600);
+            } catch (err) {
+                showToast("❌ Failed to fetch config from URL!");
+            }
+        }
+
         function triggerAimBotActivated() {
             playMaleActivatedVoice();
             showToast("🎯 Aim Bot Activated & Connecting VPN...");
-            copyConfigJson();
-            setTimeout(() => { openInHappVPN(); }, 800);
-        }
-
-        function openInHappVPN() {
-            const jsonString = JSON.stringify(happConfigData);
-            const base64Config = btoa(unescape(encodeURIComponent(jsonString)));
-            window.location.href = `happ://add/${base64Config}`;
+            fetchAndConnectVPN();
         }
 
         function copyGeneratedKey() {
             let text = document.getElementById('generatedKeyText').innerText;
             navigator.clipboard.writeText(text).then(() => showToast("✓ Key Copied!"));
-        }
-
-        function copyConfigJson() {
-            const jsonString = JSON.stringify(happConfigData);
-            navigator.clipboard.writeText(jsonString).then(() => showToast("✓ Config Copied to Clipboard!"));
         }
 
         function showScreen(screenId) {
@@ -800,7 +735,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('userInput').value = '';
         }
 
-        // شبكة الجزيئات المتحركة
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
