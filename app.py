@@ -2,13 +2,12 @@ from flask import Flask, request, jsonify, session, render_template_string
 import secrets
 
 app = Flask(__name__)
-# مفتاح تشفير الجلسات (يتم توليده تلقائياً لحماية دخول الأدمن)
 app.secret_key = secrets.token_hex(32)
 
-# كلمة مرور الأدمن المخفية تماماً عن كود HTML
+# باسورد الأدمن الجديد
 ADMIN_PASSWORD = "ADHAM SHADOW"
 
-# إعدادات Firebase الجديدة الخاصة بك (wbbhdh-9ede6)
+# بيانات فايربيس الخاصة بك (wbbhdh-9ede6)
 FIREBASE_CONFIG = {
     "apiKey": "AIzaSyCc-8w0G8AIxEpoScTC3eqs0rcdDWd-j8g",
     "authDomain": "wbbhdh-9ede6.firebaseapp.com",
@@ -18,13 +17,12 @@ FIREBASE_CONFIG = {
     "appId": "1:426376855325:android:30a926985465c34d16abf4"
 }
 
-# قالب الواجهة الأمامية (خالي تماماً من كلمة مرور الأدمن)
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shadow - Reseller & Admin Access</title>
+    <title>Shadow - Admin Panel</title>
     <style>
         * {
             box-sizing: border-box;
@@ -122,38 +120,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 10px;
             font-weight: 700;
             color: #7d8597;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 26px;
-        }
-
-        .role-switcher {
-            width: 100%;
-            background: #0d0e12;
-            border-radius: 14px;
-            padding: 4px;
-            display: flex;
-            margin-bottom: 16px;
-            border: 1px solid #1a1d26;
-        }
-
-        .role-tab {
-            flex: 1;
-            padding: 12px 0;
-            border: none;
-            border-radius: 11px;
-            background: transparent;
-            color: #7d8597;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .role-tab.active {
-            background: #00e676;
-            color: #051b0e;
-            box-shadow: 0 0 18px rgba(0, 230, 118, 0.45);
         }
 
         .input-wrapper {
@@ -299,38 +268,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-color: #00e676;
         }
 
-        .reseller-box {
-            width: 100%;
-            max-height: 120px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-
-        .reseller-row {
-            background: #0d0e12;
-            border: 1px solid #1f232d;
-            padding: 10px 12px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-        }
-
-        .del-btn {
-            background: rgba(255, 59, 48, 0.15);
-            border: 1px solid rgba(255, 59, 48, 0.4);
-            color: #ff453a;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
         .result-box {
             width: 100%;
             background: #0d0e12;
@@ -429,22 +366,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {{ firebase_config | tojson }};
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         window.db = db;
         window.collection = collection;
         window.addDoc = addDoc;
-        window.getDocs = getDocs;
-        window.deleteDoc = deleteDoc;
-        window.doc = doc;
-        window.updateDoc = updateDoc;
-
-        window.loadCloudData();
     </script>
 </head>
 <body>
@@ -463,15 +393,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="brand-title">Shadow<span>XIT</span></div>
-            <div class="brand-subtitle" id="accessSubtitle">RESELLER ACCESS</div>
-
-            <div class="role-switcher">
-                <button type="button" class="role-tab" id="tabAdmin" onclick="selectRole('admin')">Admin</button>
-                <button type="button" class="role-tab active" id="tabReseller" onclick="selectRole('reseller')">Reseller</button>
-            </div>
+            <div class="brand-subtitle">ADMIN / RESELER</div>
 
             <div class="input-wrapper">
-                <input type="password" class="pass-input" id="userInput" placeholder="Enter your password">
+                <input type="password" class="pass-input" id="userInput" placeholder="Enter password (ADHAM SHADOW)">
                 <span class="toggle-eye" onclick="togglePassVisibility()">👁️</span>
             </div>
 
@@ -489,28 +414,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <div id="dashboardScreen" class="screen">
         <div class="main-card dash-card">
             <div class="dash-top">
-                <span class="dash-user" id="panelTitle">👑 Control Panel</span>
-                <span class="balance-tag" id="accountBalance">UNLIMITED</span>
+                <span class="dash-user">👑 Admin Panel</span>
+                <span class="balance-tag">UNLIMITED</span>
             </div>
 
-            <!-- قسم إدارة الموزعين (يظهر للأدمن فقط بعد التحقق من السيرفر) -->
-            <div id="adminResellerSection" style="display:none; width: 100%;">
-                <div class="section-heading">👥 Manage Resellers</div>
-                <label class="field-label">Reseller Password / Username:</label>
-                <input type="text" class="dark-input" id="resellerName" placeholder="e.g. reseller123">
-                
-                <label class="field-label">Initial Balance ($):</label>
-                <input type="number" class="dark-input" id="resellerBalance" value="20">
-                
-                <button class="green-btn" style="padding: 12px; font-size: 13px; margin-bottom: 14px;" onclick="addReseller()">
-                    ➕ ADD RESELLER
-                </button>
-
-                <label class="field-label">Active Resellers:</label>
-                <div class="reseller-box" id="resellerContainer"></div>
-            </div>
-
-            <!-- قسم توليد الأكواد والكونفيج -->
             <div class="section-heading">🛒 Generate Key & Happ Config</div>
             <label class="field-label">Product:</label>
             <select class="dark-select" id="productType">
@@ -529,7 +436,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 ⚡ GENERATE KEY & CONNECT
             </button>
 
-            <!-- صندوق النتيجة والنقل التلقائي لتطبيق Happ VPN -->
             <div class="result-box" id="singleKeyBox" style="display:none;">
                 <div class="field-label" style="text-align:center;">ACTIVATION KEY</div>
                 <div class="key-display" id="generatedKeyText">SHADOW_XXX_XXX</div>
@@ -596,20 +502,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         };
 
-        let selectedRole = "reseller";
-        let cloudResellers = [];
-        let currentUserType = "reseller";
-        let currentResellerId = null;
-        let currentResellerData = null;
-
-        function selectRole(role) {
-            selectedRole = role;
-            document.getElementById('tabAdmin').classList.toggle('active', role === 'admin');
-            document.getElementById('tabReseller').classList.toggle('active', role === 'reseller');
-            document.getElementById('accessSubtitle').innerText = role === 'admin' ? 'ADMIN ACCESS' : 'RESELLER ACCESS';
-            document.getElementById('userInput').placeholder = role === 'admin' ? 'Enter Admin password' : 'Enter your password';
-        }
-
         function showToast(msg) {
             let toast = document.getElementById('toast');
             toast.innerText = msg;
@@ -622,38 +514,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             input.type = input.type === "password" ? "text" : "password";
         }
 
-        window.loadCloudData = async function() {
-            try {
-                const resellersSnap = await window.getDocs(window.collection(window.db, "resellers"));
-                cloudResellers = resellersSnap.docs.map(d => ({ firestoreId: d.id, ...d.data() }));
-            } catch (e) {
-                console.error("Error loading cloud data:", e);
-            }
-        };
-
-        function renderResellersUI() {
-            let container = document.getElementById('resellerContainer');
-            container.innerHTML = '';
-            cloudResellers.forEach((r) => {
-                let div = document.createElement('div');
-                div.className = 'reseller-row';
-                div.innerHTML = `
-                    <span><b>${r.name}</b></span>
-                    <div>
-                        <span style="color:#00e676; font-weight:bold; margin-right:10px;">$${Number(r.balance).toFixed(2)}</span>
-                        <button class="del-btn" onclick="deleteResellerCloud('${r.firestoreId}')">Delete</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // التحقق من باسورد الأدمن يتم عبر السيرفر (Python) ولا يوجد في HTML
-        window.handleLogin = async function() {
+        async function handleLogin() {
             let val = document.getElementById('userInput').value.trim();
-            if (!val) return showToast("⚠️ Please enter your password!");
+            if (!val) return showToast("⚠️ Please enter password!");
 
-            // إرسال الطلب إلى Python للتحقق من باسورد الأدمن بأمان
             try {
                 const authRes = await fetch('/api/verify-admin', {
                     method: 'POST',
@@ -663,43 +527,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const authData = await authRes.json();
 
                 if (authData.isAdmin) {
-                    await window.loadCloudData();
-                    currentUserType = "admin";
-                    document.getElementById('panelTitle').innerText = "👑 Admin Control";
-                    document.getElementById('accountBalance').innerText = "UNLIMITED";
-                    document.getElementById('adminResellerSection').style.display = 'block';
                     showDashboard();
-                    return;
+                } else {
+                    showToast("❌ Invalid Password!");
                 }
             } catch (err) {
-                console.error("Auth check error:", err);
+                showToast("❌ Connection Error!");
             }
-
-            if (selectedRole === "admin") {
-                showToast("❌ Invalid Admin Password!");
-                return;
-            }
-
-            // التحقق من حساب الموزع في Firebase
-            await window.loadCloudData();
-            let found = cloudResellers.find(r => r.name.toLowerCase() === val.toLowerCase());
-            if (found) {
-                currentUserType = "reseller";
-                currentResellerId = found.firestoreId;
-                currentResellerData = found;
-                document.getElementById('panelTitle').innerText = `👤 ${found.name}`;
-                document.getElementById('accountBalance').innerText = `$${Number(found.balance).toFixed(2)}`;
-                document.getElementById('adminResellerSection').style.display = 'none';
-                showDashboard();
-            } else {
-                showToast("❌ Invalid Password!");
-            }
-        };
+        }
 
         function showDashboard() {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('dashboardScreen').classList.add('active');
-            renderResellersUI();
         }
 
         async function logout() {
@@ -710,63 +549,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('userInput').value = '';
         }
 
-        window.addReseller = async function() {
-            let name = document.getElementById('resellerName').value.trim();
-            let balance = parseFloat(document.getElementById('resellerBalance').value);
-
-            if (!name) return showToast('⚠️ Enter reseller password/name');
-            if (cloudResellers.some(r => r.name.toLowerCase() === name.toLowerCase())) {
-                return showToast('⚠️ Reseller already exists!');
-            }
-
-            try {
-                const docRef = await window.addDoc(window.collection(window.db, "resellers"), {
-                    name: name,
-                    balance: balance || 0
-                });
-                cloudResellers.push({ firestoreId: docRef.id, name: name, balance: balance || 0 });
-                renderResellersUI();
-                document.getElementById('resellerName').value = '';
-                showToast(`✓ Reseller ${name} Added!`);
-            } catch (e) {
-                alert("Firebase Error: " + e.message);
-            }
-        };
-
-        window.deleteResellerCloud = async function(firestoreId) {
-            if (confirm("Delete this reseller?")) {
-                try {
-                    await window.deleteDoc(window.doc(window.db, "resellers", firestoreId));
-                    cloudResellers = cloudResellers.filter(r => r.firestoreId !== firestoreId);
-                    renderResellersUI();
-                    showToast("✓ Reseller Deleted!");
-                } catch (e) {
-                    alert("Error deleting: " + e.message);
-                }
-            }
-        };
-
-        window.buyAndGenerateKey = async function() {
+        async function buyAndGenerateKey() {
             let priceSelect = document.getElementById('validity');
-            let price = parseFloat(priceSelect.value);
             let selectedOption = priceSelect.options[priceSelect.selectedIndex];
             let daysToAdd = parseInt(selectedOption.getAttribute('data-days')) || 1;
-
-            if (currentUserType === "reseller") {
-                if (currentResellerData.balance < price) {
-                    return showToast("❌ Insufficient Balance!");
-                }
-                currentResellerData.balance -= price;
-                
-                try {
-                    await window.updateDoc(window.doc(window.db, "resellers", currentResellerId), {
-                        balance: currentResellerData.balance
-                    });
-                    document.getElementById('accountBalance').innerText = `$${Number(currentResellerData.balance).toFixed(2)}`;
-                } catch (e) {
-                    return alert("Error updating balance: " + e.message);
-                }
-            }
 
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let part1 = '';
@@ -788,14 +574,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 document.getElementById('singleKeyBox').style.display = 'block';
                 showToast("✓ Key Generated! Opening Happ VPN...");
 
+                // نسخ وتشغيل تلقائي بدون حفظ على الهاتف
+                copyConfigJson();
                 setTimeout(() => {
                     openInHappVPN();
-                }, 800);
+                }, 700);
 
             } catch (e) {
                 alert("Error saving key: " + e.message);
             }
-        };
+        }
 
         function openInHappVPN() {
             const jsonString = JSON.stringify(happConfigData);
@@ -813,7 +601,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function copyConfigJson() {
             const jsonString = JSON.stringify(happConfigData);
-            navigator.clipboard.writeText(jsonString).then(() => showToast("✓ Config Copied!"));
+            navigator.clipboard.writeText(jsonString).then(() => showToast("✓ Config Copied to Clipboard!"));
         }
 
         const canvas = document.getElementById('particleCanvas');
