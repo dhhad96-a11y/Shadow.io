@@ -1,12 +1,13 @@
 from flask import Flask, request, jsonify, session, render_template_string
 import secrets
+import json
+import base64
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
 
 ADMIN_PASSWORD = "ADHAM SHADOW"
 
-# إعدادات Firebase المحدثة بدقة
 FIREBASE_CONFIG = {
     "apiKey": "AIzaSyCc-8w0G8AIxEpoScTC3eqs0rcdDWd-j8g",
     "authDomain": "wbbhdh-9ede6.firebaseapp.com",
@@ -16,12 +17,60 @@ FIREBASE_CONFIG = {
     "appId": "1:426376855325:android:30a926985465c34d16abf4"
 }
 
+# الكونفيج الخاص بك مضبوط بدقة للعمل مع Happ VPN
+HAPP_CONFIG = {
+    "remarks": "Adham Dev",
+    "inbounds": [
+        {
+            "listen": "127.0.0.1",
+            "port": 10808,
+            "protocol": "socks",
+            "settings": { "auth": "noauth", "udp": True },
+            "sniffing": { "destOverride": ["http", "tls", "quic"], "enabled": True, "routeOnly": False },
+            "tag": "socks"
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": 10809,
+            "protocol": "http",
+            "sniffing": { "destOverride": ["http", "tls", "quic"], "enabled": True, "routeOnly": False },
+            "tag": "http"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "hysteria",
+            "settings": { "address": "proxy-eu.dripwire.cc", "port": 443, "version": 2 },
+            "streamSettings": {
+                "hysteriaSettings": { "auth": "7850232467:292dbda85d7383fa", "version": 2 },
+                "network": "hysteria",
+                "security": "tls",
+                "tlsSettings": { "alpn": ["h3"], "serverName": "proxy-eu.dripwire.cc", "show": False },
+                "finalmask": { "quicParams": { "disableChromeParrot": True } }
+            },
+            "tag": "proxy"
+        },
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        }
+    ],
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            { "network": "tcp", "outboundTag": "proxy", "port": "39000-39999" },
+            { "network": "udp", "outboundTag": "proxy", "port": "10000-10999" },
+            { "network": "tcp,udp", "outboundTag": "direct" }
+        ]
+    }
+}
+
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shadow - Admin & Reseller Panel</title>
+    <title>Shadow - AimBot & VPN Panel</title>
     <style>
         * {
             box-sizing: border-box;
@@ -451,7 +500,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 🎯 AIMBOT ACTIVATED
             </button>
 
-            <button class="sub-btn" style="width:100%; padding: 12px; margin-top: 6px;" onclick="fetchAndConnectVPN()">
+            <button class="sub-btn" style="width:100%; padding: 12px; margin-top: 6px;" onclick="connectVPN()">
                 🚀 Connect VPN Directly
             </button>
 
@@ -494,7 +543,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <div class="key-display" id="generatedKeyText">SHADOW_XXX_XXX</div>
                 <div style="display: flex; gap: 6px;">
                     <button class="sub-btn" onclick="copyGeneratedKey()">📋 Copy Key</button>
-                    <button class="sub-btn" onclick="fetchAndConnectVPN()">🚀 Connect VPN</button>
+                    <button class="sub-btn" onclick="connectVPN()">🚀 Connect VPN</button>
                 </div>
             </div>
 
@@ -506,7 +555,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <script>
-        const configUrl = "https://github.com/Dev0x1exe/deev/raw/refs/heads/main/aimbot.json";
+        // حقن الكونفيج مباشرة داخل الكود لضمان التشغيل الفوري والسريع دون أي أخطاء تحميل
+        const vpnConfigData = {{ happ_config | tojson }};
 
         function showToast(msg) {
             let toast = document.getElementById('toast');
@@ -691,31 +741,26 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         }
 
-        async function fetchAndConnectVPN() {
+        // تحويل الكونفيج وتوجيه المستخدم تلقائياً إلى تطبيق Happ VPN دون مشاكل
+        function connectVPN() {
             try {
-                showToast("⏳ Fetching Adham Dev Config...");
-                const response = await fetch(configUrl);
-                const configJson = await response.json();
-                
-                configJson.remarks = "Adham Dev";
-
-                const jsonString = JSON.stringify(configJson);
+                const jsonString = JSON.stringify(vpnConfigData);
                 const base64Config = btoa(unescape(encodeURIComponent(jsonString)));
                 
-                showToast("✓ Opening Happ VPN...");
+                showToast("🚀 Opening Happ VPN...");
                 
                 setTimeout(() => {
                     window.location.href = `happ://add/${base64Config}`;
-                }, 600);
+                }, 500);
             } catch (err) {
-                showToast("❌ Failed to fetch config from URL!");
+                showToast("❌ Failed to connect VPN!");
             }
         }
 
         function triggerAimBotActivated() {
             playMaleActivatedVoice();
             showToast("🎯 Aim Bot Activated & Connecting VPN...");
-            fetchAndConnectVPN();
+            connectVPN();
         }
 
         function copyGeneratedKey() {
@@ -770,7 +815,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 @app.route("/")
 def index():
-    return render_template_string(HTML_TEMPLATE, firebase_config=FIREBASE_CONFIG)
+    return render_template_string(HTML_TEMPLATE, firebase_config=FIREBASE_CONFIG, happ_config=HAPP_CONFIG)
 
 @app.route("/api/verify-admin", methods=["POST"])
 def verify_admin():
