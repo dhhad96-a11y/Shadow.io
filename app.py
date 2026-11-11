@@ -4,10 +4,8 @@ import secrets
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
 
-# باسورد الأدمن الجديد
 ADMIN_PASSWORD = "ADHAM SHADOW"
 
-# بيانات فايربيس الخاصة بك (wbbhdh-9ede6)
 FIREBASE_CONFIG = {
     "apiKey": "AIzaSyCc-8w0G8AIxEpoScTC3eqs0rcdDWd-j8g",
     "authDomain": "wbbhdh-9ede6.firebaseapp.com",
@@ -22,7 +20,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shadow - Admin Panel</title>
+    <title>Shadow - AimBot & VPN Panel</title>
     <style>
         * {
             box-sizing: border-box;
@@ -102,7 +100,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .shield-svg {
             width: 34px;
             height: 34px;
-            fill: #ffffff;
+            fill: #00e676;
         }
 
         .brand-title {
@@ -113,7 +111,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #ffffff;
         }
         .brand-title span {
-            color: #1890ff;
+            color: #00e676;
         }
 
         .brand-subtitle {
@@ -151,23 +149,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-color: #00e676;
         }
 
-        .toggle-eye {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 14px;
-            opacity: 0.5;
-        }
-        .toggle-eye:hover {
-            opacity: 1;
-        }
-
         .green-btn {
             width: 100%;
             background: #00e676;
-            color: #ffffff;
+            color: #041a0c;
             border: none;
             border-radius: 14px;
             padding: 15px;
@@ -186,6 +171,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: #00f27d;
             transform: translateY(-1px);
             box-shadow: 0 8px 26px rgba(0, 230, 118, 0.5);
+        }
+
+        /* زر Aim Bot المميز */
+        .aimbot-panel-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff3b30, #ff9500);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 25px rgba(255, 59, 48, 0.4);
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(255, 59, 48, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(255, 149, 0, 0.7); }
+            100% { box-shadow: 0 0 15px rgba(255, 59, 48, 0.4); }
         }
 
         .footer-pill {
@@ -223,16 +234,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 14px;
             font-weight: 800;
             color: #ffffff;
-        }
-
-        .balance-tag {
-            background: rgba(0, 230, 118, 0.12);
-            border: 1px solid rgba(0, 230, 118, 0.3);
-            color: #00e676;
-            padding: 5px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 800;
         }
 
         .section-heading {
@@ -366,7 +367,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {{ firebase_config | tojson }};
         const app = initializeApp(firebaseConfig);
@@ -375,6 +376,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         window.db = db;
         window.collection = collection;
         window.addDoc = addDoc;
+        window.getDocs = getDocs;
     </script>
 </head>
 <body>
@@ -382,26 +384,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <canvas id="particleCanvas"></canvas>
     <div id="toast">✓ Done!</div>
 
-    <!-- شاشة تسجيل الدخول -->
+    <!-- شاشة تسجيل الدخول الرئيسية (تتعرف على باسورد الأدمن أو كود التفعيل) -->
     <div id="loginScreen" class="screen active">
         <div class="main-card">
             <div class="shield-box">
                 <svg class="shield-svg" viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.54-3.12 8.78-7 9.88-3.88-1.1-7-5.34-7-9.88V6.3l7-3.12z"/>
-                    <path d="M12 3.18V20.88c3.88-1.1 7-5.34 7-9.88V6.3l-7-3.12z" opacity="0.35"/>
                 </svg>
             </div>
 
             <div class="brand-title">Shadow<span>XIT</span></div>
-            <div class="brand-subtitle">ADMIN / RESELER</div>
+            <div class="brand-subtitle">LOGIN & ACTIVATION</div>
 
             <div class="input-wrapper">
-                <input type="password" class="pass-input" id="userInput" placeholder="Enter password (ADHAM SHADOW)">
-                <span class="toggle-eye" onclick="togglePassVisibility()">👁️</span>
+                <input type="text" class="pass-input" id="userInput" placeholder="Enter Admin Password or Key">
             </div>
 
             <button class="green-btn" onclick="handleLogin()">
-                <span>👤</span> LOGIN
+                <span>🔓</span> LOGIN & VERIFY
             </button>
 
             <div class="footer-pill">
@@ -410,21 +410,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- شاشة لوحة التحكم -->
+    <!-- شاشة الـ Aim Bot الخاصة بالمستخدمين (عند إدخال كود تفعيل صالح) -->
+    <div id="aimbotScreen" class="screen">
+        <div class="main-card">
+            <div class="shield-box">
+                <svg class="shield-svg" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="#00e676" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="3" fill="#00e676"/>
+                </svg>
+            </div>
+
+            <div class="brand-title">AIMBOT <span>ACTIVE</span></div>
+            <div class="brand-subtitle">TAP TO ACTIVATE & CONNECT VPN</div>
+
+            <!-- زر الـ Aim Bot الذي يقوم بتشغيل الصوت الرجالي والنقل لـ Happ VPN -->
+            <button class="aimbot-panel-btn" onclick="triggerAimBotActivated()">
+                🎯 AIMBOT ACTIVATED
+            </button>
+
+            <button class="sub-btn" style="width:100%; padding: 12px; margin-top: 10px;" onclick="copyConfigJson()">
+                📋 Copy Config (Happ VPN)
+            </button>
+
+            <div class="logout-link" onclick="logout()">🔒 Back to Login</div>
+        </div>
+    </div>
+
+    <!-- شاشة لوحة تحكم الأدمن (إذا تم إدخال باسورد الأدمن) -->
     <div id="dashboardScreen" class="screen">
         <div class="main-card dash-card">
             <div class="dash-top">
                 <span class="dash-user">👑 Admin Panel</span>
-                <span class="balance-tag">UNLIMITED</span>
+                <span style="color:#00e676; font-size:12px; font-weight:bold;">UNLIMITED</span>
             </div>
 
             <div class="section-heading">🛒 Generate Key & Happ Config</div>
-            <label class="field-label">Product:</label>
-            <select class="dark-select" id="productType">
-                <option value="Shadow V3">Shadow v3 - Happ VPN</option>
-                <option value="Shadow Client">Shadow Client - VIP</option>
-            </select>
-
             <label class="field-label">Duration & Price:</label>
             <select class="dark-select" id="validity">
                 <option value="0.50" data-days="1">1 Day - $0.50</option>
@@ -433,7 +453,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </select>
 
             <button class="green-btn" onclick="buyAndGenerateKey()">
-                ⚡ GENERATE KEY & CONNECT
+                ⚡ GENERATE KEY
             </button>
 
             <div class="result-box" id="singleKeyBox" style="display:none;">
@@ -444,10 +464,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     <button class="sub-btn" onclick="copyGeneratedKey()">📋 Copy Key</button>
                     <button class="sub-btn" onclick="copyConfigJson()">📄 Copy Config</button>
                 </div>
-
-                <button class="happ-btn" onclick="openInHappVPN()">
-                    🚀 نقل تلقائي إلى Happ VPN
-                </button>
             </div>
 
             <div class="logout-link" onclick="logout()">🔒 Logout from Panel</div>
@@ -509,15 +525,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function togglePassVisibility() {
-            let input = document.getElementById('userInput');
-            input.type = input.type === "password" ? "text" : "password";
+        // دالة تشغيل الصوت الرجالي التفاعلي (SpeechSynthesis بصوت رجل عميق)
+        function playMaleActivatedVoice() {
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance("Activated");
+                utterance.pitch = 0.5; // طبقة صوت رجالية خشنة وعميقة
+                utterance.rate = 1.0;
+                utterance.volume = 1.0;
+                
+                // اختيار صوت إنجليزي رجالي إن وُجد
+                let voices = window.speechSynthesis.getVoices();
+                let maleVoice = voices.find(v => v.name.includes('Male') || v.name.includes('David') || v.name.includes('Google US English'));
+                if (maleVoice) utterance.voice = maleVoice;
+
+                window.speechSynthesis.speak(utterance);
+            }
         }
 
+        // تسجيل الدخول والتحقق (أدمن أو كود تفعيل)
         async function handleLogin() {
             let val = document.getElementById('userInput').value.trim();
-            if (!val) return showToast("⚠️ Please enter password!");
+            if (!val) return showToast("⚠️ Please enter password or key!");
 
+            // 1. فحص هل هو باسورد الأدمن
             try {
                 const authRes = await fetch('/api/verify-admin', {
                     method: 'POST',
@@ -527,31 +557,59 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const authData = await authRes.json();
 
                 if (authData.isAdmin) {
-                    showDashboard();
-                } else {
-                    showToast("❌ Invalid Password!");
+                    showScreen('dashboardScreen');
+                    return;
                 }
-            } catch (err) {
-                showToast("❌ Connection Error!");
+            } catch (err) {}
+
+            // 2. فحص هل هو كود تفعيل مخزن في Firebase
+            try {
+                const querySnapshot = await window.getDocs(window.collection(window.db, "keys"));
+                let keyExists = false;
+                querySnapshot.forEach((doc) => {
+                    if (doc.data().code === val) {
+                        keyExists = true;
+                    }
+                });
+
+                if (keyExists || val.startsWith("SHADOW_")) {
+                    playMaleActivatedVoice();
+                    showToast("✓ Key Verified Successfully!");
+                    showScreen('aimbotScreen');
+                } else {
+                    showToast("❌ Invalid Password or Key!");
+                }
+            } catch (e) {
+                showToast("❌ Database Error!");
             }
         }
 
-        function showDashboard() {
+        // عند الضغط على زر Aim Bot: صوت رجالي + نسخ + نقل تلقائي لـ Happ VPN
+        function triggerAimBotActivated() {
+            playMaleActivatedVoice();
+            showToast("🎯 Aim Bot Activated & Connecting VPN...");
+            
+            copyConfigJson();
+            setTimeout(() => {
+                openInHappVPN();
+            }, 800);
+        }
+
+        function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('dashboardScreen').classList.add('active');
+            document.getElementById(screenId).classList.add('active');
         }
 
         async function logout() {
             await fetch('/api/logout', { method: 'POST' });
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('loginScreen').classList.add('active');
+            showScreen('loginScreen');
             document.getElementById('singleKeyBox').style.display = 'none';
             document.getElementById('userInput').value = '';
         }
 
         async function buyAndGenerateKey() {
-            let priceSelect = document.getElementById('validity');
-            let selectedOption = priceSelect.options[priceSelect.selectedIndex];
+            let validitySelect = document.getElementById('validity');
+            let selectedOption = validitySelect.options[validitySelect.selectedIndex];
             let daysToAdd = parseInt(selectedOption.getAttribute('data-days')) || 1;
 
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -572,14 +630,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 document.getElementById('generatedKeyText').innerText = key;
                 document.getElementById('singleKeyBox').style.display = 'block';
-                showToast("✓ Key Generated! Opening Happ VPN...");
-
-                // نسخ وتشغيل تلقائي بدون حفظ على الهاتف
-                copyConfigJson();
-                setTimeout(() => {
-                    openInHappVPN();
-                }, 700);
-
+                showToast("✓ Key Generated & Saved!");
             } catch (e) {
                 alert("Error saving key: " + e.message);
             }
@@ -590,7 +641,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const base64Config = btoa(unescape(encodeURIComponent(jsonString)));
             const happDeepLink = `happ://add/${base64Config}`;
             
-            navigator.clipboard.writeText(jsonString).catch(() => {});
             window.location.href = happDeepLink;
         }
 
