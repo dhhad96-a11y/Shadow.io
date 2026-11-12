@@ -1,0 +1,1072 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0b0710" name="theme-color"/>
+<title>ADHAM CLIENT</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&amp;family=Rajdhani:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+ background:radial-gradient(ellipse at top,#351044 0%,transparent 45%),#09070d;
+ color:white;
+ font-family:'Rajdhani',sans-serif;
+ min-height:100vh;
+}
+
+.app{
+ max-width:680px;
+ margin:auto;
+ padding:22px 15px 35px;
+ display:none;
+}
+
+.app.unlocked{display:block}
+
+/* LOGIN SCREEN */
+
+.login-screen{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+
+.login-card{
+ width:100%;
+ max-width:390px;
+ padding:32px 24px;
+ text-align:center;
+ background:linear-gradient(145deg,#211326,#100b16);
+ border:1px solid #a53ac7;
+ border-radius:20px;
+ box-shadow:0 0 35px #a52bff25;
+}
+
+.login-logo{
+ font-family:'Orbitron',sans-serif;
+ font-size:27px;
+ font-weight:900;
+ letter-spacing:3px;
+}
+
+.login-logo span{color:#d946e9}
+
+.login-subtitle{
+ margin-top:12px;
+ color:#bd65e9;
+ font-family:'Orbitron',sans-serif;
+ font-size:10px;
+ letter-spacing:3px;
+}
+
+.login-line{
+ width:65px;
+ height:3px;
+ margin:24px auto;
+ border-radius:10px;
+ background:linear-gradient(90deg,#8625c5,#ed45cf);
+}
+
+.login-title{
+ font-family:'Orbitron',sans-serif;
+ font-size:15px;
+ letter-spacing:2px;
+ margin-bottom:10px;
+}
+
+.login-description{
+ color:#a394ad;
+ font-size:15px;
+ margin-bottom:24px;
+}
+
+.key-input{
+ width:100%;
+ padding:17px;
+ border-radius:10px;
+ border:1px solid #65316e;
+ outline:none;
+ background:#0c0811;
+ color:white;
+ text-align:center;
+ font-family:'Orbitron',sans-serif;
+ font-size:19px;
+ letter-spacing:5px;
+}
+
+.key-input:focus{
+ border-color:#d946e9;
+ box-shadow:0 0 15px #a52bff33;
+}
+
+.unlock-btn{
+ width:100%;
+ margin-top:17px;
+ padding:17px;
+ border:0;
+ border-radius:10px;
+ background:linear-gradient(110deg,#8625c5,#d43ac7);
+ color:white;
+ font-family:'Orbitron',sans-serif;
+ font-weight:800;
+ font-size:12px;
+ letter-spacing:2px;
+ cursor:pointer;
+}
+
+.unlock-btn:active{transform:scale(.98)}
+
+.login-error{
+ min-height:20px;
+ margin-top:16px;
+ color:#ff557c;
+ font-family:'Orbitron',sans-serif;
+ font-size:10px;
+ letter-spacing:1px;
+}
+
+.login-footer{
+ margin-top:25px;
+ color:#75667e;
+ font-family:'Orbitron',sans-serif;
+ font-size:9px;
+ letter-spacing:2px;
+}
+
+/* MAIN DESIGN */
+
+header{
+ padding:22px 8px;
+ border-bottom:1px solid #38213f;
+}
+
+.brand{
+ font-family:'Orbitron',sans-serif;
+ font-size:25px;
+ font-weight:900;
+ letter-spacing:3px;
+}
+
+.brand span{color:#d946e9}
+
+.status{
+ margin-top:10px;
+ font-family:'Orbitron',sans-serif;
+ font-size:10px;
+ letter-spacing:3px;
+ color:#bd65e9;
+}
+
+.copy{
+ width:100%;
+ margin:22px 0 12px;
+ padding:18px;
+ border:1px solid #a53ac7;
+ border-radius:12px;
+ background:linear-gradient(110deg,#7621a8,#d43ac7);
+ color:white;
+ font-family:'Orbitron',sans-serif;
+ font-size:12px;
+ font-weight:800;
+ letter-spacing:2px;
+ cursor:pointer;
+}
+
+.copy:active{transform:scale(.98)}
+
+.tabs{
+ display:flex;
+ gap:9px;
+ padding:7px;
+ margin:22px 0;
+ background:#100b16;
+ border:1px solid #38213f;
+ border-radius:13px;
+}
+
+.tab{
+ flex:1;
+ padding:15px 5px;
+ border:0;
+ border-radius:9px;
+ background:transparent;
+ color:#9c8ba5;
+ font-family:'Orbitron',sans-serif;
+ font-size:11px;
+ font-weight:700;
+ letter-spacing:1px;
+ cursor:pointer;
+}
+
+.tab.active{
+ background:linear-gradient(110deg,#8625c5,#d13ac7);
+ color:white;
+ box-shadow:0 0 18px #a52bff44;
+}
+
+.section{display:none}
+.section.active{display:block}
+
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+
+.tile{
+ min-height:150px;
+ padding:19px;
+ display:flex;
+ flex-direction:column;
+ justify-content:space-between;
+ background:linear-gradient(145deg,#211326,#100b16);
+ border:1px solid #65316e;
+ border-radius:14px;
+ box-shadow:0 0 15px #a52bff12;
+ transition:.2s;
+}
+
+.tile:hover{border-color:#d946e9}
+
+.name{
+ font-family:'Orbitron',sans-serif;
+ font-size:12px;
+ font-weight:700;
+ line-height:1.8;
+ letter-spacing:1px;
+}
+
+.toggleline{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ color:#d78aff;
+ font-family:'Orbitron',sans-serif;
+ font-size:10px;
+ letter-spacing:2px;
+}
+
+.switch{
+ appearance:none;
+ width:45px;
+ height:24px;
+ border-radius:20px;
+ background:#39313f;
+ position:relative;
+ cursor:pointer;
+ transition:.2s;
+ flex-shrink:0;
+}
+
+.switch:before{
+ content:"";
+ position:absolute;
+ width:16px;
+ height:16px;
+ left:4px;
+ top:4px;
+ border-radius:50%;
+ background:#aaa;
+ transition:.2s;
+}
+
+.switch:checked{
+ background:linear-gradient(90deg,#8e20d3,#ed45cf);
+}
+
+.switch:checked:before{
+ left:25px;
+ background:white;
+}
+
+.settings-card{
+ padding:22px;
+ background:linear-gradient(145deg,#211326,#100b16);
+ border:1px solid #65316e;
+ border-radius:14px;
+}
+
+.download{
+ display:block;
+ text-align:center;
+ text-decoration:none;
+ margin-top:20px;
+ padding:18px;
+ border-radius:10px;
+ background:linear-gradient(110deg,#8625c5,#d43ac7);
+ color:white;
+ font-family:'Orbitron',sans-serif;
+ font-size:11px;
+ font-weight:800;
+ letter-spacing:2px;
+}
+
+.description{
+ color:#a394ad;
+ font-size:15px;
+ margin-top:12px;
+}
+
+.footer{
+ text-align:center;
+ margin-top:30px;
+ color:#75667e;
+ font-family:'Orbitron',sans-serif;
+ font-size:9px;
+ letter-spacing:2px;
+}
+
+.toast{
+ position:fixed;
+ bottom:25px;
+ left:50%;
+ transform:translate(-50%,20px);
+ opacity:0;
+ background:#291532;
+ border:1px solid #b84cff;
+ padding:13px 20px;
+ border-radius:10px;
+ font-family:'Orbitron',sans-serif;
+ font-size:10px;
+ transition:.2s;
+ pointer-events:none;
+ z-index:100;
+}
+
+.toast.show{
+ opacity:1;
+ transform:translate(-50%,0);
+}
+
+@media(max-width:390px){
+ .brand{font-size:21px}
+ .grid{gap:9px}
+ .tile{padding:14px}
+ .name{font-size:10px}
+}
+</style>
+</head>
+<body>
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+<div class="login-card">
+<div class="login-logo">
+   DARK <span>CLIENT</span>
+</div>
+<div class="login-subtitle">
+   PREMIUM ACCESS SYSTEM
+  </div>
+<div class="login-line"></div>
+<div class="login-title">
+   ENTER YOUR KEY
+  </div>
+<p class="login-description">
+   Enter your access key to unlock the client.
+  </p>
+<input autocomplete="off" class="key-input" id="keyInput" inputmode="text" maxlength="6" placeholder="******" type="text"/>
+<button class="unlock-btn" id="unlockBtn">
+   UNLOCK CLIENT
+  </button>
+<div class="login-error" id="loginError"></div>
+<div class="login-footer">
+   DARK CLIENT SECURITY
+  </div>
+</div>
+</div>
+<!-- MAIN APP -->
+<div class="app" id="mainApp">
+<header>
+<div class="brand">
+  DARK <span>CLIENT</span>
+</div>
+<div class="status">CONNECTED</div>
+</header>
+<button class="copy" id="copyConfig">
+ COPY CONFIG
+</button>
+<nav class="tabs">
+<button class="tab active" data-tab="features">
+  FEATURES
+ </button>
+<button class="tab" data-tab="settings">
+  SETTINGS
+ </button>
+</nav>
+<section class="section active" id="features">
+<div class="grid">
+<div class="tile">
+<div class="name">AIMBOT</div>
+<div class="toggleline">
+<input class="switch" type="checkbox"/>
+<span>OFF</span>
+</div>
+</div>
+<div class="tile">
+<div class="name">ESP MOCO (BLACK LIST)</div>
+<div class="toggleline">
+<input class="switch" type="checkbox"/>
+<span>OFF</span>
+</div>
+</div>
+<div class="tile">
+<div class="name">FAST MEDKIT</div>
+<div class="toggleline">
+<input class="switch" type="checkbox"/>
+<span>OFF</span>
+</div>
+</div>
+<div class="tile">
+<div class="name">FAST REVIVE</div>
+<div class="toggleline">
+<input class="switch" type="checkbox"/>
+<span>OFF</span>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="settings">
+<div class="settings-card">
+<div class="name">HAPP PROXY</div>
+<p class="description">
+   Download Happ Android Application.
+  </p>
+<a class="download" href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" rel="noopener" target="_blank">
+   HAPP DOWNLOAD
+  </a>
+</div>
+</section>
+<div class="footer">
+ DARK CLIENT - PURPLE EDITION
+</div>
+</div>
+<div class="toast" id="toast">
+ CONFIG COPIED
+</div>
+<script>
+
+/* ALL ACCESS KEYS */
+
+const validKeys = new Set(`
+ADHAM
+907997
+127905
+899388
+733572
+859881
+358937
+484786
+315256
+429244
+425940
+793072
+675144
+558508
+945973
+612178
+954167
+469990
+879529
+245173
+804054
+856599
+792417
+934801
+443314
+511270
+927011
+968536
+400602
+279915
+892232
+649329
+948695
+537005
+173795
+998773
+728947
+946850
+297156
+179432
+828677
+768977
+174715
+782367
+193844
+454899
+487279
+316589
+527513
+886630
+109920
+343503
+182490
+492880
+124597
+175753
+896173
+450317
+275287
+540337
+383168
+514424
+229522
+623380
+551368
+851431
+600798
+680294
+828198
+484118
+337604
+144308
+973932
+391965
+801119
+927227
+753161
+272202
+820935
+940603
+203626
+488973
+140987
+185834
+231565
+896321
+634404
+299530
+299851
+298667
+746377
+721027
+674893
+144963
+923436
+746171
+910100
+892437
+203124
+841504
+560746
+533143
+230489
+390592
+231107
+436814
+959879
+221963
+157259
+252450
+455935
+120850
+235598
+218976
+847817
+877695
+166550
+894789
+236234
+632538
+486673
+402434
+277815
+570991
+262019
+824974
+186547
+681976
+327272
+436658
+198564
+842199
+433564
+959717
+241890
+470452
+210754
+105464
+731150
+636725
+182476
+787338
+910197
+182012
+838499
+270847
+692669
+366318
+595296
+918565
+166824
+989906
+399937
+172073
+186770
+536067
+198961
+944633
+275138
+987798
+147337
+688076
+601674
+531988
+794552
+348621
+866029
+273016
+805111
+322503
+957717
+234348
+956063
+657080
+325542
+331364
+482930
+962136
+655528
+129204
+647887
+500994
+654098
+735575
+347259
+168864
+742383
+583119
+494222
+933850
+364128
+756136
+145637
+806339
+856681
+955708
+442664
+361784
+631130
+972242
+715181
+449966
+521941
+257613
+733657
+199881
+364264
+201551
+414591
+727105
+997006
+845525
+787540
+299587
+988376
+909651
+400731
+399912
+547540
+704682
+239839
+495167
+661524
+938394
+186284
+181095
+370289
+652256
+253587
+104685
+572831
+111791
+241151
+581840
+412450
+338476
+815144
+994839
+839653
+630806
+666657
+242489
+144455
+819842
+310559
+494087
+267965
+652302
+447278
+762779
+536380
+815060
+683230
+481375
+341451
+947370
+171395
+552667
+442240
+301768
+389681
+857099
+186614
+509390
+248400
+894176
+748581
+926453
+517815
+411439
+908476
+802983
+446127
+123094
+972162
+566471
+662937
+948927
+444949
+625952
+764929
+937065
+438671
+179169
+542561
+746015
+461936
+774013
+411716
+282776
+926684
+372114
+299996
+965225
+630879
+207807
+439025
+673127
+440838
+986309
+638215
+888917
+671244
+444829
+522026
+857665
+839430
+475665
+977821
+822819
+645501
+531428
+142699
+416753
+110500
+968109
+161173
+595765
+494533
+890086
+402208
+775927
+192885
+381741
+916851
+869916
+689530
+952724
+295630
+988533
+879015
+732470
+787820
+159216
+456307
+558348
+518118
+221975
+901226
+770225
+427340
+138690
+984499
+248924
+660870
+204230
+969954
+298194
+642795
+994074
+752565
+664126
+752862
+960614
+809395
+771978
+275415
+210805
+168923
+118349
+626975
+841885
+749016
+169204
+774466
+312404
+911624
+155846
+278558
+223968
+389817
+887530
+240091
+984733
+395980
+350622
+532052
+178683
+615055
+392617
+372094
+319129
+345798
+706251
+504411
+160974
+912215
+465839
+960770
+617075
+110054
+585145
+309398
+586089
+814788
+755346
+205951
+964772
+589769
+955207
+769645
+976167
+381954
+810417
+379173
+279799
+818891
+690587
+846879
+637962
+732174
+784564
+225728
+678226
+658407
+601071
+673413
+518256
+597858
+885011
+834661
+975310
+107259
+974426
+425165
+824826
+621464
+255935
+886441
+915670
+870459
+236051
+790315
+481247
+116022
+207105
+245431
+248561
+825480
+407093
+251049
+520120
+444026
+307774
+970134
+361089
+816892
+827090
+484423
+420575
+404783
+743507
+889146
+881188
+164472
+105682
+582705
+185723
+534972
+547747
+555684
+857828
+990312
+725901
+938306
+232136
+265921
+365976
+537070
+207263
+494082
+524053
+830277
+473611
+188447
+161431
+444518
+457196
+441069
+211432
+204170
+517734
+877197
+643314
+904427
+526969
+545490
+573679
+272358
+702099
+471061
+165573
+562813
+202667
+786027
+725711
+878179
+597707
+475935
+843183
+530393
+`.trim().split(/\s+/));
+
+/* LOGIN SYSTEM */
+
+const loginScreen=document.getElementById('loginScreen');
+const mainApp=document.getElementById('mainApp');
+const keyInput=document.getElementById('keyInput');
+const loginError=document.getElementById('loginError');
+
+function unlockClient(){
+
+ const key=keyInput.value.trim();
+
+ if(validKeys.has(key)){
+
+  localStorage.setItem('darkClientUnlocked','true');
+
+  loginScreen.style.display='none';
+  mainApp.classList.add('unlocked');
+
+  loginError.textContent='';
+  showToast('ACCESS GRANTED');
+
+ }else{
+
+  loginError.textContent='INVALID KEY - TRY AGAIN';
+
+  keyInput.value='';
+  keyInput.focus();
+
+ }
+}
+
+document.getElementById('unlockBtn').addEventListener('click',unlockClient);
+
+keyInput.addEventListener('keydown',e=>{
+ if(e.key==='Enter') unlockClient();
+});
+
+/* CHECK SAVED LOGIN */
+
+if(localStorage.getItem('darkClientUnlocked')==='true'){
+ loginScreen.style.display='none';
+ mainApp.classList.add('unlocked');
+}
+
+/* TABS */
+
+const tabs=document.querySelectorAll('.tab');
+
+tabs.forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  tabs.forEach(t=>{
+   t.classList.toggle('active',t===btn);
+  });
+
+  document.querySelectorAll('.section').forEach(s=>{
+   s.classList.toggle('active',s.id===btn.dataset.tab);
+  });
+ });
+});
+
+/* SWITCHES */
+
+document.querySelectorAll('.switch').forEach(sw=>{
+ const label=sw.parentElement.querySelector('span');
+
+ const update=()=>{
+  label.textContent=sw.checked?'ON':'OFF';
+ };
+
+ sw.addEventListener('change',update);
+ update();
+});
+
+/* COPY CONFIG */
+
+document.getElementById('copyConfig').onclick=async()=>{
+
+ if(localStorage.getItem('darkClientUnlocked')!=='true'){
+  mainApp.classList.remove('unlocked');
+  loginScreen.style.display='flex';
+  return;
+ }
+
+ const config=`happ://crypt5/fzvd6FshKegBAZ0OHwjznxRD13ayHa6O22n322NHX4dRWoaQV/hkyRJeSQ5eTYoQIvkXT6C9iqIKsfdHkWIHy2UlXccd+3pSne24fs7lmlrh/LKiLmzZshRjqUUQip2hIIaS7uurF1RbRddERy+93y6IDSPElLcCrA6iDC==gBuA3MJGyNTbfbvOhXSUWmfICAr3wzilggWZ66Ub/apRxlTjqszlz1sKPiSh91sPRPtGAaELtfuu0seKumIp1/hgvkt2klx3FGCjkt7qQw/2PhcQzxClif+XkSiY+BH9Vukcw3fB1yaH94ql/oTx+Lfa175GBDOXSkxRH7jC8baP524bTjO1XMHo9cYDCF8yMBob2u3bQhRCh6fOzouqFWt6PVg3ciZSqc9/qgBrkiiId7u1kTVvudpQCFJrjrtSHoxQeSt3UlpFGcZzKpy7hRuWLq/VyyO6qoyY5kcnAtJ7eBcfyx9/zoDuR4LYsbQ8XiRZOjg4jFPdBtsHTKah6C+3riQ3dvWqLFaMsxYRm6qw+t2IhiDSCvNHsEgSdOiPa1ZYadv0OyXQtWfC0ssOu0Ik1IYiMWZl2liAyHZ9Yx2jMRpW4s94gZXi3OrQHEUrG+NFrd7zKIFpeqZUOhp065Svl7OcVruIdsRqz/Atlw3nQvzy12IB2xTltS6ybb3qCwADzNNHGu219GQP9oaHkfvxlRDS+z/bRdunyf0/+BxghXu9eGZNqySPmgru9VsYDN3Z/MGghI0YlXJOHGGcRnC9vMrZ2rkfpr8Kj3qOVN9XBCvLuc2yal6A3fsZXK9XnU7OW3pIqEWK6mfBwN9H22XoQWMZEwxwtZd0Sji9fog=ff`;
+
+ try{
+  await navigator.clipboard.writeText(config);
+  showToast('CONFIG COPIED');
+ }catch(e){
+  const input=document.createElement('textarea');
+  input.value=config;
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand('copy');
+  input.remove();
+  showToast('CONFIG COPIED');
+ }
+};
+
+/* TOAST */
+
+function showToast(message){
+ const toast=document.getElementById('toast');
+ toast.textContent=message;
+ toast.classList.add('show');
+
+ setTimeout(()=>{
+  toast.classList.remove('show');
+ },2000);
+}
+
+</script>
+</body>
+</html>
